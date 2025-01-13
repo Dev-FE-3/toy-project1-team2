@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.4.2",
     "vite": "^5.2.0"
   },
   "dependencies": {
@@ -18,5 +22,17 @@
     "express-session": "^1.18.0",
     "morgan": "^1.10.0",
     "sqlite3": "^5.1.7"
-  }
+  },
+  "description": "이 프로젝트는 토이 프로젝트 1 을 위한 템플릿 프로젝트입니다.\r 템플릿에는 vite 기반 프론트앤드 프로젝트 구조와 express 기반 node 서버를 포함하고 있습니다.",
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dev-FE-3/toy-project1-team2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dev-FE-3/toy-project1-team2/issues"
+  },
+  "homepage": "https://github.com/Dev-FE-3/toy-project1-team2#readme"
 }
