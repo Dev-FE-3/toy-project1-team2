@@ -8,6 +8,9 @@ function loadDropdownStylesheet() {
 
 // 드롭다운 HTML 생성 및 이벤트 바인딩
 export const createDropdown = ({ placeholder = null, options = [] } = {}) => {
+  if (!options) {
+    throw new Error("options is required.");
+  }
   loadDropdownStylesheet();
 
   // Placeholder가 없으면 options[0]을 기본 표시로 설정
