@@ -13,7 +13,7 @@ export default class InputValidation {
 
   #initEvent() {
     const inputEls = this.#form.querySelectorAll('input,textarea');
-    const btnSubmit = this.#form.querySelector('.btn__submit');
+    const btnSubmit = this.#form.querySelector('.btn--submit');
     btnSubmit.addEventListener('click', (event) => {
       event.preventDefault();
 
