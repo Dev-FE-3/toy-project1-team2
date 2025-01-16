@@ -1,0 +1,103 @@
+/* placeholder 색상 설정 */
+::placeholder {
+  color: #BEBEBE;
+  opacity: 1; /* Firefox */
+}
+::-ms-input-placeholder { /* Edge 12 -18 */
+  color: #BEBEBE;
+}
+
+/* label, input 기본 디자인 설정 */
+.input-wrap * {
+  font-size: 1.6rem;
+  box-sizing: border-box;
+}
+.input-wrap {
+  display: flex;
+  align-items: flex-start;
+  padding: .8rem;
+}
+.input-wrap label,
+.input-wrap input {
+  height: 40px;
+  line-height: 40px;
+}
+.input-wrap label {
+  min-width: 75px;
+  margin-right: .8rem;
+}
+.input-wrap label.require::after {
+  content: "*";
+  color: #FF7979;
+  padding-left: .4rem;
+}
+.input-wrap .input-group {
+  flex-grow: 1;
+}
+.input-wrap input,
+.input-wrap textarea {
+  display: block;
+  width: 100%;
+  padding: .8rem;
+  border-radius: .8rem;
+  border: 1px solid #BEBEBE;
+}
+.input-wrap textarea {
+  min-height: 40px;
+  resize: vertical;
+}
+.input-wrap .border--main {
+  border: 1px solid #3199FE;
+}
+
+/* 검색창 관련 */
+.search {
+  position: relative;
+  overflow: hidden;
+}
+.search .search__input {
+  padding: .8rem 1.2rem;
+  border-radius: 2.5rem;
+  border: 1px solid #3199FE;
+}
+.search .search__btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem 1.6rem;
+  cursor: pointer;
+}
+
+/* 파일첨부 관련 */
+.file {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  padding: .8rem 1.2rem;
+  background-color: #FFF;
+  border-radius: .8rem;
+  border: 1px solid #BEBEBE;
+  cursor: pointer;
+}
+.file .file__input {
+  display: none;
+}
+.file .file__text {
+  color: #BEBEBE;
+}
+.file .file__btn {
+  height: 20px;
+}
+.file .attached {
+  color: #333; 
+}
+
+/* 유효성 위반 디자인 설정 */
+.input-group .invalid {
+  border: 1px solid #FF7979;
+}
+.input-group .invalid-message {
+  color: #FF7979;
+  margin: .4rem 0 0;
+}
