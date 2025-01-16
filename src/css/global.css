@@ -1,0 +1,22 @@
+@import "./reset.css";
+@import "./font.css";
+
+:root {
+  --background-default-color: #f6f6f6; /* 배경 색상 */
+  --background-content-color: #ffffff; /* 컨텐츠 배경 색상 */
+  --primary-color: #3199fe; /* 메인 색상 */
+  --secondary-1-color: #e1e1e1; /* 보조 색상 */
+  --secondary-2-color: #bebebe; /* 보조 색상 */
+  --point-1-color: #4ec9aa; /* 포인트 색상 */
+  --point-2-color: #ffc11a; /* 포인트 색상 */
+  --warning-color: #ff7979; /* 경고 색상 */
+}
+
+html {
+  font-size: 62.5%;
+}
+body {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.4;
+  font-weight: 400;
+}

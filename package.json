@@ -7,12 +7,17 @@
     "dev": "vite",
     "server": "node server/index.js",
     "build": "vite build",
+    "lint": "eslint --fix ./src",
+    "lint-fix": "eslint --fix ./src",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@eslint/js": "^9.18.0",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-no-relative-import-paths": "^1.6.1",
     "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.14.0",
     "prettier": "^3.4.2",
     "vite": "^5.2.0"
   },
