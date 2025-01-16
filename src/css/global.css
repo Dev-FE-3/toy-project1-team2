@@ -1,4 +1,5 @@
 @import "./reset.css";
+@import "./font.css";
 
 :root {
   --background-default-color: #f6f6f6; /* 배경 색상 */
@@ -11,9 +12,11 @@
   --warning-color: #ff7979; /* 경고 색상 */
 }
 
+html {
+  font-size: 62.5%;
+}
 body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.4;
-  font-size: 1rem;
   font-weight: 400;
 }
