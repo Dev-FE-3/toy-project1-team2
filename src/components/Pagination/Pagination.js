@@ -55,9 +55,9 @@ export function createPagination({
   buttons.forEach((button) => {
     button.addEventListener("click", (e) => {
       const page = parseInt(e.target.getAttribute("data-page"));
-      if (!isNaN(page) && page !== currentPage) {
-        onPageChange(page); // 페이지 변경 시 콜백 호출
-      }
+
+      if (isNaN(page)) return; // 유효하지 않은 페이지 번호일 경우 함수 종료
+      if (page !== currentPage) onPageChange(page); // 페이지 변경 시 콜백 호출
     });
   });
 
