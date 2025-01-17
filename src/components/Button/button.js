@@ -1,3 +1,5 @@
+import "./button.css"
+
 // 버튼 컴포넌트 생성 함수
 function createButton(text, onClick, classNames = []) {
   const button = document.createElement('button');
