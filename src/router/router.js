@@ -7,13 +7,15 @@ const routes = {
   "/user/:id": profile,
 };
 
-export const route = function () {
+const getRouteRegex = (route) => route.replace(/:id/, "([\\w-]+)");
+
+export const router = function () {
   const path = window.location.pathname;
   const container = document.querySelector("#app");
 
   // 동적 라우팅 처리
   for (const route in routes) {
-    const routeRegex = route.replace(/:id/, "([\\w-]+)"); // :id를 정규 표현식으로 변환
+    const routeRegex = getRouteRegex(route);
     const match = path.match(new RegExp(`^${routeRegex}$`));
 
     if (match) {

@@ -1,9 +1,9 @@
-import { route } from "./router/router.js";
+import { router } from "./router/router.js";
 
 const app = async function () {
   await checkAuth();
   init();
-  route();
+  router();
 };
 
 //로그인 상태 확인
@@ -12,7 +12,7 @@ const checkAuth = function () {
 };
 
 const init = function () {
-  window.addEventListener("popstate", route);
+  window.addEventListener("popstate", router);
 };
 
 document.addEventListener("DOMContentLoaded", app);
