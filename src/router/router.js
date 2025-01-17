@@ -3,8 +3,8 @@ import profile from "../pages/user/profile/profile";
 import notFound from "../pages/notFound/notFound";
 
 const routes = {
-  "/": home,
-  "/user/:id": profile,
+  "/": home, //기본 라우팅
+  "/user/:id": profile, //동적 라우팅 사용을 위해서는 경로 뒤에 /:id를 추가해서 사용
 };
 
 const getRouteRegex = (route) => route.replace(/:id/, "([\\w-]+)");
