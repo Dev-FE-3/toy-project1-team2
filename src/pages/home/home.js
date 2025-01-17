@@ -1,4 +1,4 @@
-import Modal from "../../components/Modal/Modal.js";
+import Modal from "../../components/Modal/modal.js";
 
 const home = (contents) => {
   contents.innerHTML = `
@@ -6,7 +6,7 @@ const home = (contents) => {
     <button id="modal-btn">모달 열기</button>
   `;
 
-  // 모달 모달 사용방법
+  // // 모달 모달 사용방법
   // // 모달 생성
   // const modal = Modal({
   //   title: "안내",

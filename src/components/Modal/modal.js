@@ -1,4 +1,4 @@
-import "./Modal.css";
+import "./modal.css";
 
 // 기본 스타일 타입 정의
 const validModalStyles = ["primary", "success", "warning"];
