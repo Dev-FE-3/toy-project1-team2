@@ -1,10 +1,4 @@
-// 입력요소 CSS 로드 함수
-function loadInputFieldStylesheet() {
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = './src/components/InputField/style.css';
-  document.head.appendChild(link);
-}
+import './style.css';
 
 // 속성 설정
 function setAttributes(attributes, element) {
@@ -42,8 +36,6 @@ export const createInputField = ({
     validation: 'false'
   }
 } = {}) => {
-  
-  loadInputFieldStylesheet();
 
   // 컨테이너 요소 생성
   const inputWrapEl = document.createElement('div');
