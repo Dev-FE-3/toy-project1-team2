@@ -13,14 +13,14 @@
   box-sizing: border-box;
 }
 .input-wrap {
+  position: relative; /* input[type=checkbox] 정렬 위함 */
   display: flex;
   align-items: flex-start;
   padding: .8rem;
 }
 .input-wrap label,
 .input-wrap input {
-  height: 40px;
-  line-height: 40px;
+  padding: .8rem;
 }
 .input-wrap label {
   min-width: 75px;
@@ -38,9 +38,19 @@
 .input-wrap textarea {
   display: block;
   width: 100%;
-  padding: .8rem;
   border-radius: .8rem;
   border: 1px solid #BEBEBE;
+  background-color: #fff;
+}
+.input-wrap input[type=checkbox] { /* checkbox 수직정렬 */
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 .input-wrap textarea {
   min-height: 40px;
@@ -73,7 +83,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 40px;
   padding: .8rem 1.2rem;
   background-color: #FFF;
   border-radius: .8rem;
