@@ -1,4 +1,4 @@
-import "./style.css";
+import "./input.css";
 
 // 속성 설정
 function setAttributes(attributes, element) {
