@@ -12,6 +12,21 @@
   --warning-color: #ff7979; /* 경고 색상 */
 }
 
+::-webkit-scrollbar {
+  width: 15px;
+  background-color: #ebebeb;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #333;
+  border-radius: 50px;
+  border: 3px solid #ebebeb;
+}
+::-webkit-scrollbar-track {
+  background-color: #ebebeb;
+  border-radius: 50px;
+}
+
 html {
   font-size: 62.5%;
 }
