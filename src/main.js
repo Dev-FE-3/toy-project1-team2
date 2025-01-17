@@ -1,3 +1,4 @@
+import "./css/global.css";
 import { router } from "./router/router.js";
 
 const app = async function () {
