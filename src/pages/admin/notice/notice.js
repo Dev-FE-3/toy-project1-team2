@@ -1,0 +1,149 @@
+import { createButton } from "@/components/Button/button.js";
+import { createInputField } from "@/components/InputField/input.js";
+import "./notice.css";
+
+export default function notice(contents) {
+  const submitButton = createButton("등록", () => console.log("클릭"), [
+    "btn--submit",
+  ]);
+  const deleteButton = createButton("삭제", () => console.log("클릭"), [
+    "btn--delete",
+  ]);
+
+  const searchInput = createInputField({
+    type: "search",
+    attributes: {
+      name: "search",
+      id: "search",
+      classList: ["class1"],
+      placeholder: "검색어를 입력하세요",
+    },
+    datasets: { required: true, validation: true },
+  });
+
+  // 현재 페이지가 공지사항관리 페이지인지 확인
+  const isAdminNoticePage = window.location.pathname === "/admin/notice";
+
+  contents.innerHTML = `
+  <section class="wrapper">
+    <header>
+        <div class="left">
+          <h1>공지사항 관리</h1>
+          ${
+            isAdminNoticePage
+              ? `
+              <div class="allCheckButton">
+                <img
+                  src="https://github.com/user-attachments/assets/34bd4a1e-73f1-4ef8-896c-1aad0c1fed99"
+                  class="checkBox"
+                />
+                <p>전체선택</p>
+              </div>`
+              : ""
+          }
+        </div>
+
+        <div class="right">
+          ${searchInput.outerHTML}
+
+          <div class="action-buttons">
+            ${isAdminNoticePage ? submitButton.outerHTML : ""}
+            ${isAdminNoticePage ? deleteButton.outerHTML : ""}
+          </div>
+
+          <div> 
+            <img src="https://github.com/user-attachments/assets/1dae0ec4-db39-49a3-b720-925fa237e33f" alt="list" class="changeButton"/>
+          </div>
+        
+        </div>
+      </header>
+      <section>
+        <ul class="gallery-list">
+          <!-- JSON 데이터가 동적으로 삽입될 부분 -->
+        </ul>
+      </section>
+    </section>
+    `;
+
+  // JSON 데이터 로드
+  fetch("/src/data/notices.json")
+    .then((response) => response.json())
+    .then((data) => {
+      const galleryList = document.querySelector(".gallery-list");
+
+      galleryList.innerHTML = data
+        .map(
+          (item) =>
+            `
+          <li class="gallery-item">
+            <div class="text">
+              <div class="date">${item.date}</div>
+              <div class="title">
+                ${
+                  item.title.length > 14
+                    ? item.title.substring(0, 14) + "..."
+                    : item.title
+                }
+              </div>
+              <div class="contents">
+                ${
+                  item.contents.length > 50
+                    ? item.contents.substring(0, 50) + "..."
+                    : item.contents
+                }
+              </div>
+            </div>
+            <div class="img">
+              <img src="${item.imgSrc}" alt="notice image" />
+            </div>
+          </li>
+          `
+        )
+        .join("");
+    })
+    .catch((error) => {
+      console.error("Error loading JSON:", error);
+      const galleryList = document.querySelector(".gallery-list");
+      galleryList.innerHTML = `<li>Error loading notices.</li>`;
+    });
+
+  // allCheckButton 클릭 시 아이콘 변경 로직 추가. off <-> on
+  const allCheckButton = document.querySelector(".allCheckButton");
+  const checkBox = document.querySelector(".checkBox");
+  if (allCheckButton && checkBox) {
+    allCheckButton.addEventListener("click", function () {
+      const currentSrc = checkBox.src;
+
+      if (currentSrc.includes("34bd4a1e-73f1-4ef8-896c-1aad0c1fed99")) {
+        checkBox.src =
+          "https://github.com/user-attachments/assets/68846971-a34b-4d1f-bc01-2422f4f5e8da"; // 새로운 아이콘 경로로 변경
+      } else {
+        checkBox.src =
+          "https://github.com/user-attachments/assets/34bd4a1e-73f1-4ef8-896c-1aad0c1fed99"; // 원래 아이콘으로 돌아가기
+      }
+    });
+  }
+
+  // changeButton 클릭 시 갤러리 보기 방식 변경
+  const changeButton = document.querySelector(".changeButton");
+  const galleryList = document.querySelector("ul");
+
+  if (changeButton && galleryList) {
+    changeButton.addEventListener("click", function () {
+      console.log("changeButton clicked");
+      if (galleryList.classList.contains("gallery-list")) {
+        galleryList.classList.remove("gallery-list");
+        galleryList.classList.add("list");
+        changeButton.src =
+          "https://github.com/user-attachments/assets/3f2ccbf5-9c2e-4284-858b-c4ef0aad4f94"; // 새로운 아이콘 경로로 변경
+      } else {
+        galleryList.classList.remove("list");
+        galleryList.classList.add("gallery-list");
+        changeButton.src =
+          "https://github.com/user-attachments/assets/1dae0ec4-db39-49a3-b720-925fa237e33f"; // 원래 아이콘으로 돌아가기
+      }
+    });
+  } else {
+    console.warn("changeButton or galleryList not found.");
+  }
+}
