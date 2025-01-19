@@ -15,13 +15,11 @@ export default function notice(contents) {
     attributes: {
       name: "search",
       id: "search",
-      classList: ["class1"],
-      placeholder: "검색어를 입력하세요",
     },
     datasets: { required: true, validation: true },
   });
 
-  // 현재 페이지가 공지사항관리 페이지인지 확인
+  // 현재 페이지가 관리자용의 '공지사항관리' 페이지인지 확인
   const isAdminNoticePage = window.location.pathname === "/admin/notice";
 
   contents.innerHTML = `
@@ -66,46 +64,63 @@ export default function notice(contents) {
     `;
 
   // JSON 데이터 로드
+  let noticesData = [];
   fetch("/src/data/notices.json")
     .then((response) => response.json())
     .then((data) => {
-      const galleryList = document.querySelector(".gallery-list");
-
-      galleryList.innerHTML = data
-        .map(
-          (item) =>
-            `
-          <li class="gallery-item">
-            <div class="text">
-              <div class="date">${item.date}</div>
-              <div class="title">
-                ${
-                  item.title.length > 14
-                    ? item.title.substring(0, 14) + "..."
-                    : item.title
-                }
-              </div>
-              <div class="contents">
-                ${
-                  item.contents.length > 50
-                    ? item.contents.substring(0, 50) + "..."
-                    : item.contents
-                }
-              </div>
-            </div>
-            <div class="img">
-              <img src="${item.imgSrc}" alt="notice image" />
-            </div>
-          </li>
-          `
-        )
-        .join("");
+      noticesData = data;
+      displayNotices(data); // 초기 데이터 표시
     })
     .catch((error) => {
       console.error("Error loading JSON:", error);
-      const galleryList = document.querySelector(".gallery-list");
-      galleryList.innerHTML = `<li>Error loading notices.</li>`;
     });
+
+  // 검색 입력 이벤트 처리
+  const searchEl = document.getElementById("search");
+
+  searchEl.addEventListener("input", function () {
+    const searchTerm = searchEl.value.toLowerCase(); // 소문자로 변환하여 검색
+
+    const filteredNotices = noticesData.filter(
+      (notice) =>
+        notice.title.toLowerCase().includes(searchTerm) ||
+        notice.contents.toLowerCase().includes(searchTerm)
+    );
+
+    // 검색 결과 출력
+    displayNotices(filteredNotices);
+  });
+
+  // 공지사항을 갤러리 리스트로 출력하는 함수
+  function displayNotices(data) {
+    const galleryList = document.querySelector(".gallery-list");
+    const list = document.querySelector(".list");
+
+    const noticesHTML = data
+      .map(
+        (item) => `
+        <li class="list-item">
+          <div class="text">
+            <div class="date">${item.date}</div>
+            <div class="title">${item.title.length > 14 ? item.title.substring(0, 14) + "..." : item.title}</div>
+            <div class="contents">${item.contents.length > 50 ? item.contents.substring(0, 50) + "..." : item.contents}</div>
+          </div>
+          <div class="img"><img src="${item.imgSrc}" alt="notice image"/></div>
+        </li>
+      `
+      )
+      .join("");
+
+    // 갤러리 모드
+    if (galleryList && galleryList.classList.contains("gallery-list")) {
+      galleryList.innerHTML = noticesHTML;
+    }
+
+    // 리스트 모드
+    if (list && list.classList.contains("list")) {
+      list.innerHTML = noticesHTML;
+    }
+  }
 
   // allCheckButton 클릭 시 아이콘 변경 로직 추가. off <-> on
   const allCheckButton = document.querySelector(".allCheckButton");
