@@ -1,9 +1,4 @@
-function loadDropdownStylesheet() {
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = "./src/components/Pagination/style.css";
-  document.head.appendChild(link);
-}
+import "./pagination.css";
 
 export function createPagination({
   totalItems,
@@ -11,8 +6,6 @@ export function createPagination({
   currentPage,
   onPageChange,
 }) {
-  loadDropdownStylesheet();
-
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const groupSize = 5; // 한 그룹의 크기 (5페이지씩 그룹화)
   const currentGroup = Math.floor((currentPage - 1) / groupSize);
