@@ -1,6 +1,6 @@
-import home from "../pages/home/home";
-import profile from "../pages/user/profile/profile";
-import notFound from "../pages/notFound/notFound";
+import home from "@/pages/home/home";
+import profile from "@/pages/user/profile/profile";
+import notFound from "@/pages/notFound/notFound";
 
 const routes = {
   "/": home, //기본 라우팅
@@ -13,7 +13,7 @@ const renderComponent = (route, container, id) => {
   try {
     routes[route](container, id); // 해당 컴포넌트 호출
   } catch (err) {
-    error(container, err); // 호출 중 에러가 발생한 경우 처리
+    err(container, err); // 호출 중 에러가 발생한 경우 처리
   }
 };
 
