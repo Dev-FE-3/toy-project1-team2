@@ -2,5 +2,7 @@
   "singleQuote": true,
   "semi": true,
   "tabWidth": 2,
-  "printWidth": 80
+  "printWidth": 80,
+  "color-hex-case": "lower",
+  "number-leading-zero": "always"
 }
