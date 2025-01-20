@@ -1,10 +1,3 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.4;
-  font-weight: 400;
-  font-size: 16px;
-}
-
 .modal {
   position: fixed;
   top: 0;
@@ -40,28 +33,27 @@
   display: flex;
   flex-direction: column;
   border-radius: 8px;
+  font-size: 1.6rem;
 }
 
 .modal .modal__content .modal__header-container {
   display: flex;
   align-items: center;
+  font-size: 2.4rem;
 }
 
 .modal .modal__content .material-icons__primary {
-  font-size: 24px;
   color: var(--primary-color);
 }
 .modal .modal__content .material-icons__success {
-  font-size: 24px;
   color: var(--point-1-color);
 }
 .modal .modal__content .material-icons__warning {
-  font-size: 24px;
   color: var(--warning-color);
 }
 
 .modal .modal__content h1 {
-  font-size: 1.25rem;
+  font-size: 2rem;
   font-weight: bold;
   padding-left: 16px;
 }
