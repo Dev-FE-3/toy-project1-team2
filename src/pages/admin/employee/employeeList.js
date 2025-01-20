@@ -99,7 +99,7 @@ const bindButtonEvent = () => {
   const createBtnEl = document.querySelector(".btn--submit");
   createBtnEl.addEventListener(
     "click",
-    () => (location.href = "/admin/employee/create")
+    () => (location.href = "/admin/employee/write")
   );
 };
 
