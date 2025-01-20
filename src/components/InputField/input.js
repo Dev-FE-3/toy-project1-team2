@@ -59,7 +59,7 @@ export const createInputField = ({
       const searchEl = document.createElement("div");
       searchEl.className = "search"; // 커스텀 디자인 위함
 
-      inputEl.type = type;
+      inputEl.type = "text";
       inputEl.classList.add("search__input");
       setAttributes(attributes, inputEl);
       setDatasets(datasets, inputEl);

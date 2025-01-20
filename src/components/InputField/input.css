@@ -64,19 +64,20 @@
 
 /* 검색창 관련 */
 .search {
-  position: relative;
-  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  border: 1px solid #3199fe;
+  border-radius: 2.5rem;
 }
 .search .search__input {
   padding: 0.8rem 1.2rem;
-  border-radius: 2.5rem;
-  border: 1px solid #3199fe;
+  border-radius: 2.5rem 0 0 2.5rem;
+  border: none;
 }
 .search .search__btn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 1rem 1.6rem;
+  max-width: 50px;
+  padding: 1rem 1rem;
   cursor: pointer;
 }
 
