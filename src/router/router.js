@@ -1,10 +1,13 @@
-import home from "../pages/home/home";
-import profile from "../pages/user/profile/profile";
-import notFound from "../pages/notFound/notFound";
+import home from "@/pages/home/home";
+import profile from "@/pages/user/profile/profile";
+import notFound from "@/pages/notFound/notFound";
+import notice from "@/pages/admin/notice/notice";
 
 const routes = {
   "/": home, //기본 라우팅
   "/user/:id": profile, //동적 라우팅 사용을 위해서는 경로 뒤에 /:id를 추가해서 사용
+  "/admin/notice": notice,
+  "/notice": notice,
 };
 
 const getRouteRegex = (route) => route.replace(/:id/, "([\\w-]+)");
@@ -13,7 +16,7 @@ const renderComponent = (route, container, id) => {
   try {
     routes[route](container, id); // 해당 컴포넌트 호출
   } catch (err) {
-    error(container, err); // 호출 중 에러가 발생한 경우 처리
+    console.error(err);
   }
 };
 
