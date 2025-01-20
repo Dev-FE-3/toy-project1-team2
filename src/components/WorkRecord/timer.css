@@ -1,0 +1,96 @@
+.timer {
+  display: flex;
+  flex-direction: column;
+  background-color: red;
+  width: 330px;
+  height: 125px;
+  border: 1px solid var(--background-content-color);
+  border-radius: 20px;
+  font-size: 1.6rem;
+  line-height: 1.4;
+  justify-items: center;
+  font-weight: 600;
+}
+
+.timer .timer__type-container {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: space-between;
+  max-width: 800px;
+  padding: 14px 16px;
+}
+
+.timer .timer__type-container .timer__type {
+  font-size: 1.6rem;
+  line-height: 1.4;
+  justify-items: center;
+  font-weight: 600;
+}
+
+.timer .timer__status-container {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: space-between;
+  width: 177px;
+  height: 37px;
+  align-items: center;
+  padding: 0 77px;
+}
+
+.timer .timer__status-container .toggle-status {
+  color: var(--secondary-2-color);
+}
+
+/* 토글 */
+.toggle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 74px;
+  height: 37px;
+}
+
+.toggle input {
+  opacity: 0; /* 기본 체크박스 숨기기 */
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--secondary-1-color);
+  border-radius: 20px;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  width: 24px;
+  height: 24px;
+  left: 6px;
+  bottom: 6px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+/* 체크박스가 체크된 경우의 스타일 */
+input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(38px); /* 슬라이더 이동 */
+}
