@@ -24,7 +24,7 @@ function setDatasets(datasets, element) {
 export const createInputField = ({
   tagName = "input",
   type = "text",
-  label = { name: null, forAttr: null, required: false },
+  label = { name: null, forAttr: null},
   attributes = {
     name: null,
     id: null,
