@@ -153,4 +153,5 @@
 }
 .employee-write .input-wrap input:read-only {
   background-color: #F9F9F9;
+  color: var(--secondary-2-color);
 }
