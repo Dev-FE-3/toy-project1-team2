@@ -181,7 +181,7 @@ const createEmployeeCells = (data, index) => {
     <td>
       <a href="/admin/employee/${data.id}">
         <div class="employee-info-wrap">
-          <img src="${data.ptofileImage}" alt="직원 프로필 사진">
+          <img src="${data.profileImage}" alt="직원 프로필 사진">
           <div class="employee-info">
             <div class="employee-name">${data.name}</div>
             <div class="employee-number">${data.employeeNumber}</div>
