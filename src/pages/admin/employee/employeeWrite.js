@@ -53,7 +53,67 @@ const employeeWrite = (container, id) => {
 };
 
 const formSubmit = () => {
+  const pageType = getPageType();
+
   //등록 로직 작성
+  const formData = new FormData(document.querySelector("form"));
+  const employees = JSON.parse(localStorage.getItem("employees")).employees;
+  const lastEmployee = employees[employees.length - 1];
+
+  let id = null;
+  let employeeNumber = "";
+  let profileImage = null;
+
+  if (pageType === "write") {
+    id = lastEmployee.id * 1 + 1;
+
+    const hireDate = new Date(formData.get("hireDate"));
+    employeeNumber += hireDate.getFullYear().toString().slice(-2);
+    employeeNumber += (hireDate.getMonth() + 1).toString().padStart(2, "0");
+    employeeNumber += hireDate.getDate().toString().padStart(2, "0");
+    employeeNumber += (lastEmployee.id * 1 + 1).toString().padStart(3, "0");
+
+    profileImage = userUploadFile === "" ? BASIC_PROFILE_IMG : userUploadFile;
+  } else {
+    const employeeData = getEmployeeData(pageType - 1);
+
+    id = employeeData.id;
+    employeeNumber = employeeData.employeeNumber;
+    profileImage =
+      userUploadFile === "" ? employeeData.profileImage : userUploadFile;
+  }
+
+  const data = {
+    id: id,
+    employeeNumber: employeeNumber,
+    name: formData.get("name"),
+    birthDate: formData.get("birthDate").replaceAll("-", "."),
+    position: document.querySelector(".position .dropdown_bar p").textContent,
+    hireDate: formData.get("hireDate").replaceAll("-", "."),
+    phone: formData.get("phone"),
+    email: formData.get("email"),
+    address: formData.get("address"),
+    deleteDate: null,
+    profileImage: profileImage,
+  };
+
+  if (pageType === "write") {
+    employees.push(data);
+  } else {
+    employees[pageType - 1] = data;
+  }
+
+  localStorage.setItem("employees", JSON.stringify({ employees })); // 로컬 스토리지 갱신
+  window.location.href = `/admin/employee/${pageType === "write" ? employees.length : pageType}`; //상세페이지로 이동
+};
+
+const getEmployeeData = (idx) => {
+  const jsonData = JSON.parse(localStorage.getItem("employees"));
+  if (idx > -1 && idx <= jsonData.employees.length - 1) {
+    return jsonData.employees[idx];
+  } else {
+    window.location.href = "/admin/employee";
+  }
 };
 
 const getPageType = () => {
@@ -62,7 +122,12 @@ const getPageType = () => {
   if (match) return match[0];
 };
 
-const createEmployeeWriteForm = (contentWrapHTML, type, empId = "") => {
+const createEmployeeWriteForm = (contentWrapHTML, type, empId = 0) => {
+  let employeeData = null;
+  if (empId > 0) {
+    employeeData = getEmployeeData(empId - 1);
+  }
+
   contentWrapHTML.innerHTML = `
     <div class="header">
       <h2 class="header__title">직원정보 ${type === "write" ? "등록" : "수정"}</h2>
@@ -73,7 +138,7 @@ const createEmployeeWriteForm = (contentWrapHTML, type, empId = "") => {
             ? `<a href="/admin/employee">
             <button class="btn btn--delete" type="button">취소</button>
           </a>`
-            : `<a href="/admin/employee/modify/${empId}">
+            : `<a href="/admin/employee${employeeData ? "/" + empId : ""}">
             <button class="btn btn--delete" type="button">취소</button>
           </a>`
         }
@@ -84,11 +149,15 @@ const createEmployeeWriteForm = (contentWrapHTML, type, empId = "") => {
         <!-- 프로필 사진 영역 -->
         <div class="profile">
           <div class="profile__image" title="프로필 사진">
-            <img src="/src/assets/images/profile/profile-basic.png"></img>
+            <img src="${employeeData ? employeeData.profileImage : BASIC_PROFILE_IMG}"></img>
           </div>
           <div class="profile__btn">
             <button class="btn--upload" type="button">사진 설정</button>
-            <button class="btn--delete hidden" type="button">사진 삭제</button>
+            ${
+              employeeData && employeeData.profileImage !== BASIC_PROFILE_IMG
+                ? `<button class="btn--delete" type="button">사진 삭제</button>`
+                : `<button class="btn--delete hidden" type="button">사진 삭제</button>`
+            }
           </div>
           <input type="file" accept=".jpg, .jpeg, .png" name="ptofileImage"/>
         </div>
@@ -117,6 +186,7 @@ const createEmployeeWriteForm = (contentWrapHTML, type, empId = "") => {
                       id: "employeeNumber",
                       readonly: "readonly",
                       placeholder: "자동생성",
+                      value: employeeData ? employeeData.employeeNumber : "",
                     },
                   }).outerHTML
                 }
@@ -130,7 +200,13 @@ const createEmployeeWriteForm = (contentWrapHTML, type, empId = "") => {
                       forAttr: "hireDate",
                       required: true,
                     },
-                    attributes: { name: "hireDate", id: "hireDate" },
+                    attributes: {
+                      name: "hireDate",
+                      id: "hireDate",
+                      value: employeeData
+                        ? employeeData.hireDate.replaceAll(".", "-")
+                        : "",
+                    },
                     datasets: { required: true, validation: true },
                   }).outerHTML
                 }
@@ -166,6 +242,7 @@ const createEmployeeWriteForm = (contentWrapHTML, type, empId = "") => {
                       name: "name",
                       id: "name",
                       placeholder: "이름을 입력해 주세요",
+                      value: employeeData ? employeeData.name : "",
                     },
                     datasets: { required: true, validation: true },
                   }).outerHTML
@@ -176,7 +253,13 @@ const createEmployeeWriteForm = (contentWrapHTML, type, empId = "") => {
                   createInputField({
                     type: "date",
                     label: { name: "생년월일", forAttr: "birthDate" },
-                    attributes: { name: "birthDate", id: "birthDate" },
+                    attributes: {
+                      name: "birthDate",
+                      id: "birthDate",
+                      value: employeeData
+                        ? employeeData.birthDate.replaceAll(".", "-")
+                        : "",
+                    },
                     datasets: { required: true, validation: true },
                   }).outerHTML
                 }
@@ -189,6 +272,7 @@ const createEmployeeWriteForm = (contentWrapHTML, type, empId = "") => {
                       name: "phone",
                       id: "phone",
                       placeholder: "010-0000-0000",
+                      value: employeeData ? employeeData.phone : "",
                     },
                     datasets: { required: true, validation: true },
                   }).outerHTML
@@ -205,6 +289,7 @@ const createEmployeeWriteForm = (contentWrapHTML, type, empId = "") => {
                       name: "email",
                       id: "email",
                       placeholder: "example@gmail.com",
+                      value: employeeData ? employeeData.email : "",
                     },
                     datasets: { required: false, validation: true },
                   }).outerHTML
@@ -218,6 +303,7 @@ const createEmployeeWriteForm = (contentWrapHTML, type, empId = "") => {
                       name: "address",
                       id: "address",
                       placeholder: "주소를 입력해 주세요",
+                      value: employeeData ? employeeData.address : "",
                     },
                     datasets: { required: true, validation: true },
                   }).outerHTML
@@ -242,6 +328,10 @@ const createEmployeeWriteForm = (contentWrapHTML, type, empId = "") => {
     ],
   });
   contentWrapHTML.querySelector(".position").appendChild(positionSelect);
+  if (employeeData) {
+    const dropdownBarTextEl = positionSelect.querySelector(".dropdown_bar p");
+    dropdownBarTextEl.textContent = employeeData.position;
+  }
 
   // 이벤트 바인딩
   const fileEl = contentWrapHTML.querySelector(".profile input");
@@ -259,6 +349,7 @@ const createEmployeeWriteForm = (contentWrapHTML, type, empId = "") => {
     fileEl.value = "";
     profileImageEl.src = BASIC_PROFILE_IMG;
     profileDeleteBtnEl.classList.add("hidden");
+    userUploadFile = BASIC_PROFILE_IMG;
   });
 
   fileEl.addEventListener("change", () => {
