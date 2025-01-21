@@ -16,7 +16,8 @@
   font-weight: 700;
 }
 
-.employee-list {
+.content-wrap .employee-list,
+.content-wrap .employee-write {
   padding: 3.2rem;
   margin: 2.4rem;
   background-color: var(--background-content-color);
@@ -25,35 +26,35 @@
 }
 
 /* 테이블 디자인 */
-.employee-list table {
+.content-wrap table {
   width: 100%;
   min-width: 950px;
   font-size: 1.6rem;
   border-collapse: collapse;
 }
-.employee-list table tr {
+.content-wrap table tr {
   border-bottom: 1px solid var(--secondary-2-color);
 }
-.employee-list table tr:first-child {
+.content-wrap table tr:first-child {
   border-top: 1px solid var(--secondary-2-color);
 }
-.employee-list table th,
-.employee-list table td {
+.content-wrap table th,
+.content-wrap table td {
   text-align: center;
   vertical-align: middle;
   padding: 1rem .8rem;
   min-width: 80px;
 }
-.employee-list table thead tr {
-  background-color: #F9F9F9;
-}
-.employee-list table thead th {
+.content-wrap table th {
   color: #8D96A1;
 }
-.employee-list table tbody tr {
+.content-wrap table thead tr {
+  background-color: #F9F9F9;
+}
+.content-wrap table tbody tr {
   background-color: var(--background-content-color);
 }
-.employee-list table .phone {
+.content-wrap table .phone {
   white-space: nowrap;
 }
 
@@ -85,4 +86,71 @@
   border: 1px solid var(--primary-color);
   border-radius: 25px;
   background-color: var(--background-content-color);
+}
+
+/* 직원정보 등록, 수정 페이지 */
+.employee-write .profile {
+  display: flex;
+  gap: 1.6rem;
+  align-items: flex-end;
+}
+.employee-write .profile input[type=file] {
+  display: none;
+}
+.employee-write .profile .profile__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 155px;
+  border-radius: .8rem;
+  border: 1px solid var(--secondary-2-color);
+  overflow: hidden;
+}
+.employee-write .profile .profile__image img {
+  width: auto;
+  height: 100%;
+}
+.employee-write .profile .profile__btn {
+  display: flex;
+  gap: .8rem;
+  align-items: center;
+}
+.employee-write .profile .profile__btn button {
+  font-size: 1.3rem;
+  padding: .4rem .8rem;
+  background: #fff;
+  border-radius: .4rem;
+  cursor: pointer;
+}
+.employee-write .profile .profile__btn .btn--upload {
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+.employee-write .profile .profile__btn .btn--delete {
+  color: var(--warning-color);
+  border: 1px solid var(--warning-color);
+}
+.employee-write .profile .profile__btn .hidden {
+  display: none;
+}
+.employee-write table th,
+.employee-write table td {
+  text-align: left;
+  vertical-align: baseline;
+}
+.employee-write table {
+  margin-top: 3.2rem;
+}
+.employee-write .dropdown_bar {
+  padding-left: 2rem;
+}
+.employee-write .dropdown_bar p {
+  font-size: 1.6rem;
+}
+.employee-write .input-wrap label {
+  min-width: 83px;
+}
+.employee-write .input-wrap input:read-only {
+  background-color: #F9F9F9;
 }
