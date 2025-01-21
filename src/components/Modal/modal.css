@@ -42,13 +42,13 @@
   font-size: 2.4rem;
 }
 
-.modal .modal__content .material-icons__primary {
+.modal .modal__content .material-icons--primary {
   color: var(--primary-color);
 }
-.modal .modal__content .material-icons__success {
+.modal .modal__content .material-icons--success {
   color: var(--point-1-color);
 }
-.modal .modal__content .material-icons__warning {
+.modal .modal__content .material-icons--warning {
   color: var(--warning-color);
 }
 

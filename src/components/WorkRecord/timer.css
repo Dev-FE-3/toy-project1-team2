@@ -1,7 +1,7 @@
 .timer {
   display: flex;
   flex-direction: column;
-  background-color: red;
+  background-color: var(--background-content-color);
   width: 330px;
   height: 125px;
   border: 1px solid var(--background-content-color);
@@ -37,8 +37,16 @@
   padding: 0 77px;
 }
 
-.timer .timer__status-container .toggle-status {
+.timer .timer__status-container .status--before {
   color: var(--secondary-2-color);
+}
+
+.timer .timer__status-container .status--during {
+  color: var(--primary-color);
+}
+
+.timer .timer__status-container .status--end {
+  color: var(--warning-color);
 }
 
 /* 토글 */

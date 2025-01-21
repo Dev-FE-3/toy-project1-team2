@@ -53,7 +53,7 @@ export default function Modal({
       <div class="modal__overlay"></div>
       <div class="modal__content">
         <div class="modal__header-container">
-          <div class="material-icons material-icons__${iconColor}">${icon}</div>
+          <div class="material-icons material-icons--${iconColor}">${icon}</div>
           <h1>${title}</h1>
         </div>
         <div class="modal__message">
