@@ -1,4 +1,5 @@
 import "./timer.css";
+import Modal from "../Modal/modal.js";
 import { formatTime, isValidDate } from "../../utils/timeUtils.js";
 
 export default function Timer({
@@ -63,45 +64,68 @@ export default function Timer({
 
   // 상태 업데이트 함수
   const updateStatus = (newStatus) => {
-    let statusClass;
-
-    switch (newStatus) {
-      case "근무중":
-        statusClass = "during";
-        break;
-      case "근무종료":
-        statusClass = "end";
-        break;
-      default:
-        statusClass = "before";
-        break;
-    }
+    const statusClass = {
+      근무중: "during",
+      근무종료: "end",
+      근무전: "before",
+    }[newStatus];
 
     statusText.className = `status--${statusClass}`;
     statusText.textContent = newStatus;
   };
 
+  // 근무 시작 모달
+  const showStartWorkModal = () => {
+    const modal = Modal({
+      title: "안내",
+      message: "근무를 시작하시겠습니까?",
+      modalStyle: "primary",
+      onConfirm: () => {
+        workStart = currentTime;
+        workStartElement.textContent = formatTime(workStart);
+        updateStatus("근무중");
+        checkbox.checked = true;
+      },
+      showCancelBtn: true,
+    });
+
+    document.body.appendChild(modal.modalHTML);
+    modal.openModal(); // 모달 열기
+  };
+
+  // 근무 종료 모달
+  const showEndWorkModal = () => {
+    const modal = Modal({
+      title: "안내",
+      message: "근무를 종료하시겠습니까?",
+      modalStyle: "primary",
+      onConfirm: () => {
+        workEnd = currentTime;
+        workEndElement.textContent = formatTime(workEnd);
+        updateStatus("근무종료");
+        checkbox.checked = false;
+        checkbox.disabled = true;
+      },
+      showCancelBtn: true,
+    });
+
+    document.body.appendChild(modal.modalHTML);
+    modal.openModal(); // 모달 열기
+  };
+
+  // 토글 컨트롤러
   const handleToggle = () => {
     const isChecked = checkbox.checked;
 
     // 근무 종료 조건 체크
     if (isChecked) {
       if (!workStart) {
-        workStart = currentTime;
-        workStartElement.textContent = formatTime(workStart);
-        updateStatus("근무중");
+        checkbox.checked = false;
+        showStartWorkModal();
       }
     } else {
-      // 체크박스가 체크 해제될 때, 즉 근무 종료 처리
-      if (workStart) {
-        // 이미 근무 중일 경우, 근무 종료 처리
-        workEnd = currentTime;
-        workEndElement.textContent = formatTime(workEnd);
-        updateStatus("근무종료");
-        checkbox.disabled = true;
-      } else {
-        updateStatus("근무전"); // 근무 전 상태
-      }
+      checkbox.checked = true;
+      showEndWorkModal();
     }
   };
 
@@ -114,7 +138,7 @@ export default function Timer({
   checkbox.addEventListener("change", handleToggle);
 
   return {
-    element: timerHTML,
-    updateCurrentTime, // 업데이트 함수 반환
+    timerHTML,
+    updateCurrentTime,
   };
 }
