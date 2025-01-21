@@ -1,14 +1,22 @@
-import { createButton } from "@/components/Button/button.js";
-import { createInputField } from "@/components/InputField/input.js";
 import "./notice.css";
 
-export default function notice(contents) {
-  const submitButton = createButton("등록", () => console.log("클릭"), [
-    "btn--submit",
-  ]);
-  const deleteButton = createButton("삭제", () => console.log("클릭"), [
-    "btn--delete",
-  ]);
+import { createButton } from "@/components/Button/button.js";
+import { createInputField } from "@/components/InputField/input.js";
+
+const notice = (contents) => {
+  const submitButton = createButton(
+    "등록",
+    () => {
+      window.location.href = "/notice/write"; // 등록 버튼 클릭 시 등록 페이지로 이동
+    },
+    ["btn--submit"]
+  );
+
+  const deleteButton = createButton(
+    "삭제",
+    () => console.log("삭제 버튼 클릭"),
+    ["btn--delete"]
+  );
 
   const searchInput = createInputField({
     type: "search",
@@ -24,7 +32,7 @@ export default function notice(contents) {
 
   contents.innerHTML = `
   <section class="wrapper">
-    <header>
+    <header class="notice-header">
         <div class="left">
           <h1>공지사항 관리</h1>
           ${
@@ -45,8 +53,7 @@ export default function notice(contents) {
           ${searchInput.outerHTML}
 
           <div class="action-buttons">
-            ${isAdminNoticePage ? submitButton.outerHTML : ""}
-            ${isAdminNoticePage ? deleteButton.outerHTML : ""}
+             <!-- 버튼을 여기에 추가할 예정 -->
           </div>
 
           <div> 
@@ -62,6 +69,13 @@ export default function notice(contents) {
       </section>
     </section>
     `;
+
+  // 버튼 DOM에 직접 추가
+  if (isAdminNoticePage) {
+    const buttonContainer = contents.querySelector(".action-buttons");
+    buttonContainer.appendChild(submitButton);
+    buttonContainer.appendChild(deleteButton);
+  }
 
   // JSON 데이터 로드
   let noticesData = [];
@@ -91,7 +105,7 @@ export default function notice(contents) {
     displayNotices(filteredNotices);
   });
 
-  // 공지사항을 갤러리 리스트로 출력하는 함수
+  // 공지사항을 출력하는 함수
   function displayNotices(data) {
     const galleryList = document.querySelector(".gallery-list");
     const list = document.querySelector(".list");
@@ -122,7 +136,7 @@ export default function notice(contents) {
     }
   }
 
-  // allCheckButton 클릭 시 아이콘 변경 로직 추가. off <-> on
+  // 전체선택 버튼 클릭 시 아이콘 변경 로직
   const allCheckButton = document.querySelector(".allCheckButton");
   const checkBox = document.querySelector(".checkBox");
   if (allCheckButton && checkBox) {
@@ -139,13 +153,12 @@ export default function notice(contents) {
     });
   }
 
-  // changeButton 클릭 시 갤러리 보기 방식 변경
+  // changeButton 클릭 시 목록 보기 방식 변경
   const changeButton = document.querySelector(".changeButton");
   const galleryList = document.querySelector("ul");
 
   if (changeButton && galleryList) {
     changeButton.addEventListener("click", function () {
-      console.log("changeButton clicked");
       if (galleryList.classList.contains("gallery-list")) {
         galleryList.classList.remove("gallery-list");
         galleryList.classList.add("list");
@@ -161,4 +174,6 @@ export default function notice(contents) {
   } else {
     console.warn("changeButton or galleryList not found.");
   }
-}
+};
+
+export default notice;
