@@ -104,5 +104,9 @@ export default function Modal({
     modalBtn.addEventListener("click", openModal);
   }
 
-  return modalHTML;
+  return {
+    modalHTML,
+    openModal,
+    closeModal,
+  };
 }
