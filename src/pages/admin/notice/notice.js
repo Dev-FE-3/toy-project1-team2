@@ -114,7 +114,10 @@ const notice = (contents) => {
           String(date.getDate()).padStart(2, "0");
 
         // 사진이 없을 경우 기본 이미지 사용
-        const imageSrc = item.imgSrc || "../../public/imgs/images.jpg";
+        const imageSrc =
+          item.imgSrc && item.imgSrc.length > 0 && Array.isArray(item.imgSrc)
+            ? item.imgSrc[0].src // 첫 번째 이미지 사용
+            : "../../public/imgs/images.jpg"; // 기본 이미지
 
         return `
         <li class="list-item">
