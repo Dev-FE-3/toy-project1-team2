@@ -83,14 +83,14 @@ const write = (contents) => {
 
   function handleRegister() {
     const title = document.getElementById("title").value;
-    const content = document.getElementById("content").value;
+    const contents = document.getElementById("content").value;
     const fileInput = document.getElementById("file");
     const files = fileInput.files;
 
-    if (!title || !content || content.length < 10) {
+    if (!title || !contents || contents.length < 10) {
       const message = !title
         ? "제목을 입력해 주세요"
-        : !content
+        : !contents
           ? "내용을 입력해 주세요"
           : "내용은 최소 10자 이상 입력해야 합니다.";
 
@@ -115,7 +115,7 @@ const write = (contents) => {
         const noticeData = {
           date: new Date().toISOString(),
           title,
-          content,
+          contents,
           imgSrc: fileList.length > 0 ? fileList : null,
         };
 
