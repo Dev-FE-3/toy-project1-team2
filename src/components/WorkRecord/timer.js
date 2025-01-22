@@ -1,6 +1,6 @@
 import "./timer.css";
-import Modal from "../Modal/modal.js";
-import { formatTime, isValidDate } from "../../utils/timeUtils.js";
+import Modal from "@/components/Modal/modal.js";
+import { formatTime, isValidDate } from "@/utils/timeUtils.js";
 
 export default function Timer({
   currentTime,
