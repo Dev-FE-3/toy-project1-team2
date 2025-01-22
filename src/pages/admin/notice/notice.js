@@ -78,16 +78,8 @@ const notice = (contents) => {
   }
 
   // JSON 데이터 로드
-  let noticesData = [];
-  fetch("/src/data/notices.json")
-    .then((response) => response.json())
-    .then((data) => {
-      noticesData = data;
-      displayNotices(data); // 초기 데이터 표시
-    })
-    .catch((error) => {
-      console.error("Error loading JSON:", error);
-    });
+  let noticesData = JSON.parse(localStorage.getItem("notices")) || [];
+  displayNotices(noticesData);
 
   // 검색 입력 이벤트 처리
   const searchEl = document.getElementById("search");
@@ -111,18 +103,32 @@ const notice = (contents) => {
     const list = document.querySelector(".list");
 
     const noticesHTML = data
-      .map(
-        (item) => `
+      .map((item) => {
+        // 날짜 포맷팅 ex) 2025.01.21
+        const date = new Date(item.date);
+        const formattedDate =
+          date.getFullYear() +
+          "." +
+          String(date.getMonth() + 1).padStart(2, "0") +
+          "." +
+          String(date.getDate()).padStart(2, "0");
+
+        // 사진이 없을 경우 기본 이미지 사용
+        const imageSrc = item.imgSrc || "../../public/imgs/images.jpg";
+
+        return `
         <li class="list-item">
           <div class="text">
-            <div class="date">${item.date}</div>
+            <div class="date">${formattedDate}</div>  <!-- 변환된 날짜 출력 -->
             <div class="title">${item.title.length > 14 ? item.title.substring(0, 14) + "..." : item.title}</div>
-            <div class="contents">${item.contents.length > 50 ? item.contents.substring(0, 50) + "..." : item.contents}</div>
+            <div class="contents">
+              ${item.contents && item.contents.length > 50 ? item.contents.substring(0, 50) + "..." : item.contents || ""}
+            </div>
           </div>
-          <div class="img"><img src="${item.imgSrc}" alt="notice image"/></div>
+          <div class="img"><img src="${imageSrc}" alt="notice image"/></div>
         </li>
-      `
-      )
+      `;
+      })
       .join("");
 
     // 갤러리 모드
