@@ -3,6 +3,15 @@ import "./notice.css";
 import { createButton } from "@/components/Button/button.js";
 import { createInputField } from "@/components/InputField/input.js";
 
+const CHECKED_ICON_URL =
+  "https://github.com/user-attachments/assets/68846971-a34b-4d1f-bc01-2422f4f5e8da";
+const UNCHECKED_ICON_URL =
+  "https://github.com/user-attachments/assets/34bd4a1e-73f1-4ef8-896c-1aad0c1fed99";
+const VIEW_ICON_URL =
+  "https://github.com/user-attachments/assets/3f2ccbf5-9c2e-4284-858b-c4ef0aad4f94";
+const LIST_ICON_URL =
+  "https://github.com/user-attachments/assets/1dae0ec4-db39-49a3-b720-925fa237e33f";
+
 const notice = (contents) => {
   const submitButton = createButton(
     "등록",
@@ -40,7 +49,7 @@ const notice = (contents) => {
               ? `
               <div class="allCheckButton">
                 <img
-                  src="https://github.com/user-attachments/assets/34bd4a1e-73f1-4ef8-896c-1aad0c1fed99"
+                  src=${UNCHECKED_ICON_URL}
                   class="checkBox"
                 />
                 <p>전체선택</p>
@@ -51,13 +60,11 @@ const notice = (contents) => {
 
         <div class="right">
           ${searchInput.outerHTML}
-
           <div class="action-buttons">
              <!-- 버튼을 여기에 추가할 예정 -->
           </div>
-
           <div> 
-            <img src="https://github.com/user-attachments/assets/1dae0ec4-db39-49a3-b720-925fa237e33f" alt="list" class="changeButton"/>
+            <img src=${LIST_ICON_URL} alt="list" class="changeButton"/>
           </div>
         
         </div>
@@ -113,7 +120,7 @@ const notice = (contents) => {
           "." +
           String(date.getDate()).padStart(2, "0");
 
-        // 사진이 없을 경우 기본 이미지 사용
+        // 파일 포맷팅
         const imageSrc =
           item.imgSrc && item.imgSrc.length > 0 && Array.isArray(item.imgSrc)
             ? item.imgSrc[0].src // 첫 번째 이미지 사용
@@ -122,7 +129,7 @@ const notice = (contents) => {
         return `
         <li class="list-item">
           <div class="text">
-            <div class="date">${formattedDate}</div>  <!-- 변환된 날짜 출력 -->
+            <div class="date">${formattedDate}</div> 
             <div class="title">${item.title.length > 14 ? item.title.substring(0, 14) + "..." : item.title}</div>
             <div class="contents">
               ${item.contents && item.contents.length > 50 ? item.contents.substring(0, 50) + "..." : item.contents || ""}
@@ -153,16 +160,14 @@ const notice = (contents) => {
       const currentSrc = checkBox.src;
 
       if (currentSrc.includes("34bd4a1e-73f1-4ef8-896c-1aad0c1fed99")) {
-        checkBox.src =
-          "https://github.com/user-attachments/assets/68846971-a34b-4d1f-bc01-2422f4f5e8da"; // 새로운 아이콘 경로로 변경
+        checkBox.src = CHECKED_ICON_URL; // 새로운 아이콘 경로로 변경
       } else {
-        checkBox.src =
-          "https://github.com/user-attachments/assets/34bd4a1e-73f1-4ef8-896c-1aad0c1fed99"; // 원래 아이콘으로 돌아가기
+        checkBox.src = UNCHECKED_ICON_URL; // 원래 아이콘으로 돌아가기
       }
     });
   }
 
-  // changeButton 클릭 시 목록 보기 방식 변경
+  // changeButton 클릭 시 목록 보기 방식  변경
   const changeButton = document.querySelector(".changeButton");
   const galleryList = document.querySelector("ul");
 
@@ -171,13 +176,11 @@ const notice = (contents) => {
       if (galleryList.classList.contains("gallery-list")) {
         galleryList.classList.remove("gallery-list");
         galleryList.classList.add("list");
-        changeButton.src =
-          "https://github.com/user-attachments/assets/3f2ccbf5-9c2e-4284-858b-c4ef0aad4f94"; // 새로운 아이콘 경로로 변경
+        changeButton.src = VIEW_ICON_URL; // 새로운 아이콘 경로로 변경
       } else {
         galleryList.classList.remove("list");
         galleryList.classList.add("gallery-list");
-        changeButton.src =
-          "https://github.com/user-attachments/assets/1dae0ec4-db39-49a3-b720-925fa237e33f"; // 원래 아이콘으로 돌아가기
+        changeButton.src = LIST_ICON_URL; // 원래 아이콘으로 돌아가기
       }
     });
   } else {
