@@ -116,7 +116,7 @@ export const createInputField = ({
         }
       });
     } else {
-      inputEl.type = type;
+      if (inputEl.tagName === "input") inputEl.type = type;
       setAttributes(attributes, inputEl);
       setDatasets(datasets, inputEl);
       inputGroup.appendChild(inputEl);
