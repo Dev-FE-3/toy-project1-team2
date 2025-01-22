@@ -1,0 +1,32 @@
+/** HEADER  */
+.write-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-bottom: 1px solid #e1e1e1;
+
+  padding: 2.1rem 0;
+}
+
+.write-header h1 {
+  margin: 0;
+  margin-left: 2.4rem;
+  font-size: 2.4rem;
+
+  font-weight: 700;
+  line-height: 29px;
+}
+
+.button {
+  margin-right: 2.4rem;
+}
+
+#title,
+.file {
+  padding: 1.2rem 2rem;
+}
+
+#content {
+  padding: 1.6rem 2rem;
+}
