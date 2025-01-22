@@ -1,0 +1,63 @@
+@import "../../../components/Dropdown/style.css";
+/* global css 적용 후 지울 예정 */
+#app {
+  width: 100vw;
+}
+.btn {
+  font-size: 16px;
+  line-height: 26px;
+}
+
+/* 상단 제목과 버튼 */
+.header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--secondary-1-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: relative;
+}
+.header h1 {
+  font-size: 24px; /* 2.4rem */
+  font-weight: 700;
+  line-height: 29px; /* 2.9rem */
+  color: #333;
+}
+.header .buttons .btn:first-child {
+  margin-right: 4px;
+}
+
+/* 컨텐츠 영역 */
+.content-wrap {
+  margin: 20px 24px;
+  padding: 12px 32px 8px;
+  background-color: var(--background-content-color);
+  border-radius: 8px;
+  font-size: 16px; /* 1.6rem */
+}
+.content-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px; 
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  letter-spacing: 0.01px;
+}
+table th, table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 18px 24px;
+}
+table th {
+  background-color: var(--background-default-color);
+  border-top: 1px solid var(--secondary-2-color);
+  border-bottom: 1px solid var(--secondary-2-color);
+  font-weight: 600;
+  color: #8d96a1;
+}
+table td {
+  color: #333;
+}

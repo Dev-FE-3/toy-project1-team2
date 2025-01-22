@@ -31,6 +31,19 @@ const initializeLocalStorage = function () {
     .catch((error) => {
       console.error("Error loading JSON:", error);
     });
+
+    // 휴가관리 json 파일 load
+    fetch('/src/data/leaves.json')
+    .then((response) => response.json())
+    .then((data) => {
+      if (localStorage.getItem("leaves")) {
+        return;
+      }
+      localStorage.setItem("leaves", JSON.stringify(data));
+    })
+    .catch((error) => {
+      console.error("Error loading JSON:", error);
+    });
 };
 
 document.addEventListener("DOMContentLoaded", app);

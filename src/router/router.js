@@ -3,13 +3,15 @@ import profile from "@/pages/user/profile/profile";
 import notFound from "@/pages/notFound/notFound";
 import notice from "@/pages/admin/notice/notice";
 import write from "@/pages/admin/notice/write";
+import leave from "@/pages/user/leave/leaveList";
 
 const routes = {
   "/": home, //기본 라우팅
-  "/user/:id": profile, //동적 라우팅 사용을 위해서는 경로 뒤에 /:id를 추가해서 사용
+  // "/user/:id": profile, //동적 라우팅 사용을 위해서는 경로 뒤에 /:id를 추가해서 사용
   "/admin/notice": notice,
   "/notice": notice,
   "/notice/write": write,
+  "/user/leave": leave,
 };
 
 const getRouteRegex = (route) => route.replace(/:id/, "([\\w-]+)");
