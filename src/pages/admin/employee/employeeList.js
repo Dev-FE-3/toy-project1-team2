@@ -1,24 +1,19 @@
 import "./employee.css";
 
+import empUtils from "./employee";
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input";
 import { createPagination } from "@/components/Pagination/Pagination";
-import Modal from "@/components/Modal/modal";
-
-import loadJSONToLocalStorage from "./loadData";
 
 const ITEM_PER_PAGE = 5; // 한페이지에 10개의 목록만 보여줌
 const START_PAGE = 1; // 처음 로드될때는 1페이지
-let jsonData;
+const employees = JSON.parse(localStorage.getItem("employees")); // 직원데이터 로컬스토리지에 저장
 
-const employeeList = async (container) => {
-  // 직원데이터 로컬스토리지에 저장
-  loadJSONToLocalStorage("employees");
-  jsonData = JSON.parse(localStorage.getItem("employees"));
-
+const employeeList = (container) => {
   // 직원목록 화면 기본 틀 생성
   const contentWrapHTML = document.createElement("div");
   contentWrapHTML.className = "content-wrap";
+
   contentWrapHTML.innerHTML = `
     <div class="header">
       <h2 class="header__title">직원관리</h2>
@@ -63,8 +58,8 @@ const employeeList = async (container) => {
 
   container.appendChild(contentWrapHTML); // 화면에 렌더링
 
-  bindButtonEvent();
-  createEmployeeList(START_PAGE); // jsonData로 직원 리스트 생성
+  bindButtonEvent(); // 버튼 이벤트 바인딩
+  renderEmployeeList(START_PAGE); // 직원 리스트 생성
 };
 
 const bindButtonEvent = () => {
@@ -73,25 +68,9 @@ const bindButtonEvent = () => {
   deleteBtnEl.addEventListener("click", () => {
     const checkEl = document.querySelector("tbody input:checked");
     if (checkEl) {
-      const modal = Modal({
-        title: "직원 삭제",
-        message: "정말로 삭제하시겠습니까?",
-        modalStyle: "warning",
-        onConfirm: deleteEmployee,
-      });
-
-      document.body.appendChild(modal);
-      modal.querySelector(".modal").classList.remove("hidden");
+      empUtils.deleteModal(deleteSelectedEmployees);
     } else {
-      const modal = Modal({
-        title: "안내",
-        message: "삭제할 직원을 선택해 주세요.",
-        modalStyle: "primary",
-        showCancelBtn: false,
-      });
-
-      document.body.appendChild(modal);
-      modal.querySelector(".modal").classList.remove("hidden");
+      empUtils.infoModal("삭제할 직원을 선택해 주세요.");
     }
   });
 
@@ -99,12 +78,11 @@ const bindButtonEvent = () => {
   const createBtnEl = document.querySelector(".btn--submit");
   createBtnEl.addEventListener(
     "click",
-    () => (location.href = "/admin/employee/write")
+    () => (window.location.href = "/admin/employee/write")
   );
 };
 
-const bindCheckEvent = () => {
-  // 전체선택
+const bindCheckAllEvent = () => {
   const checkAllEl = document.querySelector(".check-all");
   const checkEls = document.querySelectorAll("tbody input[type=checkbox]");
   checkAllEl.checked = false; // false로 초기화
@@ -115,48 +93,38 @@ const bindCheckEvent = () => {
   });
 };
 
-const deleteEmployee = () => {
+const deleteSelectedEmployees = () => {
   const checkedEmployees = document.querySelectorAll("tbody input:checked");
-
-  // 유사배열 객체는 배열 메서드 사용이 불가!!
   const deleteIndexList = Array.from(checkedEmployees).map((checkbox) => {
     return parseInt(checkbox.dataset.id) - 1;
   });
+
   // 내림차순 정렬 후 삭제(오름차순 시 삭제되면 인덱스가 변함)
   deleteIndexList.sort((a, b) => b - a);
-  deleteIndexList.forEach((idx) => {
-    jsonData.employees.splice(idx, 1);
-  });
+  deleteIndexList.forEach((idx) => employees.splice(idx, 1));
 
+  // 삭제 후 리스트 재생성
+  const totalPage = Math.ceil(employees.length / ITEM_PER_PAGE);
   const page = document.querySelector(".pagination-button.active").dataset.page;
-  const totalPage = Math.ceil(jsonData.employees.length / ITEM_PER_PAGE);
-  createEmployeeList(parseInt(page > totalPage ? totalPage : page));
+  renderEmployeeList(parseInt(page > totalPage ? totalPage : page));
 
-  localStorage.setItem("employees", JSON.stringify(jsonData)); // 로컬 스토리지 데이터 수정
-
-  const modal = Modal({
-    title: "안내",
-    message: "정상적으로 삭제되었습니다.",
-    modalStyle: "success",
-    showCancelBtn: false,
-  });
-
-  document.body.appendChild(modal);
-  modal.querySelector(".modal").classList.remove("hidden");
+  // 로컬스토리지 데이터 수정
+  localStorage.setItem("employees", JSON.stringify(employees));
+  empUtils.infoModal("정상적으로 삭제되었습니다.", "success");
 };
 
-const createEmployeeList = async (page) => {
+const renderEmployeeList = (page) => {
   const tbodyEl = document.querySelector("tbody");
   tbodyEl.innerHTML = ""; // 직원 목록 초기화
 
   const startIdx = (page - 1) * ITEM_PER_PAGE;
   const endIdx = startIdx + ITEM_PER_PAGE;
 
-  const employees = jsonData.employees.slice(startIdx, endIdx);
-  employees.forEach((emp, idx) => {
+  const list = employees.slice(startIdx, endIdx);
+  list.forEach((data, idx) => {
     const index = (page - 1) * ITEM_PER_PAGE + (idx + 1); // 순번 계산
     const trEl = document.createElement("tr");
-    trEl.innerHTML = createEmployeeCells(emp, index);
+    trEl.innerHTML = createEmployeeCells(data, index);
     tbodyEl.appendChild(trEl);
   });
 
@@ -165,21 +133,21 @@ const createEmployeeList = async (page) => {
   if (pagenationContainer) pagenationContainer.remove();
   document.querySelector(".content-wrap").appendChild(
     createPagination({
-      totalItems: jsonData.employees.length,
+      totalItems: employees.length,
       itemsPerPage: ITEM_PER_PAGE,
       currentPage: page,
-      onPageChange: createEmployeeList,
+      onPageChange: renderEmployeeList,
     })
   );
 
-  bindCheckEvent(); // 목록 페이지 이벤트 바인딩
+  bindCheckAllEvent(); // 전체 선택 이벤트
 };
 
 const createEmployeeCells = (data, index) => {
   return `
     <td>${index}</td>
     <td>
-      <a href="/admin/employee/${data.id}">
+      <a href="/admin/employee/${index}">
         <div class="employee-info-wrap">
           <img src="${data.profileImage}" alt="직원 프로필 사진">
           <div class="employee-info">

@@ -3,6 +3,7 @@ import profile from "@/pages/user/profile/profile";
 import notFound from "@/pages/notFound/notFound";
 import notice from "@/pages/admin/notice/notice";
 import write from "@/pages/admin/notice/write";
+import employeeList from "@/pages/admin/employee/employeeList";
 
 const routes = {
   "/": home, //기본 라우팅
@@ -10,6 +11,7 @@ const routes = {
   "/admin/notice": notice,
   "/notice": notice,
   "/notice/write": write,
+  "/admin/employee": employeeList,
 };
 
 const getRouteRegex = (route) => route.replace(/:id/, "([\\w-]+)");
