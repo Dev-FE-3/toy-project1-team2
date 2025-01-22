@@ -14,13 +14,24 @@ const employeeList = (container) => {
   const contentWrapHTML = document.createElement("div");
   contentWrapHTML.className = "content-wrap";
 
+  // 화면에 필요한 요소 생성
+  const writeButton = createButton("등록", writeButtonHandler, [
+    "btn",
+    "btn--submit",
+  ]);
+  const deleteButton = createButton("삭제", deleteButtonHandler, [
+    "btn",
+    "btn--delete",
+  ]);
+  const checkAllInput = createInputField({
+    type: "checkbox",
+    attributes: { name: "checkAll", classList: ["check-all"] },
+  });
+
   contentWrapHTML.innerHTML = `
     <div class="header">
       <h2 class="header__title">직원관리</h2>
-      <div class="header__btn">
-        ${createButton("등록", null, ["btn", "btn--submit"]).outerHTML}
-        ${createButton("삭제", null, ["btn", "btn--delete"]).outerHTML}
-      </div>
+      <div class="header__btn"></div>
     </div>
     <div class="employee-list">
       <table>
@@ -41,52 +52,40 @@ const employeeList = (container) => {
             <th>입사일</th>
             <th class="phone">연락처</th>
             <th>이메일</th>
-            <th>
-              ${
-                createInputField({
-                  type: "checkbox",
-                  attributes: { name: "checkAll", classList: ["check-all"] },
-                }).outerHTML
-              }
-            </th>
+            <th class="check-all-wrap"></th>
           </tr>
         </thead>
         <tbody></tbody>
       </table>
     </div>
   `;
-
   container.appendChild(contentWrapHTML); // 화면에 렌더링
+  document.querySelector(".header__btn").appendChild(writeButton);
+  document.querySelector(".header__btn").appendChild(deleteButton);
+  document.querySelector(".check-all-wrap").appendChild(checkAllInput);
 
-  bindButtonEvent(); // 버튼 이벤트 바인딩
+  bindSelectAllEvent();
   renderEmployeeList(START_PAGE); // 직원 리스트 생성
 };
 
-const bindButtonEvent = () => {
+const deleteButtonHandler = () => {
   // 삭제 버튼(체크된 직원 삭제)
-  const deleteBtnEl = document.querySelector(".btn--delete");
-  deleteBtnEl.addEventListener("click", () => {
-    const checkEl = document.querySelector("tbody input:checked");
-    if (checkEl) {
-      empUtils.deleteModal(deleteSelectedEmployees);
-    } else {
-      empUtils.infoModal("삭제할 직원을 선택해 주세요.");
-    }
-  });
-
-  // 등록 버튼
-  const createBtnEl = document.querySelector(".btn--submit");
-  createBtnEl.addEventListener(
-    "click",
-    () => (window.location.href = "/admin/employee/write")
-  );
+  const checkEl = document.querySelector("tbody input:checked");
+  if (checkEl) {
+    empUtils.deleteModal(deleteSelectedEmployees);
+  } else {
+    empUtils.infoModal("삭제할 직원을 선택해 주세요.");
+  }
 };
 
-const bindCheckAllEvent = () => {
+const writeButtonHandler = () => {
+  window.location.href = "/admin/employee/write";
+};
+
+const bindSelectAllEvent = () => {
   const checkAllEl = document.querySelector(".check-all");
-  const checkEls = document.querySelectorAll("tbody input[type=checkbox]");
-  checkAllEl.checked = false; // false로 초기화
   checkAllEl.addEventListener("change", () => {
+    const checkEls = document.querySelectorAll("tbody input[type=checkbox]");
     checkEls.forEach((checkEl) => {
       checkEl.checked = checkAllEl.checked;
     });
@@ -140,7 +139,8 @@ const renderEmployeeList = (page) => {
     })
   );
 
-  bindCheckAllEvent(); // 전체 선택 이벤트
+  // 전체 선택 체크박스 초기화
+  document.querySelector(".check-all").checked = false;
 };
 
 const createEmployeeCells = (data, index) => {
