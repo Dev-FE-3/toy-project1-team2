@@ -3,14 +3,14 @@ export default class InputValidation {
   #validationRules;
   #submit;
 
-  constructor(selector, validationRules, submitFunc) {
-    this.#form = document.querySelector(selector);
+  constructor(form, validationRules, submitFunc) {
+    this.#form = form;
     this.#validationRules = validationRules;
     this.#submit = submitFunc;
-
+    
     this.#initEvent();
   }
-
+  
   #initEvent() {
     const inputEls = this.#form.querySelectorAll("input,textarea");
     const btnSubmit = this.#form.querySelector(".btn--submit");
