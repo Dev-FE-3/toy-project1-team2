@@ -100,12 +100,34 @@ const write = (contents) => {
 
     const fileList = Array.from(files).map((file) => file.name);
 
-    alert("공지사항이 등록되었습니다.");
+    const noticeData = {
+      date: new Date().toISOString(),
+      title,
+      content,
+      files: fileList || [],
+    };
 
-    // 입력 필드 초기화
-    document.getElementById("title-input").value = "";
-    document.getElementById("content").value = "";
-    fileInput.value = "";
+    try {
+      let notices = JSON.parse(localStorage.getItem("notices")) || [];
+      notices.unshift(noticeData);
+      localStorage.setItem("notices", JSON.stringify(notices));
+
+      showModal(
+        "공지사항이 등록되었습니다.",
+        "check",
+        () => {
+          window.location.href = "/admin/notice";
+
+          // 입력 필드 초기화
+          document.getElementById("title").value = "";
+          document.getElementById("content").value = "";
+          fileInput.value = "";
+        },
+        false
+      );
+    } catch (error) {
+      showModal("공지사항 등록 중 오류가 발생했습니다.", "warning");
+    }
   }
 };
 
