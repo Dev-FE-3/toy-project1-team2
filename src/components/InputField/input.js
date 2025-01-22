@@ -23,8 +23,8 @@ function setDatasets(datasets, element) {
 // 입력요소 THML 생성 및 이벤트 바인딩
 export const createInputField = ({
   tagName = "input",
-  type = null,
-  label = { name: null, forAttr: null },
+  type = "text",
+  label = { name: null, forAttr: null},
   attributes = {
     name: null,
     id: null,
@@ -32,8 +32,8 @@ export const createInputField = ({
     placeholder: null,
   },
   datasets = {
-    required: "false",
-    validation: "false",
+    required: false,
+    validation: false,
   },
 } = {}) => {
   // 컨테이너 요소 생성
@@ -45,6 +45,7 @@ export const createInputField = ({
     const labelEl = document.createElement("label");
     labelEl.setAttribute("for", label.forAttr);
     labelEl.textContent = label.name;
+    if (datasets.required) labelEl.classList.add("require");
     inputWrapEl.appendChild(labelEl);
   }
 
