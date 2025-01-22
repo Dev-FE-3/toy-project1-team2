@@ -41,6 +41,24 @@ const write = (contents) => {
     datasets: { required: false, validation: true },
   });
 
+  function showModal(
+    message,
+    style,
+    onConfirm = () => {},
+    showCancelBtn = false
+  ) {
+    const modal = Modal({
+      title: "안내",
+      message,
+      modalStyle: style,
+      onConfirm,
+      showCancelBtn,
+    });
+
+    document.body.appendChild(modal);
+    modal.querySelector(".modal").classList.remove("hidden");
+  }
+
   contents.innerHTML = `
     <section class="wrapper">
         <header class="write-header">
@@ -49,7 +67,6 @@ const write = (contents) => {
         </header>
         <section class="field">
             ${titleField.outerHTML}
-
             <div class="fileField"></div>
            <div class="contentField"></div>
             ${contentField.outerHTML}
@@ -70,45 +87,14 @@ const write = (contents) => {
     const fileInput = document.getElementById("file");
     const files = fileInput.files;
 
-    if (!title) {
-      const modal = Modal({
-        title: "안내", //제목
-        message: "제목을 입력해 주세요", //메세지
-        modalStyle: "warning",
-        onConfirm: () => {},
-        showCancelBtn: false, // 취소 버튼 출력 여부
-      });
+    if (!title || !content || content.length < 10) {
+      const message = !title
+        ? "제목을 입력해 주세요"
+        : !content
+          ? "내용을 입력해 주세요"
+          : "내용은 최소 10자 이상 입력해야 합니다.";
 
-      document.body.appendChild(modal); // 모달을 DOM에 추가
-      modal.querySelector(".modal").classList.remove("hidden"); // 모달 열기
-      return;
-    }
-
-    if (!content) {
-      const modal = Modal({
-        title: "안내", //제목
-        message: "내용을 입력해 주세요", //메세지
-        modalStyle: "warning",
-        onConfirm: () => {},
-        showCancelBtn: false, // 취소 버튼 출력 여부
-      });
-
-      document.body.appendChild(modal); // 모달을 DOM에 추가
-      modal.querySelector(".modal").classList.remove("hidden"); // 모달 열기
-      return;
-    }
-
-    if (content.length < 10) {
-      const modal = Modal({
-        title: "안내", //제목
-        message: "내용은 최소 10자 이상 입력해야 합니다.", //메세지
-        modalStyle: "warning",
-        onConfirm: () => {},
-        showCancelBtn: false, // 취소 버튼 출력 여부
-      });
-
-      document.body.appendChild(modal); // 모달을 DOM에 추가
-      modal.querySelector(".modal").classList.remove("hidden"); // 모달 열기
+      showModal(message, "warning");
       return;
     }
 
