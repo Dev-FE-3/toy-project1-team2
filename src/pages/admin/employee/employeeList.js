@@ -102,19 +102,30 @@ const deleteSelectedEmployees = () => {
   deleteIndexList.sort((a, b) => b - a);
   deleteIndexList.forEach((idx) => employees.splice(idx, 1));
 
-  // 삭제 후 리스트 재생성
+  // 로컬스토리지 데이터 수정
+  localStorage.setItem("employees", JSON.stringify(employees));
+
+  // 리스트 재생성
   const totalPage = Math.ceil(employees.length / ITEM_PER_PAGE);
   const page = document.querySelector(".pagination-button.active").dataset.page;
   renderEmployeeList(parseInt(page > totalPage ? totalPage : page));
 
-  // 로컬스토리지 데이터 수정
-  localStorage.setItem("employees", JSON.stringify(employees));
   empUtils.infoModal("정상적으로 삭제되었습니다.", "success");
 };
 
 const renderEmployeeList = (page) => {
   const tbodyEl = document.querySelector("tbody");
   tbodyEl.innerHTML = ""; // 직원 목록 초기화
+  
+  // 기존 페이지네이션 삭제
+  const pagenationContainer = document.querySelector(".pagination-container");
+  if (pagenationContainer) pagenationContainer.remove();
+
+  // 직원 데이터가 없는 경우 메시지 표시
+  if (employees.length === 0 ) {
+    tbodyEl.innerHTML = "<tr><td colspan='7'>등록된 직원이 없습니다</td></tr>";
+    return;
+  }
 
   const startIdx = (page - 1) * ITEM_PER_PAGE;
   const endIdx = startIdx + ITEM_PER_PAGE;
@@ -128,8 +139,6 @@ const renderEmployeeList = (page) => {
   });
 
   // 페이지네이션 생성
-  const pagenationContainer = document.querySelector(".pagination-container");
-  if (pagenationContainer) pagenationContainer.remove();
   document.querySelector(".content-wrap").appendChild(
     createPagination({
       totalItems: employees.length,
