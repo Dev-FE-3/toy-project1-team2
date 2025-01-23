@@ -1,4 +1,4 @@
-import "@/pages/admin/employee/employee.css";
+import "./profile.css";
 
 import Modal from "@/components/Modal/modal";
 import { createButton } from "@/components/Button/button";
@@ -131,7 +131,7 @@ const profileWrite = (container) => {
         </table>
 
         <!-- 비밀번호 영역 -->
-        <table>
+        <table class="password-area">
           <colgroup>
             <col width="34%">
             <col width="34%">
@@ -139,79 +139,25 @@ const profileWrite = (container) => {
           </colgroup>
           <thead>
             <tr>
-              <th colspan="3">기본 정보</th>
+              <th colspan="3">
+                <div class="title-wrap">
+                  비밀번호 변경
+                  <svg class="change-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                  </svg>
+                </div>
+              </th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>
-                ${
-                  createInputField({
-                    type: "password",
-                    label: { name: "비밀번호", forAttr: "password" },
-                    attributes: {
-                      name: "password",
-                      id: "password",
-                      placeholder: "최소 6자, 최대 16자까지 설정 가능",
-                    },
-                    datasets: {
-                      required: true,
-                      validation: true,
-                    },
-                  }).outerHTML
-                }
-              </td>
-              <td>
-                ${
-                  createInputField({
-                    type: "password",
-                    label: {
-                      name: "비밀번호 확인",
-                      forAttr: "confirmPassword",
-                    },
-                    attributes: {
-                      name: "confirmPassword",
-                      id: "confirmPassword",
-                      placeholder: "최소 6자, 최대 16자까지 설정 가능",
-                    },
-                    datasets: {
-                      required: true,
-                      validation: true,
-                    },
-                  }).outerHTML
-                }
-              </td>
-              <td></td>
-            </tr>
-          </tbody>
         </table>
       </form>
     </div>
   `;
-
-  // 입력 폼 유효성 검사 설정
-  const validationRules = {
-    password: {
-      regExp: /^[a-zA-Z0-9!@#$%^&*()]{6,16}$/,
-      message: "최소 6자, 최대 16자까지 입력해주세요",
-    },
-    confirmPassword: {
-      regExp: /^[a-zA-Z0-9!@#$%^&*()]{6,16}$/,
-      message: "최소 6자, 최대 16자까지 입력해주세요",
-    },
-    passwordMismatch: {
-      message: "비밀번호가 일치하지 않습니다",
-    },
-    required: {
-      // 필수 설정
-      message: "필수 입력 항목입니다",
-    },
-  };
   
   bindProfileImageEvents(contentWrapHTML);
+  bindEditPasswordChangeEvent(contentWrapHTML);
   container.appendChild(contentWrapHTML);
-
-  new InputValidation(contentWrapHTML, validationRules, handleFormSubmit);
 };
 
 const handleFormSubmit = () => {
@@ -238,6 +184,11 @@ const handleFormSubmit = () => {
   document.body.appendChild(modal);
   modal.querySelector(".modal").classList.remove("hidden");
 };
+
+const bindEditPasswordChangeEvent = (contentWrapHTML) => {
+  const passwordChangeButton = contentWrapHTML.querySelector(".change-icon");
+  passwordChangeButton.addEventListener("click", appendPasswordChange);
+}
 
 const bindProfileImageEvents = (contentWrapHTML) => {
   const fileEl = contentWrapHTML.querySelector(".profile input");
@@ -276,5 +227,78 @@ const bindProfileImageEvents = (contentWrapHTML) => {
     }
   });
 };
+
+const appendPasswordChange = () => {
+  // 수정 버튼 삭제
+  const chagneButton = document.querySelector(".change-icon");
+  if (chagneButton) chagneButton.remove();
+
+  const contentWrapHTML = document.querySelector(".content-wrap");
+  const passwordChangeEl = document.querySelector(".password-area");
+  const tbody = document.createElement("tbody");
+  tbody.innerHTML = `
+    <tr>
+      <td>
+        ${
+          createInputField({
+            type: "password",
+            label: { name: "비밀번호", forAttr: "password" },
+            attributes: {
+              name: "password",
+              id: "password",
+              placeholder: "최소 6자, 최대 16자까지 설정 가능",
+            },
+            datasets: {
+              required: true,
+              validation: true,
+            },
+          }).outerHTML
+        }
+      </td>
+      <td>
+        ${
+          createInputField({
+            type: "password",
+            label: {
+              name: "비밀번호 확인",
+              forAttr: "confirmPassword",
+            },
+            attributes: {
+              name: "confirmPassword",
+              id: "confirmPassword",
+              placeholder: "최소 6자, 최대 16자까지 설정 가능",
+            },
+            datasets: {
+              required: true,
+              validation: true,
+            },
+          }).outerHTML
+        }
+      </td>
+      <td></td>
+    </tr>
+  `;
+  passwordChangeEl.appendChild(tbody);
+
+  // 입력 폼 유효성 검사 설정
+  const validationRules = {
+    password: {
+      regExp: /^[a-zA-Z0-9!@#$%^&*()]{6,16}$/,
+      message: "최소 6자, 최대 16자까지 입력해주세요",
+    },
+    confirmPassword: {
+      regExp: /^[a-zA-Z0-9!@#$%^&*()]{6,16}$/,
+      message: "최소 6자, 최대 16자까지 입력해주세요",
+    },
+    passwordMismatch: {
+      message: "비밀번호가 일치하지 않습니다",
+    },
+    required: {
+      // 필수 설정
+      message: "필수 입력 항목입니다",
+    },
+  };
+  new InputValidation(contentWrapHTML, validationRules, handleFormSubmit);
+} 
 
 export default profileWrite;
