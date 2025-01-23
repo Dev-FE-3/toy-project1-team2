@@ -1,15 +1,30 @@
 import "./leaveList.css";
-
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input";
 import { createDropdown } from "@/components/Dropdown/dropdown";
 import { createPagination } from "@/components/Pagination/pagination"
 
-// 휴가 데이터 로컬스토리지에서 불러오기
-const leaves = JSON.parse(localStorage.getItem("leaves"));
+// 남은 휴가 일수 계산 함수
+function remainingLeave() {
+  const totalLeaveDays = 15; // 2025년 전체 휴가 일수
+  const leaves = JSON.parse(localStorage.getItem("leaves")) || [];
+  
+  const usedLeaveDays = leaves.reduce((total, leave) => {
+    if (leave.startDate.startsWith('2025') && leave.isUsed) {
+      return total + leave.leaveDays;
+    }
+    return total;
+  }, 0);
+
+  return totalLeaveDays - usedLeaveDays;
+}
+
+// 상세 페이지로 이동하는 함수
+function showLeaveDetail(leaveId) {
+  window.location.href = `/user/leave/${leaveId}`;
+}
 
 const leaveList = (container) => {
-  // 휴가 목록 기본 레이아웃
   const leaveListRender = document.createElement("div");
   leaveListRender.className = "container-wrap";
 
@@ -24,7 +39,6 @@ const leaveList = (container) => {
     ["btn--delete"]
   );
 
-  // 전체 선택 체크박스 생성
   const checkAllInput = createInputField({
     type: "checkbox",
     attributes: { name: "checkAll", classList: ["select-all"] },
@@ -37,10 +51,14 @@ const leaveList = (container) => {
         <!-- 버튼 삽입 영역 -->
       </div>
     </div>
-    <div class="content-wrap">
+    <div class="content-wrap leave-list">
       <div class="content-top">
         <div class="filter">
           <!-- 드롭다운 삽입 영역 -->
+        </div>
+        <div class="remaining-wrap">
+          <span>잔여휴가</span>
+          <span class="remaining-leave">10</span>
         </div>
       </div>
       <table>
@@ -65,7 +83,7 @@ const leaveList = (container) => {
     </div>
   `;
 
-  container.appendChild(leaveListRender); // 화면에 렌더링
+  container.appendChild(leaveListRender);
   document.querySelector(".buttons").appendChild(submitButton);
   document.querySelector(".buttons").appendChild(deleteButton);
   document.querySelector(".select-all-wrap").appendChild(checkAllInput);
@@ -77,7 +95,6 @@ const leaveList = (container) => {
     const remainingItems = document.querySelectorAll('tbody tr').length;
     renderPagination(remainingItems);
     
-    // 현재 페이지에 항목이 없으면 이전 페이지로 이동
     if (remainingItems === 0 && currentPage > 1) {
       currentPage--;
       fetchAndRenderTable(currentFilter, currentPage);
@@ -97,7 +114,7 @@ const leaveList = (container) => {
 
   // 체크박스 선택/해제
   function toggleSelectAll() {
-    const selectAllCheckbox =document.querySelector(".select-all");
+    const selectAllCheckbox = document.querySelector(".select-all");
     const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
     
     checkboxes.forEach(checkbox => {
@@ -111,27 +128,23 @@ const leaveList = (container) => {
   let totalItems = 0;
   const itemsPerPage = 7;
   let currentPage = 1;
-  let currentFilter = "전체"; // 현재 필터 상태를 저장하는 변수 추가
+  let currentFilter = "전체";
 
-  async function fetchAndRenderTable(filterValue = currentFilter, page = 1) {
-    currentFilter = filterValue; // 현재 필터 값 저장
+  function fetchAndRenderTable(filterValue = currentFilter, page = 1) {
+    currentFilter = filterValue;
     const startIdx = (page - 1) * itemsPerPage;
     const endIdx = startIdx + itemsPerPage;
 
     try {
-      // 로컬 스토리지에서 leaves 데이터 가져오기
       const leavesData = JSON.parse(localStorage.getItem("leaves"));
       
       if (!leavesData) {
         throw new Error("로컬 스토리지에 leaves 데이터가 없습니다.");
       }
 
-      totalItems = leavesData.length; // 전체 항목 수 업데이트
-
-      // 테이블 초기화
+      totalItems = leavesData.length;
       tableBody.innerHTML = '';
 
-      // 필터링 및 데이터 표시
       const filteredData = leavesData.filter(item => filterValue === "전체" || item.leaveType === filterValue);
       const pageData = filteredData.slice(startIdx, endIdx);
 
@@ -152,42 +165,37 @@ const leaveList = (container) => {
           <td><input type="checkbox" ${isUsedCheckbox}></td>
         `;
 
-        // 행 클릭 이벤트 추가
         row.addEventListener('click', (event) => {
-          // 체크박스 클릭 시 상세 페이지로 이동하지 않도록 함
           if (event.target.type !== 'checkbox') {
             showLeaveDetail(item.id);
           }
         });
 
-        tableBody.appendChild(row); // <tbody>에 <tr> 추가
+        tableBody.appendChild(row);
       });
 
-      // 상세 페이지로 이동
-      function showLeaveDetail(leaveId) {
-        // URL 경로에 leaveId를 포함시켜 이동
-        window.location.href = `/user/leave/${leaveId}`;
-      }
+      // 남은 휴가 일수 표시
+      const remainingDays = remainingLeave();
+      document.querySelector(".remaining-leave").textContent = remainingDays;
 
-      // 페이지네이션 렌더링
       renderPagination(filteredData.length);
 
     } catch (error) {
       console.error("데이터를 가져오는 중 오류 발생:", error);
-      tableBody.innerHTML = '<tr><td colspan="9">데이터를 가져오는 중 오류가 발생했습니다.</td></tr>';
+      tableBody.innerHTML = '<tr><td colspan="9">데이터를 가져오는 중 오류가 발생했습니다. 다시 시도해 주세요.</td></tr>';
     }
   }
 
   // 페이지네이션 렌더링 함수
   function renderPagination(totalItems) {
-    paginationContainer.innerHTML = ""; // 이전 페이지네이션 초기화
+    paginationContainer.innerHTML = "";
     const pagination = createPagination({
       totalItems,
       itemsPerPage,
       currentPage,
       onPageChange: (page) => {
         currentPage = page;
-        fetchAndRenderTable(currentFilter, currentPage); // 현재 필터 값을 유지하면서 페이지 변경
+        fetchAndRenderTable(currentFilter, currentPage);
       },
     });
     paginationContainer.appendChild(pagination);
@@ -199,10 +207,10 @@ const leaveList = (container) => {
 
   dropdownItems.forEach(item => {
     item.addEventListener("click", () => {
-      const selectedValue = item.textContent.trim(); // 클릭된 아이템의 텍스트 값을 가져옴
-      placeholder.textContent = selectedValue; // 선택된 값으로 placeholder 업데이트
-      currentPage = 1; // 페이지를 1로 리셋
-      fetchAndRenderTable(selectedValue, currentPage); // 선택된 값에 맞는 데이터를 렌더링
+      const selectedValue = item.textContent.trim();
+      placeholder.textContent = selectedValue;
+      currentPage = 1;
+      fetchAndRenderTable(selectedValue, currentPage);
     });
   });
 
@@ -213,4 +221,4 @@ const leaveList = (container) => {
   fetchAndRenderTable(currentFilter, currentPage);
 }
 
-export default leaveList; 
+export default leaveList;

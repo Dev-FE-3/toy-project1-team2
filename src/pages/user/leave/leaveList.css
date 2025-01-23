@@ -1,12 +1,4 @@
 @import "../../../components/Dropdown/style.css";
-/* global css 적용 후 지울 예정 */
-#app {
-  width: 100vw;
-}
-.btn {
-  font-size: 16px;
-  line-height: 26px;
-}
 
 /* 상단 제목과 버튼 */
 .header {
@@ -26,16 +18,25 @@
 .header .buttons .btn:first-child {
   margin-right: 4px;
 }
+.remaining-wrap {
+  font-weight: 600;
+  color: var(--secondary-2-color);
+}
+.remaining-wrap .remaining-leave {
+  margin-left: 24px;
+  margin-right: 20px;
+}
 
 /* 컨텐츠 영역 */
-.content-wrap {
-  margin: 20px 24px;
+.content-wrap.leave-list {
+  margin: 20px 24px 12px;
   padding: 12px 32px 8px;
+  min-height: 530px;
   background-color: var(--background-content-color);
   border-radius: 8px;
   font-size: 16px; /* 1.6rem */
 }
-.content-top {
+.leave-list .content-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -49,7 +50,7 @@ table {
 table th, table td {
   text-align: center;
   vertical-align: middle;
-  padding: 18px 24px;
+  padding: 16px 24px;
 }
 table th {
   background-color: var(--background-default-color);
@@ -67,4 +68,7 @@ table td {
 table td>input[type="checkbox"] {
   width: 18px;
   height: 18px;
+}
+.pagination-container {
+  margin: 0 auto;
 }
