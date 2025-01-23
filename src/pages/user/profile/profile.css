@@ -8,3 +8,7 @@
 .password-area .title-wrap svg {
   cursor: pointer;
 }
+.input-wrap label {
+  color: #8D96A1;
+  min-width: 115px;
+}
