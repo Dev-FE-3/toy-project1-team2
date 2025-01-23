@@ -1,5 +1,9 @@
 // 입력된 데이터를 "시:분" 형식으로 반환하는 함수
 export const formatTime = (input) => {
+  // 유효하지 않은 입력 처리
+  if (!input || isNaN(new Date(input))) {
+    return "-"; // 유효하지 않은 경우 "-" 반환
+  }
   const date = new Date(input);
   const hours = date.getHours().toString().padStart(2, "0"); // 시
   const minutes = date.getMinutes().toString().padStart(2, "0"); // 분

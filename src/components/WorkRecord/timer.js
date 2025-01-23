@@ -9,10 +9,25 @@ const saveEventToLocalStorage = (event) => {
   addToLocalStorage(WORK_RECORD_KEY, event);
 };
 
+// 모달 표시 함수
+const showModal = (title, message, onConfirm) => {
+  const modal = Modal({
+    title,
+    message,
+    modalStyle: "primary",
+    onConfirm,
+    showCancelBtn: true,
+  });
+
+  document.body.appendChild(modal.modalHTML);
+  modal.openModal(); // 모달 열기
+};
+
 export default function Timer({
   currentTime,
   workStart = null,
   workEnd = null,
+  onEndWork,
 }) {
   // 근무 이벤트 객체
   const workEvent = {
@@ -37,38 +52,11 @@ export default function Timer({
   const formattedWorkStart = formatTime(workStart);
   const formattedWorkEnd = formatTime(workEnd);
 
-  // 타이머 HTML 요소 생성
-  const timerHTML = document.createElement("div");
-  timerHTML.className = "timer-container";
-
-  // 타이머 내용 설정
-  timerHTML.innerHTML = `
-      <div class="timer">
-        <div class="timer__type-container">
-          <div class="timer__type">
-            <div>현재 시각</div>
-            <div id="current-time">${formattedCurrentTime}</div>
-          </div>
-          <div class="timer__type">
-            <div>근무 시작</div>
-            <div id="workStart-time">${workStart ? formattedWorkStart : "-"}</div>
-          </div>
-          <div class="timer__type">
-            <div>근무 종료</div>
-            <div id="workEnd-time">${workEnd ? formattedWorkEnd : "-"}</div>
-          </div>
-        </div>
-        <div class="timer__status-container">
-          <span id="toggle-status" class="status--before">근무전</span>
-          <div class="toggle-container">
-            <label class="toggle">
-              <input id="toggle-checkbox" type="checkbox" />
-              <div class="slider" />
-            </label>
-          </div>
-        </div>
-      </div>
-      `;
+  const timerHTML = createTimerHTML(
+    formattedCurrentTime,
+    formattedWorkStart,
+    formattedWorkEnd
+  );
 
   const checkbox = timerHTML.querySelector("#toggle-checkbox");
   const statusText = timerHTML.querySelector("#toggle-status");
@@ -90,47 +78,37 @@ export default function Timer({
 
   // 근무 시작 모달
   const showStartWorkModal = () => {
-    const modal = Modal({
-      title: "안내",
-      message: "근무를 시작하시겠습니까?",
-      modalStyle: "primary",
-      onConfirm: () => {
-        workStart = currentTime;
-        workStartElement.textContent = formatTime(workStart);
-        updateStatus("근무중");
-        checkbox.checked = true;
-
-        // 로컬 스토리지에 이벤트 추가
-        workEvent.times[0] = formatDate(workStart);
-      },
-      showCancelBtn: true,
+    showModal("안내", "근무를 시작하시겠습니까?", () => {
+      updateWorkStart(currentTime);
     });
+  };
 
-    document.body.appendChild(modal.modalHTML);
-    modal.openModal(); // 모달 열기
+  const updateWorkStart = (currentTime) => {
+    workStart = currentTime;
+    workStartElement.textContent = formatTime(workStart);
+    updateStatus("근무중");
+    checkbox.checked = true;
+
+    // 로컬 스토리지에 이벤트 추가
+    workEvent.times[0] = formatDate(workStart);
   };
 
   // 근무 종료 모달
   const showEndWorkModal = () => {
-    const modal = Modal({
-      title: "안내",
-      message: "근무를 종료하시겠습니까?",
-      modalStyle: "primary",
-      onConfirm: () => {
-        workEnd = currentTime;
-        workEndElement.textContent = formatTime(workEnd);
-        updateStatus("근무종료");
-        checkbox.checked = false;
-        checkbox.disabled = true;
-        // 종료 시간 업데이트
-        workEvent.times[1] = formatDate(workEnd);
-        saveEventToLocalStorage(workEvent);
-      },
-      showCancelBtn: true,
+    showModal("안내", "근무를 종료하시겠습니까?", () => {
+      workEnd = currentTime;
+      workEndElement.textContent = formatTime(workEnd);
+      updateStatus("근무종료");
+      checkbox.checked = false;
+      checkbox.disabled = true;
+      // 종료 시간 업데이트
+      workEvent.times[1] = formatDate(workEnd);
+      saveEventToLocalStorage(workEvent);
+      // 캘린더 리렌더링 호출
+      if (onEndWork) {
+        onEndWork(); // 추가된 부분: 캘린더 리렌더링
+      }
     });
-
-    document.body.appendChild(modal.modalHTML);
-    modal.openModal(); // 모달 열기
   };
 
   // 토글 컨트롤러
@@ -151,6 +129,7 @@ export default function Timer({
 
   // 현재 시각을 업데이트하는 함수
   const updateCurrentTime = (newTime) => {
+    currentTime = newTime;
     currentTimeElement.textContent = formatTime(newTime);
   };
 
@@ -162,3 +141,44 @@ export default function Timer({
     updateCurrentTime,
   };
 }
+
+const createTimerHTML = (
+  formattedCurrentTime,
+  formattedWorkStart,
+  formattedWorkEnd
+) => {
+  // 타이머 HTML 요소 생성
+  const timerHTML = document.createElement("div");
+  timerHTML.className = "timer-container";
+
+  // 타이머 내용 설정
+  timerHTML.innerHTML = `
+      <div class="timer">
+        <div class="timer__type-container">
+          <div class="timer__type">
+            <div>현재 시각</div>
+            <div id="current-time">${formattedCurrentTime}</div>
+          </div>
+          <div class="timer__type">
+            <div>근무 시작</div>
+            <div id="workStart-time">${formattedWorkStart}</div>
+          </div>
+          <div class="timer__type">
+            <div>근무 종료</div>
+            <div id="workEnd-time">${formattedWorkEnd}</div>
+          </div>
+        </div>
+        <div class="timer__status-container">
+          <span id="toggle-status" class="status--before">근무전</span>
+          <div class="toggle-container">
+            <label class="toggle">
+              <input id="toggle-checkbox" type="checkbox" />
+              <div class="slider" />
+            </label>
+          </div>
+        </div>
+      </div>
+      `;
+
+  return timerHTML;
+};
