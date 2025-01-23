@@ -9,7 +9,7 @@
     "halfDayTypeId": null,
     "reason": "개인사유",
     "leaveDays": 1,
-    "isUsed": false
+    "isUsed": true
   },
   {
     "id": 2,
@@ -21,7 +21,7 @@
     "halfDayTypeId": "오후",
     "reason": "개인사유",
     "leaveDays": 0.5,
-    "isUsed": false
+    "isUsed": true
   },
   {
     "id": 3,

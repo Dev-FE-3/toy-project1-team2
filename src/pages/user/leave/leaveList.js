@@ -2,7 +2,8 @@ import "./leaveList.css";
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input";
 import { createDropdown } from "@/components/Dropdown/dropdown";
-import { createPagination } from "@/components/Pagination/pagination"
+import { createPagination } from "@/components/Pagination/pagination";
+import Modal from "@/components/Modal/modal";
 
 // 남은 휴가 일수 계산 함수
 function remainingLeave() {
@@ -30,12 +31,31 @@ const leaveList = (container) => {
 
   const submitButton = createButton(
     "신청",
-    () => {window.location.href="javascript:void(0)"},
-    ["btn--submit"]
+    () => {alert("신청 버튼을 눌렀습니다.")},
+    ["btn--submit"],
   );
+  
   const deleteButton = createButton(
     "삭제",
-    () => {alert("삭제 버튼 클릭")},
+    () => {
+      const selectedLeaves = getSelectedLeaves();
+      if (selectedLeaves.length === 0) {
+        alert("삭제할 항목을 선택해주세요.");
+        return;
+      }
+
+      const modal = Modal({
+        title: "휴가 삭제",
+        message: "정말로 선택한 휴가를 삭제하시겠습니까?",
+        modalStyle: "warning",
+        onConfirm: () => {
+          deleteSelectedLeaves(selectedLeaves);
+          fetchAndRenderTable(currentFilter, currentPage);
+        },
+      });
+      document.body.appendChild(modal);
+      modal.querySelector('.modal').classList.remove('hidden');
+    },
     ["btn--delete"]
   );
 
@@ -112,6 +132,19 @@ const leaveList = (container) => {
   });
   filter.appendChild(dropdown);
 
+  // 선택된 휴가 항목 가져오기
+  function getSelectedLeaves() {
+    const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+    return Array.from(checkboxes).map(checkbox => checkbox.closest('tr').firstElementChild.textContent);
+  }
+
+  // 선택된 휴가 삭제
+  function deleteSelectedLeaves(selectedIds) {
+    let leaves = JSON.parse(localStorage.getItem("leaves")) || [];
+    leaves = leaves.filter(leave => !selectedIds.includes(String(leave.id)));
+    localStorage.setItem("leaves", JSON.stringify(leaves));
+  }
+
   // 체크박스 선택/해제
   function toggleSelectAll() {
     const selectAllCheckbox = document.querySelector(".select-all");
@@ -136,11 +169,14 @@ const leaveList = (container) => {
     const endIdx = startIdx + itemsPerPage;
 
     try {
-      const leavesData = JSON.parse(localStorage.getItem("leaves"));
-      
-      if (!leavesData) {
+      let leavesData = JSON.parse(localStorage.getItem("leaves")) || [];
+    
+      if (leavesData.length === 0) {
         throw new Error("로컬 스토리지에 leaves 데이터가 없습니다.");
       }
+
+      // 신청일 기준으로 정렬
+      leavesData.sort((a, b) => new Date(b.applicationDate) - new Date(a.applicationDate));
 
       totalItems = leavesData.length;
       tableBody.innerHTML = '';
@@ -148,13 +184,13 @@ const leaveList = (container) => {
       const filteredData = leavesData.filter(item => filterValue === "전체" || item.leaveType === filterValue);
       const pageData = filteredData.slice(startIdx, endIdx);
 
-      pageData.forEach((item) => {
+      pageData.forEach((item, index) => {
         const isUsedTextStyle = item.isUsed ? 'style="color: #BEBEBE;"' : '';
         const isUsedCheckbox = item.isUsed ? 'disabled' : ''; 
 
         const row = document.createElement("tr");
         row.innerHTML = `
-          <td>${item.id}</td>
+          <td>${startIdx + index + 1}</td>
           <td>${item.applicationDate}</td>
           <td>${item.startDate}</td>
           <td>${item.endDate}</td>

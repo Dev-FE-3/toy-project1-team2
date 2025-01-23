@@ -29,7 +29,7 @@
 
 /* 컨텐츠 영역 */
 .content-wrap.leave-list {
-  margin: 20px 24px 12px;
+  margin: 20px 24px 8px;
   padding: 12px 32px 8px;
   min-height: 530px;
   background-color: var(--background-content-color);
