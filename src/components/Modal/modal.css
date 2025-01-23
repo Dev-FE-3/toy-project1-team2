@@ -68,10 +68,10 @@
   align-self: flex-end;
 }
 .modal .modal__content .modal__btn-container .btn {
-  border: none;
+  /* border: none;
   border-radius: 8px;
   width: 58px;
-  height: 36px;
+  height: 36px; */
 }
 .modal .modal__content .modal__btn-container .btn:hover {
   opacity: 0.8;

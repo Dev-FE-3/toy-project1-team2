@@ -27,9 +27,9 @@ export default function Calender() {
     const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
     const calenderHTML = document.createElement("div");
-    calenderHTML.className = "modal-container";
+
+    calenderHTML.id = "calendar-container";
     calenderHTML.innerHTML = `
-      <div class="calendar-container">
         <div class="calendar">
           <div class="calendar-header">
             <button class="calendar-button" aria-label="이전달" id="prev-button">
@@ -51,7 +51,6 @@ export default function Calender() {
             ${days.map((day) => renderEvents(day, currentYear, currentMonth)).join("")}
           </div>
         </div>
-      </div>
     `;
 
     // 버튼 이벤트 리스너 추가
@@ -119,7 +118,7 @@ export default function Calender() {
 
   // 캘린더 업데이트
   const updateCalendar = () => {
-    const calendarContainer = document.querySelector(".modal-container");
+    const calendarContainer = document.querySelector(".calendar-container");
     calendarContainer.innerHTML = ""; // 기존 내용 초기화
     calendarContainer.appendChild(createCalendarHTML()); // 새로운 캘린더 렌더링
   };
