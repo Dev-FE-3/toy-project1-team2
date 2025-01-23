@@ -1,3 +1,7 @@
+.header .buttons .btn.btn--single {
+  margin-right: 0;
+}
+
 /* 컨텐츠 영역 */
 /* 컨텐츠 제목 */
 .content-wrap {
@@ -43,18 +47,24 @@
 }
 .content .row .data-wrap {
   width: 185px;
+  min-height: 43px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
-.content .row .data-wrap span:first-child {
+.content .row .data-wrap .input-wrap {
+  padding: 0;
+}
+.content .row .data-wrap span:first-child,
+.content .row .data-wrap label {
+  display: inline-block;
   width: 72px;
   margin-right: 28px;
   padding: 0;
   color: #8d96a1;
 }
 .content .row .data-wrap:nth-child(3) span:last-child {
-  width: 65px;
+  width: 78px;
   text-align: center;
 }
 .content .row .data-wrap span:last-child {

@@ -31,7 +31,7 @@ const leaveDetail = (container, id) => {
   const listButton = createButton(
     "목록",
     () => {window.location.href = "/leave"},
-    ["btn--edit"]
+    ["btn--edit", "btn--single"]
   );
 
   // 휴가 삭제 함수
