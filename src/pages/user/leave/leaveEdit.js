@@ -35,7 +35,7 @@ const leaveEdit = (container, id) => {
       const modal = Modal({
         title: "휴가 수정",
         message: "휴가 수정이 완료되었습니다.",
-        modalStyle: "primary",
+        modalStyle: "success",
         showCancelBtn: false,
         onConfirm: () => {
           // 데이터 업데이트

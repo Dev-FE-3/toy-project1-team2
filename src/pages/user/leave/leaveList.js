@@ -136,14 +136,43 @@ const leaveList = (container) => {
   // 선택된 휴가 항목 가져오기
   function getSelectedLeaves() {
     const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-    return Array.from(checkboxes).map(checkbox => checkbox.closest('tr').firstElementChild.textContent);
+    
+    return Array.from(checkboxes).map(checkbox => {
+      const row = checkbox.closest('tr');
+      const index = parseInt(row.querySelector('td:first-child').textContent) - 1;
+      
+      const leavesData = JSON.parse(localStorage.getItem("leaves")) || [];
+      const sortedLeaves = leavesData.sort((a, b) => 
+        new Date(b.applicationDate) - new Date(a.applicationDate)
+      );
+      
+      const startIdx = (currentPage - 1) * itemsPerPage;
+      const leaveItem = sortedLeaves[startIdx + index];
+      
+      return leaveItem ? leaveItem.id : null;
+    }).filter(id => id !== null);
   }
 
-  // 선택된 휴가 삭제
   function deleteSelectedLeaves(selectedIds) {
-    let leaves = JSON.parse(localStorage.getItem("leaves")) || [];
-    leaves = leaves.filter(leave => !selectedIds.includes(String(leave.id)));
-    localStorage.setItem("leaves", JSON.stringify(leaves));
+    try {
+      console.log("삭제할 ID들:", selectedIds);
+
+      let leaves = JSON.parse(localStorage.getItem("leaves")) || [];
+      
+      const updatedLeaves = leaves.filter(
+        leave => !selectedIds.includes(leave.id)
+      );
+
+      console.log("삭제 전 데이터 수:", leaves.length);
+      console.log("삭제 후 데이터 수:", updatedLeaves.length);
+
+      localStorage.setItem("leaves", JSON.stringify(updatedLeaves));
+
+      fetchAndRenderTable(currentFilter, currentPage);
+    } catch (error) {
+      console.error("삭제 중 오류:", error);
+      alert("삭제 중 오류가 발생했습니다.");
+    }
   }
 
   // 체크박스 선택/해제

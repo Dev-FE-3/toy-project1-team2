@@ -32,7 +32,7 @@ const leaveApply = (container) => {
       const modal = Modal({
         title: "휴가 신청",
         message: "휴가 신청이 완료되었습니다.",
-        modalStyle: "success",
+        modalStyle: "primary",
         showCancelBtn: false,
         onConfirm: () => {
           // 신청 로직 실행

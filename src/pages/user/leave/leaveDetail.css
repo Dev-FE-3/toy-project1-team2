@@ -72,7 +72,8 @@
 }
 .content .row3 {
   align-items: flex-start;
-}
-.content .row3 {
   height: 20rem;
+}
+.content .row3 .data-wrap {
+  width: 100%;
 }
