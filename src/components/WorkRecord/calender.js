@@ -1,154 +1,128 @@
 import "./calender.css";
-
-let currentDate = new Date(); // 현재 날짜 상태
-
-const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
-
-const events = [
-  {
-    id: 1,
-    date: 1,
-    label: "근무",
-    times: ["14:00", "17:00"],
-  },
-  {
-    id: 2,
-    date: 3,
-    label: "지각",
-    times: ["14:00", "17:00"],
-  },
-  {
-    id: 3,
-    date: 17,
-    label: "조퇴",
-    times: ["14:00", "17:00"],
-  },
-  {
-    id: 4,
-    date: 18,
-    label: "조퇴",
-    times: ["14:00", "17:00"],
-  },
-];
+import { fetchFromLocalStorage } from "@/utils/storageUtils";
+import { formatTime, parseDateTimeString } from "@/utils/timeUtils";
+import { WORK_RECORD_KEY } from "@/constants/constants";
 
 export default function Calender() {
-  // 캘린더 HTML 요소 생성
-  const calenderHTML = document.createElement("div");
-  calenderHTML.className = "modal-container";
+  const weekName = ["일", "월", "화", "수", "목", "금", "토"];
+  let currentDate = new Date(); // 현재 날짜 상태
 
-  const daysInMonth = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth() + 1,
-    0
-  ).getDate();
+  const events = fetchFromLocalStorage(WORK_RECORD_KEY);
 
-  const emptyCells = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    1
-  ).getDay();
+  // 캘린더 생성
+  const createCalendarHTML = () => {
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
 
-  const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-  console.log(daysInMonth, emptyCells, days);
+    const daysInMonth = new Date(
+      currentYear,
+      currentDate.getMonth() + 1,
+      0
+    ).getDate();
+    const emptyCells = new Date(
+      currentYear,
+      currentDate.getMonth(),
+      1
+    ).getDay();
+    const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+
+    const calenderHTML = document.createElement("div");
+    calenderHTML.className = "modal-container";
+    calenderHTML.innerHTML = `
+      <div class="calendar-container">
+        <div class="calendar">
+          <div class="calendar-header">
+            <button class="calendar-button" aria-label="이전달" id="prev-button">
+              <span class="material-icons">keyboard_arrow_left</span>
+            </button>
+            <h2 class="calendar-title">${currentYear}년 ${currentMonth}월</h2>
+            <button class="calendar-button" aria-label="다음달" id="next-button">
+              <span class="material-icons">keyboard_arrow_right</span>
+            </button>
+          </div>
+          <div class="calendar-grid">
+            ${weekName.map((name) => `<div class="weekday-header">${name}</div>`).join("")}
+            ${Array.from({ length: emptyCells })
+              .map(
+                (_, index) =>
+                  `<div key="empty-${index}" class="day-cell"></div>`
+              )
+              .join("")}
+            ${days.map((day) => renderEvents(day, currentYear, currentMonth)).join("")}
+          </div>
+        </div>
+      </div>
+    `;
+
+    // 버튼 이벤트 리스너 추가
+    calenderHTML
+      .querySelector("#prev-button")
+      .addEventListener("click", () => changeMonth(-1));
+    calenderHTML
+      .querySelector("#next-button")
+      .addEventListener("click", () => changeMonth(1));
+
+    return calenderHTML;
+  };
+
+  // 이벤트 렌더링 함수
+  const renderEvents = (day, year, month) => {
+    const event = events.find((e) => {
+      const {
+        year: eventYear,
+        month: eventMonth,
+        day: eventDay,
+      } = parseDateTimeString(e.times[0]);
+      return eventYear === year && eventMonth === month && eventDay === day;
+    });
+
+    const borderColorClass = getBorderColorClass(event);
+
+    return `
+      <div class="day-cell ${borderColorClass}">
+        <div class="day-number">${day}</div>
+        ${
+          event
+            ? `
+          <div class="event">
+            <div class="event-label">${event.label}</div>
+            <div class="event-times">
+              ${event.times.map((time, index) => `<span class="${borderColorClass}" key="${index}">${formatTime(time)}</span>`).join("")}
+            </div>
+          </div>`
+            : ""
+        }
+      </div>
+    `;
+  };
 
   // 테두리 색상을 결정하는 함수
   const getBorderColorClass = (event) => {
     if (!event) return "";
-    let eventColor;
-
     switch (event.label) {
       case "근무":
-        eventColor = "normal";
-        break;
+        return "event--normal";
       case "지각":
-        eventColor = "late";
-        break;
+        return "event--late";
       case "조퇴":
-        eventColor = "leave";
-        break;
+        return "event--leave";
       default:
-        eventColor = "normal";
+        return "event--normal";
     }
-
-    return `event--${eventColor}`;
   };
 
-  calenderHTML.innerHTML = `
-  <div class="calendar-container">
-    <div class="calendar">
+  // 월 변경 함수
+  const changeMonth = (increment) => {
+    currentDate.setMonth(currentDate.getMonth() + increment);
+    updateCalendar();
+  };
 
-      <!-- Calendar Header -->
-      <div class="calendar-header">
-        <button class="calendar-button" aria-label="이전달" id="prev-button">
-            <span class="material-icons">keyboard_arrow_left</span>
-        </button>
-        <h2 class="calendar-title">${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월</h2>
-         <button class="calendar-button" aria-label="다음달" id="next-button">
-            <span class="material-icons">keyboard_arrow_right</span>
-        </button>
-        </button>
-      </div>
+  // 캘린더 업데이트
+  const updateCalendar = () => {
+    const calendarContainer = document.querySelector(".modal-container");
+    calendarContainer.innerHTML = ""; // 기존 내용 초기화
+    calendarContainer.appendChild(createCalendarHTML()); // 새로운 캘린더 렌더링
+  };
 
-      <!-- Calendar Grid -->
-      <div class="calendar-grid">
-        ${weekDays.map((day) => `<div class="weekday-header">${day}</div>`).join("")}
-        ${Array.from({ length: emptyCells })
-          .map(
-            (_, index) => `<div key="empty-${index}" class="day-cell"></div>`
-          )
-          .join("")}
-        ${days
-          .map((day, index) => {
-            const event = events.find((e) => e.date === day);
-            const borderColorClass = getBorderColorClass(event);
-            return `
-            <div class="day-cell ${borderColorClass}">
-              <div key="${index}" class="day-number">${day}</div>
-              ${
-                event
-                  ? `
-                <div class="event">
-                  <div class="event-label">${event.label}</div>
-                  <div class="event-times">
-                    ${event.times.map((time, index) => `<span class="${borderColorClass}" key="${index}">${time}</span>`).join("")}
-                  </div>
-                </div>
-              `
-                  : ""
-              }
-            </div>
-          `;
-          })
-          .join("")}
-      </div>
-    </div>
-  </div>
-  `;
-
-  const prevButtonElement = calenderHTML.querySelector("#prev-button");
-  const nextButtonElement = calenderHTML.querySelector("#next-button");
-
-  prevButtonElement.addEventListener("click", goToPreviousMonth);
-  nextButtonElement.addEventListener("click", goToNextMonth);
-
-  return calenderHTML;
-}
-
-// 이전 달로 이동
-function goToPreviousMonth() {
-  currentDate.setMonth(currentDate.getMonth() - 1);
-  updateCalendar();
-}
-
-// 다음 달로 이동
-function goToNextMonth() {
-  currentDate.setMonth(currentDate.getMonth() + 1);
-  updateCalendar();
-}
-
-// 캘린더 업데이트
-function updateCalendar() {
-  const calendarContainer = document.querySelector(".modal-container");
-  calendarContainer.innerHTML = ""; // 기존 내용 초기화
-  calendarContainer.appendChild(Calender()); // 새로운 캘린더 렌더링
+  return createCalendarHTML();
 }
