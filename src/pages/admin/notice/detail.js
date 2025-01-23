@@ -6,7 +6,9 @@ import Modal from "@/components/Modal/modal.js";
 
 const detail = (contents) => {
   const submitButton = createButton("수정", null, ["btn--submit"]);
-  const deleteButton = createButton("삭제", null, ["btn--delete"]);
+  const deleteButton = createButton("삭제", handleConfirmDelete, [
+    "btn--delete",
+  ]);
 
   const pathname = window.location.pathname; // "/notice/detail/1"
 
@@ -57,6 +59,25 @@ const detail = (contents) => {
     const buttonContainer = contents.querySelector(".action-buttons");
     buttonContainer.appendChild(submitButton);
     buttonContainer.appendChild(deleteButton);
+  }
+
+  function handleConfirmDelete() {
+    showModal("정말로 삭제하시겠습니까?", "warning", handlePerformDelete);
+  }
+
+  function handlePerformDelete() {
+    const updatedNoticesData = noticesData.filter(
+      (item) => item.id !== Number(noticeId)
+    );
+
+    // 로컬 스토리지에 삭제된 공지사항 목록 저장
+    localStorage.setItem("notices", JSON.stringify(updatedNoticesData));
+
+    showModal(
+      "삭제가 완료되었습니다.",
+      "success",
+      () => (window.location.href = "/admin/notice")
+    );
   }
 };
 
