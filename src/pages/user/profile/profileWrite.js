@@ -158,6 +158,26 @@ const profileWrite = (container) => {
   bindProfileImageEvents(contentWrapHTML);
   bindEditPasswordChangeEvent(contentWrapHTML);
   container.appendChild(contentWrapHTML);
+
+  // 입력 폼 유효성 검사 설정
+  const validationRules = {
+    password: {
+      regExp: /^[a-zA-Z0-9!@#$%^&*()]{6,16}$/,
+      message: "최소 6자, 최대 16자까지 입력해주세요",
+    },
+    confirmPassword: {
+      regExp: /^[a-zA-Z0-9!@#$%^&*()]{6,16}$/,
+      message: "최소 6자, 최대 16자까지 입력해주세요",
+    },
+    passwordMismatch: {
+      message: "비밀번호가 일치하지 않습니다",
+    },
+    required: {
+      // 필수 설정
+      message: "필수 입력 항목입니다",
+    },
+  };
+  new InputValidation(contentWrapHTML, validationRules, handleFormSubmit);
 };
 
 const handleFormSubmit = () => {
@@ -279,26 +299,6 @@ const appendPasswordChange = () => {
     </tr>
   `;
   passwordChangeEl.appendChild(tbody);
-
-  // 입력 폼 유효성 검사 설정
-  const validationRules = {
-    password: {
-      regExp: /^[a-zA-Z0-9!@#$%^&*()]{6,16}$/,
-      message: "최소 6자, 최대 16자까지 입력해주세요",
-    },
-    confirmPassword: {
-      regExp: /^[a-zA-Z0-9!@#$%^&*()]{6,16}$/,
-      message: "최소 6자, 최대 16자까지 입력해주세요",
-    },
-    passwordMismatch: {
-      message: "비밀번호가 일치하지 않습니다",
-    },
-    required: {
-      // 필수 설정
-      message: "필수 입력 항목입니다",
-    },
-  };
-  new InputValidation(contentWrapHTML, validationRules, handleFormSubmit);
 } 
 
 export default profileWrite;
