@@ -1,5 +1,6 @@
 import "./css/global.css";
 import { router } from "./router/router.js";
+import { WORK_RECORD_URL, WORK_RECORD_KEY } from "@/constants/constants.js";
 
 const app = async function () {
   await checkAuth();
@@ -27,6 +28,18 @@ const initializeLocalStorage = function () {
         return;
       }
       localStorage.setItem("notices", JSON.stringify(data));
+    })
+    .catch((error) => {
+      console.error("Error loading JSON:", error);
+    });
+
+  fetch(WORK_RECORD_URL)
+    .then((response) => response.json())
+    .then((data) => {
+      if (localStorage.getItem(WORK_RECORD_KEY)) {
+        return;
+      }
+      localStorage.setItem(WORK_RECORD_KEY, JSON.stringify(data));
     })
     .catch((error) => {
       console.error("Error loading JSON:", error);

@@ -1,0 +1,13 @@
+#contents {
+  min-width: 1200px;
+  display: flex;
+  flex-direction: column;
+}
+
+#top-container {
+  display: flex;
+}
+
+#bottom-container {
+  padding-top: 28px;
+}
