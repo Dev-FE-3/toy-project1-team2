@@ -49,6 +49,10 @@
   overflow-y: auto;
 }
 
+.list-contents ul .list-item {
+  cursor: pointer;
+}
+
 /* gallery-list (기존 갤러리 스타일) */
 .list-contents ul.gallery-list {
   display: grid;
@@ -62,7 +66,6 @@
 }
 .list-contents ul.gallery-list .list-item {
   list-style: none;
-  cursor: pointer;
 }
 
 .list-contents ul .text {
