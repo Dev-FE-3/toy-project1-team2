@@ -1,8 +1,8 @@
 import "./leaveDetail.css";
 import { createButton } from "@/components/Button/button";
-import Modal from "@/components/Modal/modal";  // Modal 컴포넌트 import
+import Modal from "@/components/Modal/modal";
 
-const leaveDetail = (container, id) => {  // id 매개변수 추가
+const leaveDetail = (container, id) => {
   const leaveDetailRender = document.createElement("div");
   leaveDetailRender.className = "container-wrap";
 
@@ -20,7 +20,7 @@ const leaveDetail = (container, id) => {  // id 매개변수 추가
         modalStyle: "warning",
         onConfirm: () => {
           deleteLeave(id);
-          window.location.href = "/user/leave";
+          window.location.href = "/leave";
         },
       });
       document.body.appendChild(modal);
@@ -30,7 +30,7 @@ const leaveDetail = (container, id) => {  // id 매개변수 추가
   );
   const listButton = createButton(
     "목록",
-    () => {window.location.href = "/user/leave"},
+    () => {window.location.href = "/leave"},
     ["btn--edit"]
   );
 

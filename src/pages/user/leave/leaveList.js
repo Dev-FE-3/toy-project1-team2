@@ -11,7 +11,8 @@ function remainingLeave() {
   const leaves = JSON.parse(localStorage.getItem("leaves")) || [];
   
   const usedLeaveDays = leaves.reduce((total, leave) => {
-    if (leave.startDate.startsWith('2025') && leave.isUsed) {
+    // 2025년도 휴가인 경우 모두 계산
+    if (leave.startDate.includes('2025')) {
       return total + leave.leaveDays;
     }
     return total;
@@ -22,7 +23,7 @@ function remainingLeave() {
 
 // 상세 페이지로 이동하는 함수
 function showLeaveDetail(leaveId) {
-  window.location.href = `/user/leave/${leaveId}`;
+  window.location.href = `/leave/${leaveId}`;
 }
 
 const leaveList = (container) => {
@@ -31,7 +32,7 @@ const leaveList = (container) => {
 
   const submitButton = createButton(
     "신청",
-    () => {alert("신청 버튼을 눌렀습니다.")},
+    () => {window.location.href = "/leave/apply"},
     ["btn--submit"],
   );
   
