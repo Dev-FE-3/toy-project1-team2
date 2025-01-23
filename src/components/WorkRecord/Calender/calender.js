@@ -3,7 +3,7 @@ import { fetchFromLocalStorage } from "@/utils/storageUtils";
 import { formatTime, parseDateTimeString } from "@/utils/timeUtils";
 import { WORK_RECORD_KEY } from "@/constants/constants";
 
-export default function Calender() {
+export function Calender(updateDashboard) {
   const weekName = ["일", "월", "화", "수", "목", "금", "토"];
   let currentDate = new Date(); // 현재 날짜 상태
 
@@ -27,7 +27,6 @@ export default function Calender() {
     const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
     const calenderHTML = document.createElement("div");
-
     calenderHTML.id = "calendar-container";
     calenderHTML.innerHTML = `
         <div class="calendar">
@@ -113,12 +112,18 @@ export default function Calender() {
   // 월 변경 함수
   const changeMonth = (increment) => {
     currentDate.setMonth(currentDate.getMonth() + increment);
+
+    // 현재 년도와 월을 가져옴
+    const selectedYear = currentDate.getFullYear();
+    const selectedMonth = currentDate.getMonth() + 1; // 0부터 시작하므로 1을 더함
+
     updateCalendar();
+    updateDashboard(selectedYear, selectedMonth);
   };
 
   // 캘린더 업데이트
   const updateCalendar = () => {
-    const calendarContainer = document.querySelector(".calendar-container");
+    const calendarContainer = document.querySelector("#calendar-container");
     calendarContainer.innerHTML = ""; // 기존 내용 초기화
     calendarContainer.appendChild(createCalendarHTML()); // 새로운 캘린더 렌더링
   };

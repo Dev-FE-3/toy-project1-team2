@@ -23,7 +23,7 @@ const showModal = (title, message, onConfirm) => {
   modal.openModal(); // 모달 열기
 };
 
-export default function Timer({
+export function Timer({
   currentTime,
   workStart = null,
   workEnd = null,
@@ -149,7 +149,7 @@ const createTimerHTML = (
 ) => {
   // 타이머 HTML 요소 생성
   const timerHTML = document.createElement("div");
-  timerHTML.className = "timer-container";
+  timerHTML.id = "timer-container";
 
   // 타이머 내용 설정
   timerHTML.innerHTML = `
