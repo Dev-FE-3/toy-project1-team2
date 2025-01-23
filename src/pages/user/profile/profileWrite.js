@@ -5,13 +5,14 @@ import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input";
 import InputValidation from "@/components/InputField/inputValidation";
 
-const EMPLOYEE_INDEX = 0; // 임시로 첫번째 직원 데이터 출력
-const employee = JSON.parse(localStorage.getItem("employees"))[EMPLOYEE_INDEX];
 
+const EMPLOYEE_INDEX = 0; // 임시로 첫번째 직원 데이터 출력
 const BASIC_PROFILE_IMG = "/src/assets/images/profile/profile-basic.png";
 let currentProfileImage = "";
 
 const profileWrite = (container) => {
+  const employee = JSON.parse(localStorage.getItem("employees"))[EMPLOYEE_INDEX];
+
   const contentWrapHTML = document.createElement("div");
   contentWrapHTML.className = "content-wrap";
 
@@ -182,6 +183,8 @@ const profileWrite = (container) => {
 
 const handleFormSubmit = () => {
   const employees = JSON.parse(localStorage.getItem("employees"));
+  const employee = JSON.parse(localStorage.getItem("employees"))[EMPLOYEE_INDEX];
+
   const formData = new FormData(document.querySelector("form"));
 
   // 이미지 데이터 저장
