@@ -12,11 +12,12 @@ const detail = (contents) => {
 
   const parts = pathname.split("/"); // ["", "notice", "detail", "1"]
   const noticeId = parts[3]; // "1"
-  console.log(pathname, parts, noticeId);
 
   // 로컬 스토리지 또는 API를 통해 공지사항 데이터 가져오기
   const noticesData = JSON.parse(localStorage.getItem("notices")) || [];
   const notice = noticesData.find((item) => item.id === Number(noticeId));
+
+  const referrer = document.referrer; // 이전 URL 확인
 
   function showModal(
     message,
@@ -50,6 +51,13 @@ const detail = (contents) => {
         </section>
     </section>
   `;
+
+  // 이전 URL이 "admin/notice"인 경우 수정/삭제 버튼 추가
+  if (referrer.includes("/admin/notice")) {
+    const buttonContainer = contents.querySelector(".action-buttons");
+    buttonContainer.appendChild(submitButton);
+    buttonContainer.appendChild(deleteButton);
+  }
 };
 
 export default detail;
