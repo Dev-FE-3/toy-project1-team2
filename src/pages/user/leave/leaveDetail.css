@@ -5,9 +5,10 @@
   padding: 32px;
   background-color: var(--background-content-color);
   border-radius: 8px;
+  font-size: 1.6rem;
 }
 .content-wrap .content-header {
-  padding: 18px 24px;
+  padding: 16px 24px;;
   background-color: var(--background-default-color);
   border-top: 1px solid var(--secondary-2-color);
   border-bottom: 1px solid var(--secondary-2-color);
@@ -16,38 +17,52 @@
   align-items: center;
 }
 .content-wrap .content-header .title {
-  font-size: 16px;
   font-weight: 600;
   color: #8d96a1;
+  margin-bottom: 0;
+  font-size: 1.6rem;
 }
-.content-wrap .content-header .apply-date {
-  font-size: 14px;
+.content-wrap .content-header .application-date-wrap {
+  font-size: 1.4rem;
   color: var(--secondary-2-color);
 
 }
-.content-wrap .content-header .apply-date .value {
+.content-wrap .content-header .application-date-wrap .application-date {
   margin-left: 40px;
   margin-right: 20px;
-  font-size: 14px;
 }
 
 /* 컨테이너 내용 */
 .content .row {
-  padding: 16px 24px 28px;
+  padding: 20px 24px 28px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--secondary-2-color );
   box-sizing: border-box;
 }
-.content .row div {
-  padding-left: 0;
+.content .row .data-wrap {
+  width: 185px;
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
 }
-.content .row .label {
-  display: inline-block;
+.content .row .data-wrap span:first-child {
   width: 72px;
   margin-right: 28px;
   padding: 0;
   color: #8d96a1;
+}
+.content .row .data-wrap:nth-child(3) span:last-child {
+  width: 65px;
+  text-align: center;
+}
+.content .row .data-wrap span:last-child {
+  font-size: 1.4rem;
+}
+.content .row3 {
+  align-items: flex-start;
+}
+.content .row3 {
+  height: 20rem;
 }

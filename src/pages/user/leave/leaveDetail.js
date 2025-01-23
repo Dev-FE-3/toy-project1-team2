@@ -1,5 +1,6 @@
 import "./leaveDetail.css";
 import { createButton } from "@/components/Button/button";
+import Modal from "@/components/Modal/modal";  // Modal 컴포넌트 import
 
 const leaveDetail = (container, id) => {  // id 매개변수 추가
   const leaveDetailRender = document.createElement("div");
@@ -10,11 +11,35 @@ const leaveDetail = (container, id) => {  // id 매개변수 추가
     () => {alert("수정 버튼을 클릭했습니다.")},
     ["btn--edit"]
   );
-  const cancelButton = createButton(
-    "취소",
-    () => {window.location.href="/user/leave"},
+  const deleteButton = createButton(
+    "삭제",
+    () => {
+      const modal = Modal({
+        title: "휴가 삭제",
+        message: "정말로 이 휴가를 삭제하시겠습니까?",
+        modalStyle: "warning",
+        onConfirm: () => {
+          deleteLeave(id);
+          window.location.href = "/user/leave";
+        },
+      });
+      document.body.appendChild(modal);
+      modal.querySelector('.modal').classList.remove('hidden');
+    },
     ["btn--delete"]
   );
+  const listButton = createButton(
+    "목록",
+    () => {window.location.href = "/user/leave"},
+    ["btn--edit"]
+  );
+
+  // 휴가 삭제 함수
+  const deleteLeave = (leaveId) => {
+    let leaves = JSON.parse(localStorage.getItem("leaves")) || [];
+    leaves = leaves.filter(leave => leave.id !== parseInt(leaveId));
+    localStorage.setItem("leaves", JSON.stringify(leaves));
+  };
 
   // 로컬 스토리지에서 해당 ID의 휴가 정보 가져오기
   const leaves = JSON.parse(localStorage.getItem("leaves"));
@@ -28,42 +53,46 @@ const leaveDetail = (container, id) => {  // id 매개변수 추가
           <!-- 버튼 삽입 영역 -->
         </div>
       </div>
-      <div class="content-wrap">
+      <div class="content-wrap leave-details">
         <div class="content-header">
           <span class="title">휴가정보</span>
+          <div class="application-date-wrap">
+            <span>신청일</span>
+            <span class="application-date"></span>
+          </div>
         </div>
         <div class="content">
           <div class="row row1">
             <div class="data-wrap">
-              <span class="label">시작일</span>
+              <span>시작일</span>
               <span class="value" id="start-date"></span>
             </div>
             <div class="data-wrap">
-              <span class="label">종료일</span>
+              <span>종료일</span>
               <span class="value" id="end-date"></span>
             </div>
             <div class="data-wrap">
-              <span class="label">휴가일수</span>
+              <span>휴가일수</span>
               <span class="value" id="leave-days"></span>
             </div>
           </div>
           <div class="row row2">
             <div class="data-wrap">
-              <span class="label">휴가유형</span>
+              <span>휴가유형</span>
               <span class="value" id="leave-type"></span>
             </div>
             <div class="data-wrap">
-              <span class="label">반차구분</span>
+              <span>반차구분</span>
               <span class="value" id="halfday-type"></span>
             </div>
             <div class="data-wrap">
-              <span class="label">사용여부</span>
+              <span>사용여부</span>
               <span class="value" id="is-used"></span>
             </div>
           </div>
           <div class="row row3">
             <div class="data-wrap">
-              <span class="label">사유</span>
+              <span>사유</span>
               <span class="value large" id="reason"></span>
             </div>
           </div>
@@ -75,10 +104,15 @@ const leaveDetail = (container, id) => {  // id 매개변수 추가
 
     // 버튼 추가
     const buttons = leaveDetailRender.querySelector('.buttons');
-    buttons.appendChild(editButton);
-    buttons.appendChild(cancelButton);
+    if (leaveItem.isUsed) {
+      buttons.appendChild(listButton);
+    } else {
+      buttons.appendChild(editButton);
+      buttons.appendChild(deleteButton);
+    }
 
     // 데이터 채우기
+    document.querySelector('.application-date').textContent = leaveItem.applicationDate;
     document.getElementById('start-date').textContent = leaveItem.startDate;
     document.getElementById('end-date').textContent = leaveItem.endDate;
     document.getElementById('leave-days').textContent = leaveItem.leaveDays;
