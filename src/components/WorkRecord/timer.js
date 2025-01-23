@@ -1,12 +1,26 @@
 import "./timer.css";
 import Modal from "@/components/Modal/modal.js";
-import { formatTime, isValidDate } from "@/utils/timeUtils.js";
+import { formatTime, formatDate, isValidDate } from "@/utils/timeUtils.js";
+import { addToLocalStorage, generateUUID } from "@/utils/storageUtils";
+import { WORK_RECORD_KEY } from "@/constants/constants.js";
+
+// 로컬 스토리지에 이벤트 추가
+const saveEventToLocalStorage = (event) => {
+  addToLocalStorage(WORK_RECORD_KEY, event);
+};
 
 export default function Timer({
   currentTime,
   workStart = null,
   workEnd = null,
 }) {
+  // 근무 이벤트 객체
+  const workEvent = {
+    id: generateUUID(),
+    label: "근무",
+    times: ["", ""],
+  };
+
   // 유효성 검증
   if (!isValidDate(currentTime)) {
     throw new Error("현재 시각의 날짜 형식이 유효하지 않습니다.");
@@ -85,6 +99,9 @@ export default function Timer({
         workStartElement.textContent = formatTime(workStart);
         updateStatus("근무중");
         checkbox.checked = true;
+
+        // 로컬 스토리지에 이벤트 추가
+        workEvent.times[0] = formatDate(workStart);
       },
       showCancelBtn: true,
     });
@@ -105,6 +122,9 @@ export default function Timer({
         updateStatus("근무종료");
         checkbox.checked = false;
         checkbox.disabled = true;
+        // 종료 시간 업데이트
+        workEvent.times[1] = formatDate(workEnd);
+        saveEventToLocalStorage(workEvent);
       },
       showCancelBtn: true,
     });
