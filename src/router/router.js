@@ -6,6 +6,7 @@ import write from "@/pages/admin/notice/write";
 import leave from "@/pages/user/leave/leaveList";
 import leaveDetail from "@/pages/user/leave/leaveDetail";
 import leaveApply from "@/pages/user/leave/leaveApply";
+import leaveEdit from "@/pages/user/leave/leaveEdit"
 
 const routes = {
   "/": home, //기본 라우팅
@@ -15,6 +16,7 @@ const routes = {
   "/notice/write": write,
   "/leave": leave,
   "/leave/apply": leaveApply,
+  ".leave/:id/edit": leaveEdit,
   "/leave/:id": leaveDetail,
 };
 

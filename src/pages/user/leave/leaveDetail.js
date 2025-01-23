@@ -6,31 +6,28 @@ const leaveDetail = (container, id) => {
   const leaveDetailRender = document.createElement("div");
   leaveDetailRender.className = "container-wrap";
 
+  // URL에서 leave ID를 가져오는 함수
+  const leaveId = window.location.pathname.split('/')[2]; // 예시: /leave/12345/edit에서 12345를 추출
+  console.log("수정할 leave ID:", leaveId); // 가져온 ID를 확인
+
+  // 수정 버튼 생성 및 이벤트 추가
   const editButton = createButton(
     "수정",
-    () => {alert("수정 버튼을 클릭했습니다.")},
+    () => {
+      // 수정 페이지로 이동
+      window.location.href = `/leave/${leaveId}/edit`;
+    },
     ["btn--edit"]
   );
+
   const deleteButton = createButton(
-    "삭제",
-    () => {
-      const modal = Modal({
-        title: "휴가 삭제",
-        message: "정말로 이 휴가를 삭제하시겠습니까?",
-        modalStyle: "warning",
-        onConfirm: () => {
-          deleteLeave(id);
-          window.location.href = "/leave";
-        },
-      });
-      document.body.appendChild(modal);
-      modal.querySelector('.modal').classList.remove('hidden');
-    },
+    "취소",
+    () => {window.location.href = "/leave";}, // 목록 페이지로 이동
     ["btn--delete"]
   );
   const listButton = createButton(
     "목록",
-    () => {window.location.href = "/leave"},
+    () => {window.location.href = "/leave"}, // 목록 페이지로 이동
     ["btn--edit", "btn--single"]
   );
 
