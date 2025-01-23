@@ -10,36 +10,48 @@ const leaveApply = (container) => {
   const submitButton = createButton(
     "신청",
     () => {
-      const startDateInput = document.getElementById('start-date');
-      const endDateInput = document.getElementById('end-date');
-      const leaveTypeSelect = document.getElementById('leave-type');
-      const halfdayTypeSelect = document.getElementById('halfday-type');
-      const reasonInput = document.getElementById('reason');
-      const leaveDaysSpan = document.getElementById('leave-days');
-
+      const startDateInput = document.getElementById("start-date");
+      const endDateInput = document.getElementById("end-date");
+      const leaveTypeSelect = document.getElementById("leave-type");
+      const halfdayTypeSelect = document.getElementById("halfday-type");
+      const reasonInput = document.getElementById("reason");
+  
       // 필수 입력 필드 검증
       if (!startDateInput.value || !endDateInput.value || !leaveTypeSelect.value) {
-        alert('필수 입력 항목을 모두 선택해주세요.');
+        alert("필수 입력 항목을 모두 선택해주세요.");
         return;
       }
-
+  
       // 반차 선택 시 반차 구분 필수
-      if (leaveTypeSelect.value === '반차' && halfdayTypeSelect.value === '-') {
-        alert('반차 구분을 선택해주세요.');
+      if (leaveTypeSelect.value === "반차" && halfdayTypeSelect.value === "-") {
+        alert("반차 구분을 선택해주세요.");
         return;
       }
-
-      const formData = {
-        startDate: startDateInput.value,
-        endDate: endDateInput.value,
-        leaveType: leaveTypeSelect.value,
-        halfdayType: halfdayTypeSelect.value,
-        reason: reasonInput.value,
-        leaveDays: calculateBusinessDays(startDateInput.value, endDateInput.value)
-      };
-
-      saveLeave(formData);
-      window.location.href = "/leave";
+  
+      // 모달 생성
+      const modal = Modal({
+        title: "휴가 신청",
+        message: "휴가 신청이 완료되었습니다.",
+        modalStyle: "success",
+        showCancelBtn: false,
+        onConfirm: () => {
+          // 신청 로직 실행
+          const formData = {
+            startDate: startDateInput.value,
+            endDate: endDateInput.value,
+            leaveType: leaveTypeSelect.value,
+            halfdayType: halfdayTypeSelect.value,
+            reason: reasonInput.value,
+            leaveDays: calculateBusinessDays(startDateInput.value, endDateInput.value),
+          };
+  
+          saveLeave(formData); // 데이터 저장
+          window.location.href = "/leave"; // 페이지 리다이렉트
+        },
+      });
+  
+      document.body.appendChild(modal);
+      modal.querySelector(".modal").classList.remove("hidden"); // 모달 표시
     },
     ["btn--submit"]
   );
@@ -145,19 +157,29 @@ const leaveApply = (container) => {
   });
   leaveTypeSelect.addEventListener('change', (e) => {
     const selectedType = e.target.value;
-
+    const startDateValue = startDateEl.value;
+    const endDateValue = endDateEl.value;
+  
     if (selectedType === '반차') {
-      // 반차 선택 시 옵션 변경 및 필수값으로 설정
+      // 시작일과 종료일이 다를 경우 반차 선택 불가
+      if (startDateValue && endDateValue && startDateValue !== endDateValue) {
+        alert('반차는 시작일과 종료일이 같아야 선택 가능합니다.');
+        leaveTypeSelect.value = ''; // 선택 초기화
+        return;
+      }
+  
+      // 반차 선택 시 옵션 변경 및 휴가 일수 고정
       halfDayTypeSelect.innerHTML = ''; // 기존 옵션 초기화
-
-      // 오전, 오후 옵션 추가
       ['오전', '오후'].forEach(type => {
         const option = document.createElement('option');
         option.value = type;
         option.textContent = type;
         halfDayTypeSelect.appendChild(option);
       });
-
+  
+      // 휴가 일수 0.5로 고정
+      document.getElementById('leave-days').textContent = '0.5';
+  
       // 필수 입력 필드로 설정
       halfDayTypeSelect.setAttribute('required', 'true');
       halfDayTypeSelect.closest('.input-group').querySelector('label').innerHTML += ' <span class="required">*</span>';
@@ -165,7 +187,13 @@ const leaveApply = (container) => {
       // 연차 선택 시 기본 옵션으로 복원
       halfDayTypeSelect.innerHTML = ''; // 기존 옵션 초기화
       halfDayTypeSelect.appendChild(defaultOption); // 기본 옵션 추가
-
+  
+      // 휴가 일수 계산
+      if (startDateValue && endDateValue) {
+        const businessDays = calculateBusinessDays(startDateValue, endDateValue);
+        document.getElementById('leave-days').textContent = businessDays;
+      }
+  
       // 필수값 해제
       halfDayTypeSelect.removeAttribute('required');
       const requiredSpan = halfDayTypeSelect.closest('.input-group').querySelector('.required');

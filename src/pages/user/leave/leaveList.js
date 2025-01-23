@@ -47,7 +47,7 @@ const leaveList = (container) => {
 
       const modal = Modal({
         title: "휴가 삭제",
-        message: "정말로 선택한 휴가를 삭제하시겠습니까?",
+        message: "정말로 삭제하시겠습니까?",
         modalStyle: "warning",
         onConfirm: () => {
           deleteSelectedLeaves(selectedLeaves);
