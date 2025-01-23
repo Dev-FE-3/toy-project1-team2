@@ -58,6 +58,9 @@ table th {
   font-weight: 600;
   color: #8d96a1;
 }
+table tr {
+  cursor: pointer;
+}
 table td {
   color: #333;
 }

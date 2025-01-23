@@ -71,7 +71,7 @@ const leaveList = (container) => {
   document.querySelector(".select-all-wrap").appendChild(checkAllInput);
   const tableBody = document.querySelector(".table-body");
   const paginationContainer = document.querySelector(".pagination-container");
-  
+
   // 페이지네이션 업데이트 함수
   function updatePagination() {
     const remainingItems = document.querySelectorAll('tbody tr').length;
@@ -152,8 +152,22 @@ const leaveList = (container) => {
           <td><input type="checkbox" ${isUsedCheckbox}></td>
         `;
 
+        // 행 클릭 이벤트 추가
+        row.addEventListener('click', (event) => {
+          // 체크박스 클릭 시 상세 페이지로 이동하지 않도록 함
+          if (event.target.type !== 'checkbox') {
+            showLeaveDetail(item.id);
+          }
+        });
+
         tableBody.appendChild(row); // <tbody>에 <tr> 추가
       });
+
+      // 상세 페이지로 이동
+      function showLeaveDetail(leaveId) {
+        // URL 경로에 leaveId를 포함시켜 이동
+        window.location.href = `/user/leave/${leaveId}`;
+      }
 
       // 페이지네이션 렌더링
       renderPagination(filteredData.length);
