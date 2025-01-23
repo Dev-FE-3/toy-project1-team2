@@ -9,7 +9,38 @@ const leaveApply = (container) => {
 
   const submitButton = createButton(
     "신청",
-    () => {alert("신청 버튼을 클릭했습니다.")},
+    () => {
+      const startDateInput = document.getElementById('start-date');
+      const endDateInput = document.getElementById('end-date');
+      const leaveTypeSelect = document.getElementById('leave-type');
+      const halfdayTypeSelect = document.getElementById('halfday-type');
+      const reasonInput = document.getElementById('reason');
+      const leaveDaysSpan = document.getElementById('leave-days');
+
+      // 필수 입력 필드 검증
+      if (!startDateInput.value || !endDateInput.value || !leaveTypeSelect.value) {
+        alert('필수 입력 항목을 모두 선택해주세요.');
+        return;
+      }
+
+      // 반차 선택 시 반차 구분 필수
+      if (leaveTypeSelect.value === '반차' && halfdayTypeSelect.value === '-') {
+        alert('반차 구분을 선택해주세요.');
+        return;
+      }
+
+      const formData = {
+        startDate: startDateInput.value,
+        endDate: endDateInput.value,
+        leaveType: leaveTypeSelect.value,
+        halfdayType: halfdayTypeSelect.value,
+        reason: reasonInput.value,
+        leaveDays: calculateBusinessDays(startDateInput.value, endDateInput.value)
+      };
+
+      saveLeave(formData);
+      window.location.href = "/leave";
+    },
     ["btn--submit"]
   );
   const cancelButton = createButton(
@@ -53,88 +84,215 @@ const leaveApply = (container) => {
   </div>
 `;
 
-container.appendChild(leaveApplyRender);
+  container.appendChild(leaveApplyRender);
 
-// 버튼 추가
-const buttons = leaveApplyRender.querySelector('.buttons');
-buttons.appendChild(submitButton);
-buttons.appendChild(cancelButton);
+  // 버튼 추가
+  const buttons = leaveApplyRender.querySelector('.buttons');
+  buttons.appendChild(submitButton);
+  buttons.appendChild(cancelButton);
 
-// 입력 필드 추가
-document.getElementById('start-date-wrap').appendChild(createInputField({
-  type: "date",
-  label: { name: "시작일", forAttr: "start-date" },
-  attributes: { id: "start-date", name: "start-date" },
-  datasets: { required: true }
-}));
+  // 입력 필드 추가
+  document.getElementById('start-date-wrap').appendChild(createInputField({
+    type: "date",
+    label: { name: "시작일", forAttr: "start-date" },
+    attributes: { id: "start-date", name: "start-date" },
+    datasets: { required: true }
+  }));
 
-document.getElementById('end-date-wrap').appendChild(createInputField({
-  type: "date",
-  label: { name: "종료일", forAttr: "end-date" },
-  attributes: { id: "end-date", name: "end-date" },
-  datasets: { required: true }
-}));
+  document.getElementById('end-date-wrap').appendChild(createInputField({
+    type: "date",
+    label: { name: "종료일", forAttr: "end-date" },
+    attributes: { id: "end-date", name: "end-date" },
+    datasets: { required: true }
+  }));
 
-document.getElementById('leave-type-wrap').appendChild(createInputField({
-  tagName: "select",
-  label: { name: "휴가유형", forAttr: "leave-type" },
-  attributes: { id: "leave-type", name: "leave-type" },
-  datasets: { required: true }
-}));
+  document.getElementById('leave-type-wrap').appendChild(createInputField({
+    tagName: "select",
+    label: { name: "휴가유형", forAttr: "leave-type" },
+    attributes: { id: "leave-type", name: "leave-type" },
+    datasets: { required: true }
+  }));
 
-document.getElementById('halfday-type-wrap').appendChild(createInputField({
-  tagName: "select",
-  label: { name: "반차구분", forAttr: "halfday-type" },
-  attributes: { id: "halfday-type", name: "halfday-type" }
-}));
+  document.getElementById('halfday-type-wrap').appendChild(createInputField({
+    tagName: "select",
+    label: { name: "반차구분", forAttr: "halfday-type" },
+    attributes: { id: "halfday-type", name: "halfday-type" }
+  }));
 
-document.getElementById('reason-wrap').appendChild(createInputField({
-  tagName: "textarea",
-  label: { name: "사유", forAttr: "reason" },
-  attributes: { id: "reason", name: "reason", classList: ["large"] },
-  datasets: { required: false }
-}));
+  document.getElementById('reason-wrap').appendChild(createInputField({
+    tagName: "textarea",
+    label: { name: "사유", forAttr: "reason" },
+    attributes: { id: "reason", name: "reason", classList: ["large"] },
+    datasets: { required: false }
+  }));
 
-// 휴가 유형 옵션 추가
-const leaveTypeSelect = document.getElementById('leave-type');
-['연차', '반차'].forEach(type => {
-  const option = document.createElement('option');
-  option.value = type;
-  option.textContent = type;
-  leaveTypeSelect.appendChild(option);
-});
+  // 반차 구분 옵션 추가
+  const halfDayTypeSelect = document.getElementById('halfday-type');
 
-// 반차 구분 옵션 추가
-const halfDayTypeSelect = document.getElementById('halfday-type');
-['오전', '오후'].forEach(type => {
-  const option = document.createElement('option');
-  option.value = type;
-  option.textContent = type;
-  halfDayTypeSelect.appendChild(option);
-});
-};
+  // 기본 옵션 '-' 추가
+  const defaultOption = document.createElement('option');
+  defaultOption.value = '-';
+  defaultOption.textContent = '-';
+  halfDayTypeSelect.appendChild(defaultOption);
 
-// 다음 ID 가져오기
-function getNextId() {
-const leaves = JSON.parse(localStorage.getItem("leaves")) || [];
-const maxId = leaves.reduce((max, leave) => Math.max(max, leave.id), 50);
-return maxId + 1;
+  // 휴가 유형에 따른 반차 구분 동적 변경
+  const leaveTypeSelect = document.getElementById('leave-type');
+  ['연차', '반차'].forEach(type => {
+    const option = document.createElement('option');
+    option.value = type;
+    option.textContent = type;
+    leaveTypeSelect.appendChild(option);
+  });
+  leaveTypeSelect.addEventListener('change', (e) => {
+    const selectedType = e.target.value;
+
+    if (selectedType === '반차') {
+      // 반차 선택 시 옵션 변경 및 필수값으로 설정
+      halfDayTypeSelect.innerHTML = ''; // 기존 옵션 초기화
+
+      // 오전, 오후 옵션 추가
+      ['오전', '오후'].forEach(type => {
+        const option = document.createElement('option');
+        option.value = type;
+        option.textContent = type;
+        halfDayTypeSelect.appendChild(option);
+      });
+
+      // 필수 입력 필드로 설정
+      halfDayTypeSelect.setAttribute('required', 'true');
+      halfDayTypeSelect.closest('.input-group').querySelector('label').innerHTML += ' <span class="required">*</span>';
+    } else {
+      // 연차 선택 시 기본 옵션으로 복원
+      halfDayTypeSelect.innerHTML = ''; // 기존 옵션 초기화
+      halfDayTypeSelect.appendChild(defaultOption); // 기본 옵션 추가
+
+      // 필수값 해제
+      halfDayTypeSelect.removeAttribute('required');
+      const requiredSpan = halfDayTypeSelect.closest('.input-group').querySelector('.required');
+      if (requiredSpan) requiredSpan.remove();
+    }
+  });
+
+  // 주말 및 공휴일 체크 함수
+  function isWeekendOrHoliday(date) {
+    const day = date.getDay();
+    const dateString = date.toISOString().split('T')[0];
+
+    const holidays2025 = [
+      '2025-01-01', '2025-01-27', '2025-01-28', '2025-01-29', '2025-01-30', 
+      '2025-03-01', '2025-05-05', '2025-06-06', '2025-08-15', 
+      '2025-10-03', '2025-10-09', '2025-12-25'
+    ];
+
+    return day === 0 || day === 6 || holidays2025.includes(dateString);
+  }
+
+  // 휴가 일수 계산 함수
+  function calculateBusinessDays(startDate, endDate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    
+    let businessDays = 0;
+
+    while (start <= end) {
+      if (!isWeekendOrHoliday(start)) {
+        businessDays++;
+      }
+      start.setDate(start.getDate() + 1);
+    }
+
+    return businessDays;
+  }
+
+  // 날짜 이벤트 리스너 추가
+  const startDateEl = document.getElementById('start-date');
+  const endDateEl = document.getElementById('end-date');
+
+  startDateEl.addEventListener('change', (e) => {
+    const selectedDate = new Date(e.target.value);
+    const today = new Date();
+    
+    // 과거 날짜 선택 방지
+    if (selectedDate < today) {
+      e.target.value = '';
+      alert('과거의 날짜는 선택할 수 없습니다.');
+      return;
+    }
+
+    // 주말 및 공휴일 선택 방지
+    if (isWeekendOrHoliday(selectedDate)) {
+      e.target.value = '';
+      alert('주말 및 공휴일은 선택할 수 없습니다.');
+      return;
+    }
+
+    // 종료일이 이미 선택된 경우 휴가일수 재계산
+    if (endDateEl.value) {
+      const businessDays = calculateBusinessDays(e.target.value, endDateEl.value);
+      document.getElementById('leave-days').textContent = businessDays;
+    }
+  });
+
+  endDateEl.addEventListener('change', (e) => {
+    const selectedDate = new Date(e.target.value);
+    
+    // 과거 날짜 선택 방지
+    if (selectedDate < new Date()) {
+      e.target.value = '';
+      alert('과거의 날짜는 선택할 수 없습니다.');
+      return;
+    }
+
+    // 시작일보다 이전 날짜 선택 방지
+    if (selectedDate < new Date(startDateEl.value)) {
+      e.target.value = '';
+      alert('시작일 이후의 날짜를 선택해주세요.');
+      return;
+    }
+
+    // 주말 및 공휴일 선택 방지
+    if (isWeekendOrHoliday(selectedDate)) {
+      e.target.value = '';
+      alert('주말 및 공휴일은 선택할 수 없습니다.');
+      return;
+    }
+
+    // 휴가일수 계산
+    const businessDays = calculateBusinessDays(startDateEl.value, e.target.value);
+    document.getElementById('leave-days').textContent = businessDays;
+  });
+
+  // 새로운 휴가 저장 함수 수정
+  function saveLeave(newLeave) {
+    const leaves = JSON.parse(localStorage.getItem("leaves")) || [];
+    
+    const formattedLeave = {
+        id: getNextId(),
+        employeeId: 1,
+        applicationDate: formatDate(new Date()),
+        startDate: formatDate(newLeave.startDate),
+        endDate: formatDate(newLeave.endDate),
+        leaveType: newLeave.leaveType,
+        halfDayTypeId: newLeave.halfdayType === '-' ? null : newLeave.halfdayType,
+        reason: newLeave.reason,
+        leaveDays: Number(newLeave.leaveDays),
+        isUsed: false
+    };
+
+    leaves.push(formattedLeave);
+    localStorage.setItem("leaves", JSON.stringify(leaves));
+  }
+
+  // 날짜 포맷 함수 추가
+  function formatDate(date) {
+    const d = new Date(date);
+    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+  }
+
+  // 다음 ID 가져오기 함수 수정
+  function getNextId() {
+    const leaves = JSON.parse(localStorage.getItem("leaves")) || [];
+    return leaves.length > 0 ? Math.max(...leaves.map(leave => leave.id)) + 1 : 1; 
+  }
 }
-
-// 휴가 일수 계산 (간단한 예시)
-function calculateLeaveDays(startDate, endDate) {
-const start = new Date(startDate);
-const end = new Date(endDate);
-const diffTime = Math.abs(end - start);
-const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-return diffDays;
-}
-
-// 새로운 휴가 저장
-function saveLeave(newLeave) {
-const leaves = JSON.parse(localStorage.getItem("leaves")) || [];
-leaves.push(newLeave);
-localStorage.setItem("leaves", JSON.stringify(leaves));
-}
-
-export default leaveApply
+export default leaveApply;
