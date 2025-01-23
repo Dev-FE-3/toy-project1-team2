@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   background-color: var(--background-content-color);
-  width: 330px;
+  min-width: 330px;
   height: 125px;
   border: 1px solid var(--background-content-color);
   border-radius: 20px;

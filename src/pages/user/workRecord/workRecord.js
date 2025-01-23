@@ -5,8 +5,8 @@ const WorkRecord = (contents) => {
   contents.innerHTML = `
         <div id="contents">
           <div id="top-container">
-          <div id="top-left"></div>
-          <div id="top-right"></div>
+            <div id="top-left"></div>
+            <div id="top-right"></div>
           </div>
           <div id="bottom-container"></div>
         </div>
@@ -34,7 +34,7 @@ const WorkRecord = (contents) => {
   };
 
   const renderCalendar = () => {
-    renderComponent(Calender, bottomContainer);
+    renderComponent(Calender, bottomContainer, renderDashboard); // renderDashboard 전달
   };
 
   // 초기 대시보드와 캘린더 렌더링
