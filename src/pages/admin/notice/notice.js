@@ -188,7 +188,7 @@ const notice = (contents) => {
 
   // changeButton 클릭 시 목록 보기 방식  변경
   const changeButton = document.querySelector(".changeButton");
-  const galleryList = document.querySelector("ul");
+  const galleryList = document.querySelector(".gallery-list");
 
   if (changeButton && galleryList) {
     changeButton.addEventListener("click", function () {
