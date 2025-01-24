@@ -7,6 +7,7 @@ import leave from "@/pages/user/leave/leaveList";
 import leaveDetail from "@/pages/user/leave/leaveDetail";
 import leaveApply from "@/pages/user/leave/leaveApply";
 import leaveEdit from "@/pages/user/leave/leaveEdit"
+import employeeList from "@/pages/admin/employee/employeeList";
 
 const routes = {
   "/": home, //기본 라우팅
@@ -18,6 +19,7 @@ const routes = {
   "/leave/apply": leaveApply,
   ".leave/:id/edit": leaveEdit,
   "/leave/:id": leaveDetail,
+  "/admin/employee": employeeList,
 };
 
 const getRouteRegex = (route) => route.replace(/:id/, "([\\w-]+)");

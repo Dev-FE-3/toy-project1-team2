@@ -1,0 +1,88 @@
+.content-wrap a {
+  color: #333;
+  text-decoration: none;
+}
+
+.content-wrap .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 2.4rem;
+  border-bottom: 2px solid var(--secondary-1-color);
+}
+.content-wrap .header .header__title {
+  min-width: 90px;
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+.employee-list {
+  padding: 3.2rem;
+  margin: 2.4rem;
+  background-color: var(--background-content-color);
+  border-radius: 1.6rem;
+  overflow-x: scroll;
+}
+
+/* 테이블 디자인 */
+.employee-list table {
+  width: 100%;
+  min-width: 950px;
+  font-size: 1.6rem;
+  border-collapse: collapse;
+}
+.employee-list table tr {
+  border-bottom: 1px solid var(--secondary-2-color);
+}
+.employee-list table tr:first-child {
+  border-top: 1px solid var(--secondary-2-color);
+}
+.employee-list table th,
+.employee-list table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 1rem .8rem;
+  min-width: 80px;
+}
+.employee-list table thead tr {
+  background-color: #F9F9F9;
+}
+.employee-list table thead th {
+  color: #8D96A1;
+}
+.employee-list table tbody tr {
+  background-color: var(--background-content-color);
+}
+.employee-list table .phone {
+  white-space: nowrap;
+}
+
+/* 프로필사진/이름/사번 */
+.employee-info-wrap {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+.employee-info-wrap img {
+  width: 58px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid var(--secondary-1-color);
+}
+.employee-info-wrap .employee-info {
+  text-align: left;
+}
+.employee-info-wrap .employee-info .employee-name {
+  margin-bottom: .4rem;
+}
+
+/* 직무 배지 디자인 */
+.employee-position {
+  font-size: 1.3rem;
+  padding: .4rem .8rem;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 25px;
+  background-color: var(--background-content-color);
+}

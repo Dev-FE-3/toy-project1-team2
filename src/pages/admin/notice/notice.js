@@ -1,3 +1,4 @@
+import "./common.css";
 import "./notice.css";
 
 import { createButton } from "@/components/Button/button.js";
@@ -41,7 +42,7 @@ const notice = (contents) => {
 
   contents.innerHTML = `
   <section class="wrapper">
-    <header class="notice-header">
+    <header class="header">
         <div class="left">
           <h1>공지사항 관리</h1>
           ${
@@ -69,7 +70,7 @@ const notice = (contents) => {
         
         </div>
       </header>
-      <section>
+      <section class="list-contents">
         <ul class="gallery-list">
           <!-- JSON 데이터가 동적으로 삽입될 부분 -->
         </ul>
@@ -87,6 +88,7 @@ const notice = (contents) => {
   // JSON 데이터 로드
   let noticesData = JSON.parse(localStorage.getItem("notices")) || [];
   displayNotices(noticesData);
+  addClickEventToItems();
 
   // 검색 입력 이벤트 처리
   const searchEl = document.getElementById("search");
@@ -120,14 +122,22 @@ const notice = (contents) => {
           "." +
           String(date.getDate()).padStart(2, "0");
 
-        // 파일 포맷팅
-        const imageSrc =
-          item.imgSrc && item.imgSrc.length > 0 && Array.isArray(item.imgSrc)
-            ? item.imgSrc[0].src // 첫 번째 이미지 사용
-            : "../../public/imgs/images.jpg"; // 기본 이미지
+        let imageSrc = "../../public/imgs/images.jpg";
+        if (
+          item.imgSrc &&
+          item.imgSrc.length > 0 &&
+          Array.isArray(item.imgSrc)
+        ) {
+          const validImage = item.imgSrc.find((img) =>
+            /\.(jpg|jpeg|png)$/i.test(img.src)
+          ); // JPG 또는 PNG 파일 찾기
+          if (validImage) {
+            imageSrc = validImage.src; // 첫 번째 유효한 이미지
+          }
+        }
 
         return `
-        <li class="list-item">
+        <li class="list-item" data-id="${item.id}">
           <div class="text">
             <div class="date">${formattedDate}</div> 
             <div class="title">${item.title.length > 14 ? item.title.substring(0, 14) + "..." : item.title}</div>
@@ -150,6 +160,16 @@ const notice = (contents) => {
     if (list && list.classList.contains("list")) {
       list.innerHTML = noticesHTML;
     }
+  }
+
+  function addClickEventToItems() {
+    const listItems = document.querySelectorAll(".list-item");
+    listItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        const noticeId = item.dataset.id; // data-id 가져오기
+        window.location.href = `/notice/detail/${noticeId}`; // URL 파라미터로 전달
+      });
+    });
   }
 
   // 전체선택 버튼 클릭 시 아이콘 변경 로직
