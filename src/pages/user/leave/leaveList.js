@@ -43,7 +43,19 @@ const leaveList = (container) => {
     () => {
       const selectedLeaves = getSelectedLeaves();
       if (selectedLeaves.length === 0) {
-        alert("삭제할 항목을 선택해주세요.");
+        const alertModal = Modal({
+          title: "알림",
+          message: "삭제할 항목을 선택해주세요.",
+          modalStyle: "warning",
+          showCancelBtn: false,
+          onConfirm: () => {
+            // 모달 닫기
+            alertModal.closeModal();
+          },
+        });
+
+        document.body.appendChild(alertModal.modalHTML);
+        alertModal.openModal();
         return;
       }
 
