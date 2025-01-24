@@ -7,52 +7,60 @@ const leaveApply = (container) => {
   const leaveApplyRender = document.createElement("div");
   leaveApplyRender.className = "container-wrap";
 
+  // 신청 로직을 처리 함수
+  function handleLeaveSubmission() {
+    const startDateInput = document.getElementById("start-date");
+    const endDateInput = document.getElementById("end-date");
+    const leaveTypeSelect = document.getElementById("leave-type");
+    const halfdayTypeSelect = document.getElementById("halfday-type");
+    const reasonInput = document.getElementById("reason");
+
+    // 필수 입력 필드 검증
+    if (!startDateInput.value || !endDateInput.value || !leaveTypeSelect.value) {
+      alert("필수 입력 항목을 모두 선택해주세요.");
+      return;
+    }
+
+    // 반차 선택 시 반차 구분 필수
+    if (leaveTypeSelect.value === "반차" && halfdayTypeSelect.value === "-") {
+      alert("반차 구분을 선택해주세요.");
+      return;
+    }
+
+    // 폼 데이터 생성
+    const formData = {
+      startDate: startDateInput.value,
+      endDate: endDateInput.value,
+      leaveType: leaveTypeSelect.value,
+      halfdayType: halfdayTypeSelect.value,
+      reason: reasonInput.value,
+      leaveDays: calculateBusinessDays(startDateInput.value, endDateInput.value),
+    };
+
+    // 모달 생성 및 표시
+    showConfirmationModal(formData);
+  }
+
+  // 확인 모달을 표시하는 함수
+  function showConfirmationModal(formData) {
+    const modal = Modal({
+      title: "휴가 신청",
+      message: "휴가 신청이 완료되었습니다.",
+      modalStyle: "primary",
+      showCancelBtn: false,
+      onConfirm: () => {
+        saveLeave(formData); // 데이터 저장
+        window.location.href = "/leave"; // 페이지 리다이렉트
+      },
+    });
+
+    document.body.appendChild(modal);
+    modal.querySelector(".modal").classList.remove("hidden");
+  }
+
   const submitButton = createButton(
     "신청",
-    () => {
-      const startDateInput = document.getElementById("start-date");
-      const endDateInput = document.getElementById("end-date");
-      const leaveTypeSelect = document.getElementById("leave-type");
-      const halfdayTypeSelect = document.getElementById("halfday-type");
-      const reasonInput = document.getElementById("reason");
-  
-      // 필수 입력 필드 검증
-      if (!startDateInput.value || !endDateInput.value || !leaveTypeSelect.value) {
-        alert("필수 입력 항목을 모두 선택해주세요.");
-        return;
-      }
-  
-      // 반차 선택 시 반차 구분 필수
-      if (leaveTypeSelect.value === "반차" && halfdayTypeSelect.value === "-") {
-        alert("반차 구분을 선택해주세요.");
-        return;
-      }
-  
-      // 모달 생성
-      const modal = Modal({
-        title: "휴가 신청",
-        message: "휴가 신청이 완료되었습니다.",
-        modalStyle: "primary",
-        showCancelBtn: false,
-        onConfirm: () => {
-          // 신청 로직 실행
-          const formData = {
-            startDate: startDateInput.value,
-            endDate: endDateInput.value,
-            leaveType: leaveTypeSelect.value,
-            halfdayType: halfdayTypeSelect.value,
-            reason: reasonInput.value,
-            leaveDays: calculateBusinessDays(startDateInput.value, endDateInput.value),
-          };
-  
-          saveLeave(formData); // 데이터 저장
-          window.location.href = "/leave"; // 페이지 리다이렉트
-        },
-      });
-  
-      document.body.appendChild(modal);
-      modal.querySelector(".modal").classList.remove("hidden"); // 모달 표시
-    },
+    handleLeaveSubmission,
     ["btn--submit"]
   );
   const cancelButton = createButton(
@@ -86,7 +94,7 @@ const leaveApply = (container) => {
         <div class="data-wrap" id="halfday-type-wrap"></div>
         <div class="data-wrap">
           <span>사용여부</span>
-          <span class="value input-box" id="is-used">사용완료</span>
+          <span class="value input-box" id="is-used">사용안함</span>
         </div>
       </div>
       <div class="row row3">
@@ -103,40 +111,58 @@ const leaveApply = (container) => {
   buttons.appendChild(submitButton);
   buttons.appendChild(cancelButton);
 
-  // 입력 필드 추가
-  document.getElementById('start-date-wrap').appendChild(createInputField({
-    type: "date",
-    label: { name: "시작일", forAttr: "start-date" },
-    attributes: { id: "start-date", name: "start-date" },
-    datasets: { required: true }
-  }));
-
-  document.getElementById('end-date-wrap').appendChild(createInputField({
-    type: "date",
-    label: { name: "종료일", forAttr: "end-date" },
-    attributes: { id: "end-date", name: "end-date" },
-    datasets: { required: true }
-  }));
-
-  document.getElementById('leave-type-wrap').appendChild(createInputField({
-    tagName: "select",
-    label: { name: "휴가유형", forAttr: "leave-type" },
-    attributes: { id: "leave-type", name: "leave-type" },
-    datasets: { required: true }
-  }));
-
-  document.getElementById('halfday-type-wrap').appendChild(createInputField({
-    tagName: "select",
-    label: { name: "반차구분", forAttr: "halfday-type" },
-    attributes: { id: "halfday-type", name: "halfday-type" }
-  }));
-
-  document.getElementById('reason-wrap').appendChild(createInputField({
-    tagName: "textarea",
-    label: { name: "사유", forAttr: "reason" },
-    attributes: { id: "reason", name: "reason", classList: ["large"] },
-    datasets: { required: false }
-  }));
+  // 입력 필드 구성 정보
+  const inputFields = [
+    { // 시작일
+      id: 'start-date-wrap',
+      config: {
+        type: "date",
+        label: { name: "시작일", forAttr: "start-date" },
+        attributes: { id: "start-date", name: "start-date", placeholder: "연도. 월. 일" },
+        datasets: { required: true }
+      }
+    },
+    { // 종료일
+      id: 'end-date-wrap',
+      config: {
+        type: "date",
+        label: { name: "종료일", forAttr: "end-date" },
+        attributes: { id: "end-date", name: "end-date", placeholder: "연도. 월. 일" },
+        datasets: { required: true }
+      }
+    },
+    { // 휴가유형
+      id: 'leave-type-wrap',
+      config: {
+        tagName: "select",
+        label: { name: "휴가유형", forAttr: "leave-type" },
+        attributes: { id: "leave-type", name: "leave-type" },
+        datasets: { required: true }
+      }
+    },
+    { // 반차구분
+      id: 'halfday-type-wrap',
+      config: {
+        tagName: "select",
+        label: { name: "반차구분", forAttr: "halfday-type" },
+        attributes: { id: "halfday-type", name: "halfday-type" }
+      }
+    },
+    { // 사유
+      id: 'reason-wrap',
+      config: {
+        tagName: "textarea",
+        label: { name: "사유", forAttr: "reason" },
+        attributes: { id: "reason", name: "reason", classList: ["large"] },
+        datasets: { required: false }
+      }
+    }
+  ];
+  
+  // 입력 필드 생성 및 추가
+  inputFields.forEach(field => {
+    document.getElementById(field.id).appendChild(createInputField(field.config));
+  });
 
   // 반차 구분 옵션 추가
   const halfDayTypeSelect = document.getElementById('halfday-type');
