@@ -13,6 +13,8 @@
 .wrapper .employee-detail {
   margin: 2.4rem;
   border-radius: 1.6rem;
+  background-color: var(--background-content-color);
+  padding: 2.4rem;
 }
 
 /* 테이블 디자인 */

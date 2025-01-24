@@ -1,5 +1,4 @@
 .calendar {
-  width: 1172px;
   background-color: var(--background-content-color);
   border-radius: 20px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
