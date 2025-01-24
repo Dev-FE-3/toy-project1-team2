@@ -41,7 +41,7 @@ const detail = (contents) => {
   contents.innerHTML = `
     <section class="wrapper">
         <header class="header">
-            <h1>공지사항 상세</h1>
+             <h1 class="header__title">공지사항 상세</h1>
             <div class="action-buttons">
               <!-- 버튼을 여기에 추가할 예정 -->
             </div> 
