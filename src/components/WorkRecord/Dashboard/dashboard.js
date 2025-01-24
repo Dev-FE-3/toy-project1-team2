@@ -6,12 +6,21 @@ import { parseDateTimeString } from "@/utils/timeUtils";
 // 상수 정의
 const RADIUS = 90;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+const DEFAULT_TOTAL_DAYS = 20; // 기본 총 일수
+
+// 상태 레이블 상수
+const LABELS = {
+  WORKED: "근무",
+  NOT_WORKED: "미근무",
+  LATE: "지각",
+  LEAVE: "조퇴",
+};
 
 export function Dashboard(year, month) {
   const events = fetchFromLocalStorage(WORK_RECORD_KEY);
 
   const workRecord = {
-    totalDays: 20,
+    totalDays: DEFAULT_TOTAL_DAYS,
     worked: 0,
     notWorked: 0,
     late: 0,
@@ -19,39 +28,57 @@ export function Dashboard(year, month) {
   };
 
   // 통계 업데이트
+  updateWorkRecord(events, year, month, workRecord);
+
+  // 총 작업 수 계산
+  const { totalDays, worked, notWorked, late, leave } = workRecord;
+  const totalWorkedDays = worked + notWorked + late + leave;
+  const percentage = calculatePercentage(totalDays, totalWorkedDays);
+
+  const dashboardHTML = createDashboardHTML(percentage, workRecord);
+
+  const progressCircle = dashboardHTML.querySelector("#progressCircle");
+  const percentageText = dashboardHTML.querySelector("#percentageText");
+  const progressInput = dashboardHTML.querySelector("#progressInput");
+
+  // 초기화: 원형 프로그래스 바의 길이를 전체 길이로 설정
+  initializeProgressBar(progressCircle, percentageText, percentage);
+
+  // 슬라이더 이벤트 리스너
+  progressInput.addEventListener("input", (event) => {
+    const value = event.target.value;
+    updateProgress(progressCircle, percentageText, value);
+  });
+
+  return dashboardHTML;
+}
+
+const updateWorkRecord = (events, year, month, workRecord) => {
   events.forEach((e) => {
     const { year: eventYear, month: eventMonth } = parseDateTimeString(
       e.times[0]
     );
     if (eventYear === year && eventMonth === month) {
       switch (e.label) {
-        case "근무":
+        case LABELS.WORKED:
           workRecord.worked += 1;
           break;
-        case "미근무":
+        case LABELS.NOT_WORKED:
           workRecord.notWorked += 1;
           break;
-        case "지각":
+        case LABELS.LATE:
           workRecord.late += 1;
           break;
-        case "조퇴":
+        case LABELS.LEAVE:
           workRecord.leave += 1;
           break;
       }
     }
   });
+};
 
-  // 총 작업 수 계산
-  const totalWorkedDays =
-    workRecord.worked +
-    workRecord.notWorked +
-    workRecord.late +
-    workRecord.leave;
-
-  // 퍼센트 계산
-  const percentage =
-    totalWorkedDays > 0 ? (workRecord.worked / totalWorkedDays) * 100 : 0;
-
+// 대시보드 HTML 생성 함수
+const createDashboardHTML = (percentage, workRecord) => {
   const dashboardHTML = document.createElement("div");
   dashboardHTML.id = "dashboard-container";
 
@@ -89,31 +116,23 @@ export function Dashboard(year, month) {
     </div>
   </div>`;
 
-  const progressCircle = dashboardHTML.querySelector("#progressCircle");
-  const percentageText = dashboardHTML.querySelector("#percentageText");
-  const progressInput = dashboardHTML.querySelector("#progressInput");
-
-  // 초기화: 원형 프로그래스 바의 길이를 전체 길이로 설정
-  initializeProgressBar(progressCircle, percentageText, percentage); // 수정된 부분: percentageText 전달
-
-  // 슬라이더 이벤트 리스너
-  progressInput.addEventListener("input", (event) => {
-    const value = event.target.value;
-    updateProgress(progressCircle, percentageText, value); // 수정된 부분: 올바른 인자 전달
-  });
-
   return dashboardHTML;
-}
+};
 
-// 수정된 부분: 프로그래스 바 초기화를 담당하는 함수 추가
-function initializeProgressBar(progressCircle, percentageText, percentage) {
+// 전체 일수에 대한 퍼센트 계산
+const calculatePercentage = (totalDaysCount, checkedDays) => {
+  return totalDaysCount > 0 ? (checkedDays / totalDaysCount) * 100 : 0;
+};
+
+// 프로그래스 바 초기화를 담당하는 함수 추가
+const initializeProgressBar = (progressCircle, percentageText, percentage) => {
   progressCircle.style.strokeDasharray = `${CIRCUMFERENCE} ${CIRCUMFERENCE}`;
-  updateProgress(progressCircle, percentageText, percentage); // 수정된 부분: percentageText 전달
-}
+  updateProgress(progressCircle, percentageText, percentage);
+};
 
-// 수정된 부분: 프로그래스 바와 텍스트를 업데이트하는 함수 추가
-function updateProgress(progressCircle, percentageText, value) {
+// 프로그래스 바와 텍스트를 업데이트하는 함수 추가
+const updateProgress = (progressCircle, percentageText, value) => {
   const offset = CIRCUMFERENCE - (value / 100) * CIRCUMFERENCE;
   progressCircle.style.strokeDashoffset = offset;
   percentageText.textContent = `${parseFloat(value).toFixed(0)}%`;
-}
+};

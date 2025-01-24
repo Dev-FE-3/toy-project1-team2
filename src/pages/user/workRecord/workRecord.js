@@ -41,12 +41,17 @@ const WorkRecord = (contents) => {
   renderDashboard(currentYear, currentMonth);
   renderCalendar();
 
+  const handleEndWork = () => {
+    renderCalendar(); // 캘린더 리렌더링
+    renderDashboard(currentYear, currentMonth); // 대시보드 리렌더링
+  };
+
   // Timer 인스턴스 생성
   const timer = Timer({
     currentTime,
     workStart: null,
     workEnd: null,
-    onEndWork: renderCalendar,
+    onEndWork: handleEndWork,
   });
 
   topLeftContainer.appendChild(timer.timerHTML);
