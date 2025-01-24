@@ -34,8 +34,8 @@ const detail = (contents) => {
       showCancelBtn,
     });
 
-    document.body.appendChild(modal);
-    modal.querySelector(".modal").classList.remove("hidden");
+    document.body.appendChild(modal.modalHTML);
+    modal.openModal();
   }
 
   contents.innerHTML = `
