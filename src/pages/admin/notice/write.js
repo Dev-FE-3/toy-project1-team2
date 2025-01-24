@@ -115,7 +115,6 @@ const write = (contents) => {
 
     for (const file of files) {
       if (!allowedFileTypes.includes(file.type)) {
-        console.log(`파일 형식 ${file.type}는 허용되지 않습니다.`);
         showModal(
           "JPG, PNG, GIF, PDF, DOCX 형식의 파일만 업로드 가능합니다.",
           "warning"

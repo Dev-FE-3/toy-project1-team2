@@ -175,16 +175,12 @@ const leaveList = (container) => {
 
   function deleteSelectedLeaves(selectedIds) {
     try {
-      console.log("삭제할 ID들:", selectedIds);
 
       let leaves = JSON.parse(localStorage.getItem("leaves")) || [];
 
       const updatedLeaves = leaves.filter(
         (leave) => !selectedIds.includes(leave.id)
       );
-
-      console.log("삭제 전 데이터 수:", leaves.length);
-      console.log("삭제 후 데이터 수:", updatedLeaves.length);
 
       localStorage.setItem("leaves", JSON.stringify(updatedLeaves));
 

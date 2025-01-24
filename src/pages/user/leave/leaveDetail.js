@@ -7,7 +7,6 @@ const leaveDetail = (container, id) => {
 
   // URL에서 leave ID를 가져오는 함수
   const leaveId = window.location.pathname.split("/")[3]; // 예시: /user/leave/12345/edit에서 12345를 추출
-  console.log("수정할 leave ID:", leaveId); // 가져온 ID를 확인
 
   // 수정 버튼 생성 및 이벤트 추가
   const editButton = createButton(
