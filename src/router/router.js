@@ -3,6 +3,7 @@ import profile from "@/pages/user/profile/profileDetail";
 import notFound from "@/pages/notFound/notFound";
 import notice from "@/pages/admin/notice/notice";
 import write from "@/pages/admin/notice/write";
+import record from "@/pages/user/workRecord/workRecord";
 import employeeList from "@/pages/admin/employee/employeeList";
 import employeeWrite from "@/pages/admin/employee/employeeWrite";
 import employeeDetail from "@/pages/admin/employee/employeeDetail";
@@ -14,6 +15,7 @@ const routes = {
   "/admin/notice": notice,
   "/notice": notice,
   "/notice/write": write,
+  "/record": record,
   "/admin/employee": employeeList,
   "/admin/employee/write": employeeWrite,
   "/admin/employee/:id": employeeDetail,
