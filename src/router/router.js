@@ -1,8 +1,12 @@
 import home from "@/pages/home/home";
-import profile from "@/pages/user/profile/profile";
+import profile from "@/pages/user/profile/profileDetail";
 import notFound from "@/pages/notFound/notFound";
 import notice from "@/pages/admin/notice/notice";
 import write from "@/pages/admin/notice/write";
+import employeeList from "@/pages/admin/employee/employeeList";
+import employeeWrite from "@/pages/admin/employee/employeeWrite";
+import employeeDetail from "@/pages/admin/employee/employeeDetail";
+import profileWrite from "@/pages/user/profile/profileWrite";
 
 const routes = {
   "/": home, //기본 라우팅
@@ -10,6 +14,12 @@ const routes = {
   "/admin/notice": notice,
   "/notice": notice,
   "/notice/write": write,
+  "/admin/employee": employeeList,
+  "/admin/employee/write": employeeWrite,
+  "/admin/employee/:id": employeeDetail,
+  "/admin/employee/write/:id": employeeWrite,
+  "/profile": profile,
+  "/profile/write" : profileWrite,
 };
 
 const getRouteRegex = (route) => route.replace(/:id/, "([\\w-]+)");

@@ -1,3 +1,4 @@
+import "./common.css";
 import "./write.css";
 
 import { createButton } from "@/components/Button/button.js";
@@ -61,11 +62,11 @@ const write = (contents) => {
 
   contents.innerHTML = `
     <section class="wrapper">
-        <header class="write-header">
+        <header class="header">
             <h1>공지사항 등록</h1>
             <div class="button"></div> <!-- 버튼을 여기에 추가할 예정 -->
         </header>
-        <section class="field">
+        <section class="field-contents">
             ${titleField.outerHTML}
             <div class="fileField"></div>
            <div class="contentField"></div>
@@ -98,6 +99,41 @@ const write = (contents) => {
       return;
     }
 
+    // 파일 유효성 검사
+    const maxFileSize = 3 * 1024 * 1024; // 5MB
+    const allowedFileTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "application/pdf",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ]; // JPG, PNG, GIF, PDF, DOCX
+    const maxFileCount = 3;
+
+    if (files.length > maxFileCount) {
+      showModal("첨부파일은 최대 3개까지만 업로드 가능합니다.", "warning");
+      return;
+    }
+
+    for (const file of files) {
+      if (!allowedFileTypes.includes(file.type)) {
+        console.log(`파일 형식 ${file.type}는 허용되지 않습니다.`);
+        showModal(
+          "JPG, PNG, GIF, PDF, DOCX 형식의 파일만 업로드 가능합니다.",
+          "warning"
+        );
+        return;
+      }
+
+      if (file.size > maxFileSize) {
+        showModal(
+          "첨부파일은 파일당 최대 3MB까지 업로드 가능합니다.",
+          "warning"
+        );
+        return;
+      }
+    }
+
     // 파일 목록을 Base64로 변환
     const filePromises = Array.from(files).map(
       (file) =>
@@ -110,9 +146,21 @@ const write = (contents) => {
         })
     );
 
+    let notices = JSON.parse(localStorage.getItem("notices")) || [];
+
+    // 새로운 데이터의 id는 1로 설정
+    const newNoticeId = 1;
+
+    // 기존 데이터의 id를 모두 +1 (밀어냄)
+    notices = notices.map((notice) => ({
+      ...notice,
+      id: notice.id + 1,
+    }));
+
     Promise.all(filePromises)
       .then((fileList) => {
         const noticeData = {
+          id: newNoticeId,
           date: new Date().toISOString(),
           title,
           contents,
@@ -121,7 +169,6 @@ const write = (contents) => {
 
         // 로컬 스토리지에 공지 저장
         try {
-          let notices = JSON.parse(localStorage.getItem("notices")) || [];
           notices.unshift(noticeData);
           localStorage.setItem("notices", JSON.stringify(notices));
 
