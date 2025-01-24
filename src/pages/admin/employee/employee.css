@@ -1,0 +1,187 @@
+.content-wrap a {
+  color: #333;
+  text-decoration: none;
+}
+
+.content-wrap .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 2.4rem;
+  border-bottom: 2px solid var(--secondary-1-color);
+}
+.content-wrap .header .header__title {
+  min-width: 90px;
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+.content-wrap .header .header__btn {
+  display: flex;
+  gap: .4rem;
+}
+
+.content-wrap .employee-list,
+.content-wrap .employee-write,
+.content-wrap .employee-detail {
+  padding: 3.2rem;
+  margin: 2.4rem;
+  background-color: var(--background-content-color);
+  border-radius: 1.6rem;
+  overflow-x: scroll;
+}
+
+/* 테이블 디자인 */
+.content-wrap table {
+  width: 100%;
+  min-width: 950px;
+  font-size: 1.6rem;
+  border-collapse: collapse;
+}
+.content-wrap table tr {
+  border-bottom: 1px solid var(--secondary-2-color);
+}
+.content-wrap table tr:first-child {
+  border-top: 1px solid var(--secondary-2-color);
+}
+.content-wrap table th,
+.content-wrap table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 1rem .8rem;
+  min-width: 80px;
+}
+.content-wrap table th {
+  color: #8D96A1;
+}
+.content-wrap table thead tr {
+  background-color: #F9F9F9;
+}
+.content-wrap table tbody tr {
+  background-color: var(--background-content-color);
+}
+.content-wrap table .phone {
+  white-space: nowrap;
+}
+
+/* 프로필사진/이름/사번 */
+.employee-info-wrap {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+.employee-info-wrap img {
+  width: 58px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid var(--secondary-1-color);
+}
+.employee-info-wrap .employee-info {
+  text-align: left;
+}
+.employee-info-wrap .employee-info .employee-name {
+  margin-bottom: .4rem;
+}
+
+/* 직무 배지 디자인 */
+.employee-position {
+  font-size: 1.3rem;
+  padding: .4rem .8rem;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 25px;
+  background-color: var(--background-content-color);
+}
+
+/* 직원정보 등록, 수정 페이지 */
+.employee-write table th,
+.employee-write table td,
+.employee-detail table th,
+.employee-detail table td {
+  text-align: left;
+  vertical-align: baseline;
+}
+.employee-write table th,
+.employee-detail table th {
+  padding-left: 2.4rem;
+}
+.employee-write table,
+.employee-detail table {
+  margin-top: 3.2rem;
+}
+.employee-write .dropdown_bar {
+  padding-left: 2rem;
+}
+.employee-write .dropdown_bar p {
+  font-size: 1.6rem;
+}
+.employee-write .input-wrap label,
+.employee-detail .label {
+  min-width: 83px;
+}
+.employee-write .input-wrap input:read-only {
+  background-color: #F9F9F9;
+  color: var(--secondary-2-color);
+}
+
+/* 프로필 영역 */
+.profile {
+  display: flex;
+  gap: 1.6rem;
+  align-items: flex-end;
+}
+.profile input[type=file] {
+  display: none;
+}
+.profile .profile__image {
+  display: flex;
+  border-radius: .8rem;
+  border: 1px solid var(--secondary-2-color);
+  overflow: hidden;
+}
+.profile .profile__image img {
+  width: 120px;
+  height: 155px;
+  object-fit: cover;
+}
+.profile .profile__btn,
+.profile .profile__card {
+  display: flex;
+  gap: .8rem;
+  align-items: center;
+}
+.profile .profile__btn button {
+  font-size: 1.3rem;
+  padding: .4rem .8rem;
+  background: #fff;
+  border-radius: .4rem;
+  cursor: pointer;
+}
+.profile .profile__btn .btn--upload {
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+.profile .profile__btn .btn--delete {
+  color: var(--warning-color);
+  border: 1px solid var(--warning-color);
+}
+.profile .profile__btn .hidden {
+  display: none;
+}
+
+/* 직원 상세 페이지 */
+.employee-detail .profile__card .name {
+  font-weight: 700;
+  font-size: 2.2rem;
+}
+.employee-detail .data-wrap {
+  display: flex;
+  padding: .8rem;
+  gap: .8rem;
+}
+.employee-detail .data-wrap div {
+  padding: .8rem;
+}
+.employee-detail .data-wrap .label {
+  color: #8D96A1;
+}

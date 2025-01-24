@@ -40,6 +40,15 @@ const initializeLocalStorage = function () {
         return;
       }
       localStorage.setItem(WORK_RECORD_KEY, JSON.stringify(data));
+    
+  // 직원관리 json 파일 load
+  fetch("/src/data/employees.json")
+    .then((response) => response.json())
+    .then((data) => {
+      if (localStorage.getItem("employees")) {
+        return;
+      }
+      localStorage.setItem("employees", JSON.stringify(data));
     })
     .catch((error) => {
       console.error("Error loading JSON:", error);
