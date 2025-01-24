@@ -1,13 +1,12 @@
 import "./leaveDetail.css";
 import { createButton } from "@/components/Button/button";
-import Modal from "@/components/Modal/modal";
 
 const leaveDetail = (container, id) => {
   const leaveDetailRender = document.createElement("div");
   leaveDetailRender.className = "wrapper";
 
   // URL에서 leave ID를 가져오는 함수
-  const leaveId = window.location.pathname.split("/")[2]; // 예시: /leave/12345/edit에서 12345를 추출
+  const leaveId = window.location.pathname.split("/")[3]; // 예시: /user/leave/12345/edit에서 12345를 추출
   console.log("수정할 leave ID:", leaveId); // 가져온 ID를 확인
 
   // 수정 버튼 생성 및 이벤트 추가
