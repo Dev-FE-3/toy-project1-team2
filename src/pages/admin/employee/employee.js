@@ -8,8 +8,8 @@ const empUtils = {
       modalStyle: "warning",
       onConfirm,
     });
-    document.body.appendChild(modal);
-    modal.querySelector(".modal").classList.remove("hidden");
+    document.body.appendChild(modal.modalHTML);
+    modal.openModal();
   },
   infoModal(message, modalStyle = "primary") {
     const modal = Modal({
@@ -18,8 +18,8 @@ const empUtils = {
       modalStyle,
       showCancelBtn: false,
     });
-    document.body.appendChild(modal);
-    modal.querySelector(".modal").classList.remove("hidden");
+    document.body.appendChild(modal.modalHTML);
+    modal.openModal();
   },
   validationRules: {
     name: {
