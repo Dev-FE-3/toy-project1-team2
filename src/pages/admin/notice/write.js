@@ -21,11 +21,11 @@ const write = (contents) => {
   const contentField = createInputField({
     tagName: "textarea",
     attributes: {
-      name: "content",
-      id: "content",
+      name: "contents",
+      id: "contents",
       classList: ["border--main", "class2"],
       placeholder: "내용을 입력하세요",
-      rows: "10",
+      rows: "20",
     },
     datasets: { required: true, validation: true },
   });
@@ -68,7 +68,6 @@ const write = (contents) => {
         <section class="field-contents">
             ${titleField.outerHTML}
             <div class="fileField"></div>
-           <div class="contentField"></div>
             ${contentField.outerHTML}
         </section>
     </section>
@@ -83,7 +82,7 @@ const write = (contents) => {
 
   function handleRegister() {
     const title = document.getElementById("title").value;
-    const contents = document.getElementById("content").value;
+    const contents = document.getElementById("contents").value;
     const fileInput = document.getElementById("file");
     const files = fileInput.files;
 
