@@ -47,6 +47,8 @@
 .list-contents {
   height: 75vh;
   overflow-y: auto;
+
+  margin: 2.4rem;
 }
 
 .list-contents ul .list-item {
