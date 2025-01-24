@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".", // 프로젝트의 루트
+    "paths": {
+      "@/*": ["src/*"] // '@'를 'src' 경로로 매핑
+    }
+  }
+}
