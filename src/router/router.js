@@ -3,6 +3,7 @@ import profile from "@/pages/user/profile/profileDetail";
 import notFound from "@/pages/notFound/notFound";
 import notice from "@/pages/admin/notice/notice";
 import write from "@/pages/admin/notice/write";
+import detail from "@/pages/admin/notice/detail";
 import record from "@/pages/user/workRecord/workRecord";
 import employeeList from "@/pages/admin/employee/employeeList";
 import employeeWrite from "@/pages/admin/employee/employeeWrite";
@@ -19,6 +20,7 @@ const routes = {
   "/admin/notice": notice,
   "/notice": notice,
   "/notice/write": write,
+  "/notice/detail/:id": detail,
   "/record": record,
   "/admin/employee": employeeList,
   "/admin/employee/write": employeeWrite,
