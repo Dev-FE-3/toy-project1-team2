@@ -1,5 +1,6 @@
 import "./css/global.css";
 import { router } from "./router/router.js";
+import { WORK_RECORD_URL, WORK_RECORD_KEY } from "@/constants/constants.js";
 
 const app = async function () {
   await checkAuth();
@@ -32,6 +33,28 @@ const initializeLocalStorage = function () {
       console.error("Error loading JSON:", error);
     });
 
+  fetch(WORK_RECORD_URL)
+    .then((response) => response.json())
+    .then((data) => {
+      if (localStorage.getItem(WORK_RECORD_KEY)) {
+        return;
+      }
+      localStorage.setItem(WORK_RECORD_KEY, JSON.stringify(data));
+
+      // 직원관리 json 파일 load
+      fetch("/src/data/employees.json")
+        .then((response) => response.json())
+        .then((data) => {
+          if (localStorage.getItem("employees")) {
+            return;
+          }
+          localStorage.setItem("employees", JSON.stringify(data));
+        })
+        .catch((error) => {
+          console.error("Error loading JSON:", error);
+        });
+    });
+
     // 휴가관리 json 파일 load
     fetch('/src/data/leaves.json')
     .then((response) => response.json())
@@ -44,6 +67,7 @@ const initializeLocalStorage = function () {
     .catch((error) => {
       console.error("Error loading JSON:", error);
     });
+
 };
 
 document.addEventListener("DOMContentLoaded", app);
