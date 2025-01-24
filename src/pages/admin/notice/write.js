@@ -1,4 +1,3 @@
-import "./common.css";
 import "./write.css";
 
 import { createButton } from "@/components/Button/button.js";
@@ -56,14 +55,14 @@ const write = (contents) => {
       showCancelBtn,
     });
 
-    document.body.appendChild(modal);
-    modal.querySelector(".modal").classList.remove("hidden");
+    document.body.appendChild(modal.modalHTML);
+    modal.openModal();
   }
 
   contents.innerHTML = `
     <section class="wrapper">
         <header class="header">
-            <h1>공지사항 등록</h1>
+            <h1 class="header__title">공지사항 등록</h1>
             <div class="button"></div> <!-- 버튼을 여기에 추가할 예정 -->
         </header>
         <section class="field-contents">

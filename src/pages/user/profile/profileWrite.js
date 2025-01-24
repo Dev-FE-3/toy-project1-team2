@@ -5,25 +5,26 @@ import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input";
 import InputValidation from "@/components/InputField/inputValidation";
 
-
 const EMPLOYEE_INDEX = 0; // 임시로 첫번째 직원 데이터 출력
 const BASIC_PROFILE_IMG = "/src/assets/images/profile/profile-basic.png";
 let currentProfileImage = "";
 
 const profileWrite = (container) => {
-  const employee = JSON.parse(localStorage.getItem("employees"))[EMPLOYEE_INDEX];
+  const employee = JSON.parse(localStorage.getItem("employees"))[
+    EMPLOYEE_INDEX
+  ];
 
   const contentWrapHTML = document.createElement("div");
-  contentWrapHTML.className = "content-wrap";
+  contentWrapHTML.className = "wrapper";
 
   // 버튼 생성
   const submitButton = createButton("저장", null, ["btn", "btn--submit"]);
   const cancleButton = createButton("취소", null, ["btn", "btn--delete"]);
-  const cancleLink = `/profile`;
+  const cancleLink = `/user/profile`;
 
   contentWrapHTML.innerHTML = `
     <div class="header">
-      <h2 class="header__title">내프로필 수정</h2>
+      <h2 class="header__title">내 프로필 수정</h2>
       <div class="header__btn">
         ${submitButton.outerHTML}
         <a href="${cancleLink}">${cancleButton.outerHTML}</a>
@@ -155,7 +156,7 @@ const profileWrite = (container) => {
       </form>
     </div>
   `;
-  
+
   bindProfileImageEvents(contentWrapHTML);
   bindEditPasswordChangeEvent(contentWrapHTML);
   container.appendChild(contentWrapHTML);
@@ -183,7 +184,9 @@ const profileWrite = (container) => {
 
 const handleFormSubmit = () => {
   const employees = JSON.parse(localStorage.getItem("employees"));
-  const employee = JSON.parse(localStorage.getItem("employees"))[EMPLOYEE_INDEX];
+  const employee = JSON.parse(localStorage.getItem("employees"))[
+    EMPLOYEE_INDEX
+  ];
 
   const formData = new FormData(document.querySelector("form"));
 
@@ -193,25 +196,26 @@ const handleFormSubmit = () => {
 
   // 로컬 스토리지 갱신
   localStorage.setItem("employees", JSON.stringify(employees));
-  
+
   // 모달 안내 후 페이지 이동
   const modal = Modal({
     title: "안내",
     message: "정상적으로 변경되었습니다",
     modalStyle: "success",
     onConfirm: () => {
-      window.location.href = "/profile";
+      window.location.href = "/user/profile";
     },
     showCancelBtn: false,
   });
-  document.body.appendChild(modal);
-  modal.querySelector(".modal").classList.remove("hidden");
+
+  document.body.appendChild(modal.modalHTML);
+  modal.openModal();
 };
 
 const bindEditPasswordChangeEvent = (contentWrapHTML) => {
   const passwordChangeButton = contentWrapHTML.querySelector(".change-icon");
   passwordChangeButton.addEventListener("click", appendPasswordChange);
-}
+};
 
 const bindProfileImageEvents = (contentWrapHTML) => {
   const fileEl = contentWrapHTML.querySelector(".profile input");
@@ -256,7 +260,7 @@ const appendPasswordChange = () => {
   const chagneButton = document.querySelector(".change-icon");
   if (chagneButton) chagneButton.remove();
 
-  const contentWrapHTML = document.querySelector(".content-wrap");
+  const contentWrapHTML = document.querySelector(".wrapper");
   const passwordChangeEl = document.querySelector(".password-area");
   const tbody = document.createElement("tbody");
   tbody.innerHTML = `
@@ -302,6 +306,6 @@ const appendPasswordChange = () => {
     </tr>
   `;
   passwordChangeEl.appendChild(tbody);
-} 
+};
 
 export default profileWrite;

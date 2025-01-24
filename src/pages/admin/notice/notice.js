@@ -1,4 +1,3 @@
-import "./common.css";
 import "./notice.css";
 
 import { createButton } from "@/components/Button/button.js";
@@ -44,7 +43,7 @@ const notice = (contents) => {
   <section class="wrapper">
     <header class="header">
         <div class="left">
-          <h1>공지사항 관리</h1>
+          <h1 class="header__title">공지사항 관리</h1>
           ${
             isAdminNoticePage
               ? `

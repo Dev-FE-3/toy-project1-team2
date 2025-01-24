@@ -2,8 +2,8 @@ import "./employee.css";
 
 import empUtils from "./employee";
 import { createButton } from "@/components/Button/button";
-import { createInputField } from "@/components/InputField/input";
-import { createPagination } from "@/components/Pagination/Pagination";
+import { createInputField } from "@/components/InputField/input.js";
+import { createPagination } from "@/components/Pagination/pagination.js";
 
 const ITEM_PER_PAGE = 5; // 한페이지에 10개의 목록만 보여줌
 const START_PAGE = 1; // 처음 로드될때는 1페이지
@@ -12,7 +12,7 @@ const employees = JSON.parse(localStorage.getItem("employees")); // 직원데이
 const employeeList = (container) => {
   // 직원목록 화면 기본 틀 생성
   const contentWrapHTML = document.createElement("div");
-  contentWrapHTML.className = "content-wrap";
+  contentWrapHTML.className = "wrapper";
 
   // 화면에 필요한 요소 생성
   const writeButton = createButton("등록", writeButtonHandler, [
@@ -116,13 +116,13 @@ const deleteSelectedEmployees = () => {
 const renderEmployeeList = (page) => {
   const tbodyEl = document.querySelector("tbody");
   tbodyEl.innerHTML = ""; // 직원 목록 초기화
-  
+
   // 기존 페이지네이션 삭제
   const pagenationContainer = document.querySelector(".pagination-container");
   if (pagenationContainer) pagenationContainer.remove();
 
   // 직원 데이터가 없는 경우 메시지 표시
-  if (employees.length === 0 ) {
+  if (employees.length === 0) {
     tbodyEl.innerHTML = "<tr><td colspan='7'>등록된 직원이 없습니다</td></tr>";
     return;
   }
@@ -139,7 +139,7 @@ const renderEmployeeList = (page) => {
   });
 
   // 페이지네이션 생성
-  document.querySelector(".content-wrap").appendChild(
+  document.querySelector(".wrapper").appendChild(
     createPagination({
       totalItems: employees.length,
       itemsPerPage: ITEM_PER_PAGE,
