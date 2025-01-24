@@ -4,7 +4,7 @@ import { createButton } from "@/components/Button/button.js";
 import Modal from "@/components/Modal/modal.js";
 
 const detail = (contents) => {
-  const submitButton = createButton("수정", null, ["btn--submit"]);
+  // const submitButton = createButton("수정", null, ["btn--submit"]);
   const deleteButton = createButton("삭제", handleConfirmDelete, [
     "btn--delete",
   ]);
@@ -24,7 +24,7 @@ const detail = (contents) => {
     message,
     style,
     onConfirm = () => {},
-    showCancelBtn = false
+    showCancelBtn = true
   ) {
     const modal = Modal({
       title: "안내",
@@ -56,7 +56,6 @@ const detail = (contents) => {
   // 이전 URL이 "admin/notice"인 경우 수정/삭제 버튼 추가
   if (referrer.includes("/admin/notice")) {
     const buttonContainer = contents.querySelector(".action-buttons");
-    buttonContainer.appendChild(submitButton);
     buttonContainer.appendChild(deleteButton);
   }
 
