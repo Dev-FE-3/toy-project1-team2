@@ -3,12 +3,17 @@ import { Timer, Calender, Dashboard } from "@/components/WorkRecord/index.js";
 
 const WorkRecord = (contents) => {
   contents.innerHTML = `
-        <div id="contents">
-          <div id="top-container">
-            <div id="top-left"></div>
-            <div id="top-right"></div>
+        <div class="wrapper">
+          <div class="header">
+            <h2 class="header__title">근무관리</h2>
           </div>
-          <div id="bottom-container"></div>
+          <section>
+            <div id="top-container">
+              <div id="top-left"></div>
+              <div id="top-right"></div>
+            </div>
+            <div id="bottom-container"></div>
+          </section>
         </div>
       `;
 

@@ -1,7 +1,5 @@
-#contents {
-  max-width: 1200px;
-  display: flex;
-  flex-direction: column;
+.wrapper section {
+  margin: 2.4rem;
 }
 
 #top-container {

@@ -1,4 +1,3 @@
-import home from "@/pages/home/home";
 import profile from "@/pages/user/profile/profileDetail";
 import notFound from "@/pages/notFound/notFound";
 import notice from "@/pages/admin/notice/notice";
@@ -12,33 +11,70 @@ import profileWrite from "@/pages/user/profile/profileWrite";
 import leave from "@/pages/user/leave/leaveList";
 import leaveDetail from "@/pages/user/leave/leaveDetail";
 import leaveApply from "@/pages/user/leave/leaveApply";
-import leaveEdit from "@/pages/user/leave/leaveEdit"
+import leaveEdit from "@/pages/user/leave/leaveEdit";
+
+import { renderHeader, initHeader } from "@/layout/header.js";
+import { renderSidebar, initSidebar } from "@/layout/sidebar.js";
 
 const routes = {
-  "/": home, //기본 라우팅
-  "/user:id": profile, //동적 라우팅 사용을 위해서는 경로 뒤에 /:id를 추가해서 사용
-  "/admin/notice": notice,
-  "/notice": notice,
-  "/notice/write": write,
-  "/notice/detail/:id": detail,
-  "/record": record,
+  "/": notice, // 기본 라우팅
+
+  // 직원관리 페이지
   "/admin/employee": employeeList,
   "/admin/employee/write": employeeWrite,
   "/admin/employee/:id": employeeDetail,
   "/admin/employee/write/:id": employeeWrite,
-  "/profile": profile,
-  "/profile/write" : profileWrite,
-  "/leave": leave,
-  "/leave/apply": leaveApply,
-  ".leave/:id/edit": leaveEdit,
-  "/leave/:id": leaveDetail,
+
+  // 공지사항 페이지
+  "/admin/notice": notice,
+  "/notice": notice,
+  "/notice/write": write,
+  "/notice/detail/:id": detail,
+
+  // 프로필 페이지
+  "/user/profile": profile,
+  "/user:id": profile,
+  "/user/profile/write": profileWrite,
+
+  "/user/record": record, // 근무관리 페이지
+
+  // 휴가관리 페이지
+  "/user/leave": leave,
+  "/user/leave/apply": leaveApply,
+  "/user/leave/:id/edit": leaveEdit,
+  "/user/leave/:id": leaveDetail,
 };
 
+// :id와 같은 동적 라우팅을 처리하기 위해 경로를 정규식으로 변환
 const getRouteRegex = (route) => route.replace(/:id/, "([\\w-]+)");
+
+function renderLayout(container) {
+  container.innerHTML = `
+    ${renderHeader()}
+    <div id="main-container">
+      ${renderSidebar()}
+      <main id="content"></main>
+    </div>
+  `;
+}
 
 const renderComponent = (route, container, id) => {
   try {
-    routes[route](container, id); // 해당 컴포넌트 호출
+    // 공통 레이아웃 렌더링
+    renderLayout(container);
+    // 콘텐츠 영역에 컴포넌트 렌더링
+    const content = document.querySelector("#content");
+    routes[route](content, id); // 해당 컴포넌트 호출
+
+    // 사이드바 초기화
+    const sidebarContainer = document.querySelector("#sidebar");
+    if (sidebarContainer) {
+      sidebarContainer.innerHTML = renderSidebar();
+      initSidebar(); // 새 링크에 이벤트 재설정
+    }
+
+    // 헤더 초기화
+    initHeader(); // 헤더의 링크 클릭 이벤트 리스너 설정
   } catch (err) {
     console.error(err);
   }
@@ -60,6 +96,8 @@ export const router = function () {
     }
   }
 
-  // 경로가 없을 경우 에러 처리
-  notFound(container);
+  // 경로가 없을 경우 에러 처리 (공통 레이아웃 포함)
+  renderLayout(container);
+  const content = document.querySelector("#content");
+  notFound(content);
 };

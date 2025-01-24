@@ -1,65 +1,52 @@
-.content-wrap a {
+.wrapper a {
   color: #333;
   text-decoration: none;
 }
 
-.content-wrap .header {
+.wrapper .header .header__btn {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 2rem 2.4rem;
-  border-bottom: 2px solid var(--secondary-1-color);
-}
-.content-wrap .header .header__title {
-  min-width: 90px;
-  font-size: 2.4rem;
-  font-weight: 700;
-}
-.content-wrap .header .header__btn {
-  display: flex;
-  gap: .4rem;
+  gap: 0.4rem;
 }
 
-.content-wrap .employee-list,
-.content-wrap .employee-write,
-.content-wrap .employee-detail {
-  padding: 3.2rem;
+.wrapper .employee-list,
+.wrapper .employee-write,
+.wrapper .employee-detail {
   margin: 2.4rem;
-  background-color: var(--background-content-color);
   border-radius: 1.6rem;
-  overflow-x: scroll;
+  background-color: var(--background-content-color);
+  padding: 2.4rem;
 }
 
 /* 테이블 디자인 */
-.content-wrap table {
+.wrapper table {
   width: 100%;
   min-width: 950px;
   font-size: 1.6rem;
   border-collapse: collapse;
 }
-.content-wrap table tr {
+.wrapper table tr {
   border-bottom: 1px solid var(--secondary-2-color);
 }
-.content-wrap table tr:first-child {
+.wrapper table tr:first-child {
   border-top: 1px solid var(--secondary-2-color);
 }
-.content-wrap table th,
-.content-wrap table td {
+.wrapper table th,
+.wrapper table td {
   text-align: center;
   vertical-align: middle;
-  padding: 1rem .8rem;
+  padding: 1rem 0.8rem;
   min-width: 80px;
 }
-.content-wrap table th {
-  color: #8D96A1;
+.wrapper table th {
+  color: #8d96a1;
 }
-.content-wrap table thead tr {
-  background-color: #F9F9F9;
+.wrapper table thead tr {
+  background-color: #f9f9f9;
 }
-.content-wrap table tbody tr {
+.wrapper table tbody tr {
   background-color: var(--background-content-color);
 }
-.content-wrap table .phone {
+.wrapper table .phone {
   white-space: nowrap;
 }
 
@@ -67,7 +54,7 @@
 .employee-info-wrap {
   display: flex;
   align-items: center;
-  gap: .8rem;
+  gap: 0.8rem;
 }
 .employee-info-wrap img {
   width: 58px;
@@ -80,13 +67,13 @@
   text-align: left;
 }
 .employee-info-wrap .employee-info .employee-name {
-  margin-bottom: .4rem;
+  margin-bottom: 0.4rem;
 }
 
 /* 직무 배지 디자인 */
 .employee-position {
   font-size: 1.3rem;
-  padding: .4rem .8rem;
+  padding: 0.4rem 0.8rem;
   color: var(--primary-color);
   border: 1px solid var(--primary-color);
   border-radius: 25px;
@@ -120,7 +107,7 @@
   min-width: 83px;
 }
 .employee-write .input-wrap input:read-only {
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
   color: var(--secondary-2-color);
 }
 
@@ -130,12 +117,12 @@
   gap: 1.6rem;
   align-items: flex-end;
 }
-.profile input[type=file] {
+.profile input[type="file"] {
   display: none;
 }
 .profile .profile__image {
   display: flex;
-  border-radius: .8rem;
+  border-radius: 0.8rem;
   border: 1px solid var(--secondary-2-color);
   overflow: hidden;
 }
@@ -147,14 +134,14 @@
 .profile .profile__btn,
 .profile .profile__card {
   display: flex;
-  gap: .8rem;
+  gap: 0.8rem;
   align-items: center;
 }
 .profile .profile__btn button {
   font-size: 1.3rem;
-  padding: .4rem .8rem;
+  padding: 0.4rem 0.8rem;
   background: #fff;
-  border-radius: .4rem;
+  border-radius: 0.4rem;
   cursor: pointer;
 }
 .profile .profile__btn .btn--upload {
@@ -176,12 +163,12 @@
 }
 .employee-detail .data-wrap {
   display: flex;
-  padding: .8rem;
-  gap: .8rem;
+  padding: 0.8rem;
+  gap: 0.8rem;
 }
 .employee-detail .data-wrap div {
-  padding: .8rem;
+  padding: 0.8rem;
 }
 .employee-detail .data-wrap .label {
-  color: #8D96A1;
+  color: #8d96a1;
 }

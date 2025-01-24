@@ -11,7 +11,7 @@ const employeeDetail = (container, id) => {
   }
 
   const contentWrapHTML = document.createElement("div");
-  contentWrapHTML.className = "content-wrap";
+  contentWrapHTML.className = "wrapper";
 
   // 버튼 생성
   const editButton = createButton("수정", null, ["btn", "btn--edit"]);

@@ -2,22 +2,23 @@ import "@/pages/admin/employee/employee.css";
 
 import { createButton } from "@/components/Button/button";
 
-
 const profile = (container) => {
   const EMPLOYEE_INDEX = 0; // 임시로 첫번째 직원 데이터 출력
-  const employee = JSON.parse(localStorage.getItem("employees"))[EMPLOYEE_INDEX];
+  const employee = JSON.parse(localStorage.getItem("employees"))[
+    EMPLOYEE_INDEX
+  ];
 
   const contentWrapHTML = document.createElement("div");
-  contentWrapHTML.className = "content-wrap";
+  contentWrapHTML.className = "wrapper";
 
   // 버튼 생성
   const editButton = createButton("수정", null, ["btn", "btn--edit"]);
 
   contentWrapHTML.innerHTML = `
     <div class="header">
-      <h2 class="header__title">내프로필</h2>
+      <h2 class="header__title">내 프로필</h2>
       <div class="header__btn">
-        <a href="/profile/write">${editButton.outerHTML}</a>
+        <a href="/user/profile/write">${editButton.outerHTML}</a>
       </div>
     </div>
     <div class="employee-detail">

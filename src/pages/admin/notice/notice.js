@@ -1,4 +1,3 @@
-import "./common.css";
 import "./notice.css";
 
 import { createButton } from "@/components/Button/button.js";
@@ -22,11 +21,11 @@ const notice = (contents) => {
     ["btn--submit"]
   );
 
-  const deleteButton = createButton(
-    "삭제",
-    () => console.log("삭제 버튼 클릭"),
-    ["btn--delete"]
-  );
+  // const deleteButton = createButton(
+  //   "삭제",
+  //   () => console.log("삭제 버튼 클릭"),
+  //   ["btn--delete"]
+  // );
 
   const searchInput = createInputField({
     type: "search",
@@ -44,19 +43,8 @@ const notice = (contents) => {
   <section class="wrapper">
     <header class="header">
         <div class="left">
-          <h1>공지사항 관리</h1>
-          ${
-            isAdminNoticePage
-              ? `
-              <div class="allCheckButton">
-                <img
-                  src=${UNCHECKED_ICON_URL}
-                  class="checkBox"
-                />
-                <p>전체선택</p>
-              </div>`
-              : ""
-          }
+          <h1 class="header__title">공지사항 관리</h1>
+
         </div>
 
         <div class="right">
@@ -82,7 +70,6 @@ const notice = (contents) => {
   if (isAdminNoticePage) {
     const buttonContainer = contents.querySelector(".action-buttons");
     buttonContainer.appendChild(submitButton);
-    buttonContainer.appendChild(deleteButton);
   }
 
   // JSON 데이터 로드
@@ -189,7 +176,7 @@ const notice = (contents) => {
 
   // changeButton 클릭 시 목록 보기 방식  변경
   const changeButton = document.querySelector(".changeButton");
-  const galleryList = document.querySelector("ul");
+  const galleryList = document.querySelector(".gallery-list");
 
   if (changeButton && galleryList) {
     changeButton.addEventListener("click", function () {

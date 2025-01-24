@@ -3,7 +3,7 @@
   flex-direction: column;
   background-color: var(--background-content-color);
   min-width: 330px;
-  height: 125px;
+
   border: 1px solid var(--background-content-color);
   border-radius: 20px;
   font-size: 1.6rem;

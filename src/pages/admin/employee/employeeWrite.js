@@ -86,7 +86,7 @@ const createEmployeeWriteForm = (type, idx = 0) => {
   }
 
   const contentWrapHTML = document.createElement("div");
-  contentWrapHTML.className = "content-wrap";
+  contentWrapHTML.className = "wrapper";
 
   // 버튼 생성
   const buttonName = type === "write" ? "등록" : "저장";

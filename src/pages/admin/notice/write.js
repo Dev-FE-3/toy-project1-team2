@@ -1,4 +1,3 @@
-import "./common.css";
 import "./write.css";
 
 import { createButton } from "@/components/Button/button.js";
@@ -22,11 +21,11 @@ const write = (contents) => {
   const contentField = createInputField({
     tagName: "textarea",
     attributes: {
-      name: "content",
-      id: "content",
+      name: "contents",
+      id: "contents",
       classList: ["border--main", "class2"],
       placeholder: "내용을 입력하세요",
-      rows: "10",
+      rows: "20",
     },
     datasets: { required: true, validation: true },
   });
@@ -56,20 +55,19 @@ const write = (contents) => {
       showCancelBtn,
     });
 
-    document.body.appendChild(modal);
-    modal.querySelector(".modal").classList.remove("hidden");
+    document.body.appendChild(modal.modalHTML);
+    modal.openModal();
   }
 
   contents.innerHTML = `
     <section class="wrapper">
         <header class="header">
-            <h1>공지사항 등록</h1>
+            <h1 class="header__title">공지사항 등록</h1>
             <div class="button"></div> <!-- 버튼을 여기에 추가할 예정 -->
         </header>
         <section class="field-contents">
             ${titleField.outerHTML}
             <div class="fileField"></div>
-           <div class="contentField"></div>
             ${contentField.outerHTML}
         </section>
     </section>
@@ -84,7 +82,7 @@ const write = (contents) => {
 
   function handleRegister() {
     const title = document.getElementById("title").value;
-    const contents = document.getElementById("content").value;
+    const contents = document.getElementById("contents").value;
     const fileInput = document.getElementById("file");
     const files = fileInput.files;
 

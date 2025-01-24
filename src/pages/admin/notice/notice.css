@@ -45,8 +45,10 @@
 
 /** 리스트 섹션 */
 .list-contents {
-  height: 75vh;
+  height: 65vh;
   overflow-y: auto;
+
+  margin: 2.4rem;
 }
 
 .list-contents ul .list-item {
