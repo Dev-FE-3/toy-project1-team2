@@ -10,11 +10,11 @@ const saveEventToLocalStorage = (event) => {
 };
 
 // 모달 표시 함수
-const showModal = (title, message, onConfirm) => {
+const showModal = (title, style, message, onConfirm) => {
   const modal = Modal({
     title,
     message,
-    modalStyle: "primary",
+    modalStyle: style,
     onConfirm,
     showCancelBtn: true,
   });
@@ -78,7 +78,7 @@ export function Timer({
 
   // 근무 시작 모달
   const showStartWorkModal = () => {
-    showModal("안내", "근무를 시작하시겠습니까?", () => {
+    showModal("안내", "primary", "근무를 시작하시겠습니까?", () => {
       updateWorkStart(currentTime);
     });
   };
@@ -95,7 +95,7 @@ export function Timer({
 
   // 근무 종료 모달
   const showEndWorkModal = () => {
-    showModal("안내", "근무를 종료하시겠습니까?", () => {
+    showModal("안내", "warning", "근무를 종료하시겠습니까?", () => {
       workEnd = currentTime;
       workEndElement.textContent = formatTime(workEnd);
       updateStatus("근무종료");

@@ -7,6 +7,19 @@ const leaveApply = (container) => {
   const leaveApplyRender = document.createElement("div");
   leaveApplyRender.className = "wrapper";
 
+  // 모달 표시 함수
+  const showModal = (message) => {
+    const modal = Modal({
+      title: "알림",
+      message,
+      modalStyle: "warning",
+      showCancelBtn: true,
+    });
+
+    document.body.appendChild(modal.modalHTML);
+    modal.openModal(); // 모달 열기
+  };
+
   // 신청 로직을 처리 함수
   function handleLeaveSubmission() {
     const startDateInput = document.getElementById("start-date");
@@ -21,13 +34,13 @@ const leaveApply = (container) => {
       !endDateInput.value ||
       !leaveTypeSelect.value
     ) {
-      alert("필수 입력 항목을 모두 선택해주세요.");
+      showModal("필수 입력 필드를 모두 입력해주세요.");
       return;
     }
 
     // 반차 선택 시 반차 구분 필수
     if (leaveTypeSelect.value === "반차" && halfdayTypeSelect.value === "-") {
-      alert("반차 구분을 선택해주세요.");
+      showModal("반차 구분을 선택해주세요.");
       return;
     }
 
@@ -211,7 +224,7 @@ const leaveApply = (container) => {
     if (selectedType === "반차") {
       // 시작일과 종료일이 다를 경우 반차 선택 불가
       if (startDateValue && endDateValue && startDateValue !== endDateValue) {
-        alert("반차는 시작일과 종료일이 같아야 선택 가능합니다.");
+        showModal("반차는 시작일과 종료일이 같아야 선택 가능합니다.");
         leaveTypeSelect.value = ""; // 선택 초기화
         return;
       }
@@ -307,14 +320,14 @@ const leaveApply = (container) => {
     // 과거 날짜 선택 방지
     if (selectedDate < today) {
       e.target.value = "";
-      alert("과거의 날짜는 선택할 수 없습니다.");
+      showModal("과거의 날짜는 선택할 수 없습니다.");
       return;
     }
 
     // 주말 및 공휴일 선택 방지
     if (isWeekendOrHoliday(selectedDate)) {
       e.target.value = "";
-      alert("주말 및 공휴일은 선택할 수 없습니다.");
+      showModal("주말 및 공휴일은 선택할 수 없습니다.");
       return;
     }
 
@@ -334,21 +347,21 @@ const leaveApply = (container) => {
     // 과거 날짜 선택 방지
     if (selectedDate < new Date()) {
       e.target.value = "";
-      alert("과거의 날짜는 선택할 수 없습니다.");
+      showModal("과거의 날짜는 선택할 수 없습니다.");
       return;
     }
 
     // 시작일보다 이전 날짜 선택 방지
     if (selectedDate < new Date(startDateEl.value)) {
       e.target.value = "";
-      alert("시작일 이후의 날짜를 선택해주세요.");
+      showModal("시작일 이후의 날짜를 선택해주세요.");
       return;
     }
 
     // 주말 및 공휴일 선택 방지
     if (isWeekendOrHoliday(selectedDate)) {
       e.target.value = "";
-      alert("주말 및 공휴일은 선택할 수 없습니다.");
+      showModal("주말 및 공휴일은 선택할 수 없습니다.");
       return;
     }
 

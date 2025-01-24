@@ -10,6 +10,19 @@ const leaveEdit = (container, id) => {
   // URL에서 leave ID를 가져오는 함수
   const leaveId = window.location.pathname.split("/")[2];
 
+  // 모달 표시 함수
+  const showModal = (message) => {
+    const modal = Modal({
+      title: "알림",
+      message,
+      modalStyle: "warning",
+      showCancelBtn: true,
+    });
+
+    document.body.appendChild(modal.modalHTML);
+    modal.openModal(); // 모달 열기
+  };
+
   const editButton = createButton(
     "수정",
     () => {
@@ -25,13 +38,13 @@ const leaveEdit = (container, id) => {
         !endDateInput.value ||
         !leaveTypeSelect.value
       ) {
-        alert("필수 입력 항목을 모두 입력해주세요.");
+        showModal("필수 입력 항목을 모두 입력해주세요.");
         return;
       }
 
       // 반차 선택 시 반차 구분 필수
       if (leaveTypeSelect.value === "반차" && halfdayTypeSelect.value === "-") {
-        alert("반차 구분을 선택해주세요.");
+        showModal("반차 구분을 선택해주세요.");
         return;
       }
 
@@ -66,7 +79,7 @@ const leaveEdit = (container, id) => {
             localStorage.setItem("leaves", JSON.stringify(leaves));
             window.location.href = `/user/leave/${id}`; // 수정된 페이지로 리다이렉트
           } else {
-            alert("휴가 정보를 찾을 수 없습니다.");
+            showModal("휴가 정보를 찾을 수 없습니다.");
           }
         },
       });
@@ -193,7 +206,7 @@ const leaveEdit = (container, id) => {
     if (selectedType === "반차") {
       // 시작일과 종료일이 다를 경우 반차 선택 불가
       if (startDateValue && endDateValue && startDateValue !== endDateValue) {
-        alert("반차는 시작일과 종료일이 같아야 선택 가능합니다.");
+        showModal("반차는 시작일과 종료일이 같아야 선택 가능합니다.");
         leaveTypeSelect.value = ""; // 선택 초기화
         return;
       }
@@ -289,14 +302,14 @@ const leaveEdit = (container, id) => {
     // 과거 날짜 선택 방지
     if (selectedDate < today) {
       e.target.value = "";
-      alert("과거의 날짜는 선택할 수 없습니다.");
+      showModal("과거의 날짜는 선택할 수 없습니다.");
       return;
     }
 
     // 주말 및 공휴일 선택 방지
     if (isWeekendOrHoliday(selectedDate)) {
       e.target.value = "";
-      alert("주말 및 공휴일은 선택할 수 없습니다.");
+      showModal("주말 및 공휴일은 선택할 수 없습니다.");
       return;
     }
 
@@ -316,21 +329,21 @@ const leaveEdit = (container, id) => {
     // 과거 날짜 선택 방지
     if (selectedDate < new Date()) {
       e.target.value = "";
-      alert("과거의 날짜는 선택할 수 없습니다.");
+      showModal("과거의 날짜는 선택할 수 없습니다.");
       return;
     }
 
     // 시작일보다 이전 날짜 선택 방지
     if (selectedDate < new Date(startDateEl.value)) {
       e.target.value = "";
-      alert("시작일 이후의 날짜를 선택해주세요.");
+      showModal("시작일 이후의 날짜를 선택해주세요.");
       return;
     }
 
     // 주말 및 공휴일 선택 방지
     if (isWeekendOrHoliday(selectedDate)) {
       e.target.value = "";
-      alert("주말 및 공휴일은 선택할 수 없습니다.");
+      showModal("주말 및 공휴일은 선택할 수 없습니다.");
       return;
     }
 
@@ -361,7 +374,7 @@ const leaveEdit = (container, id) => {
     document.getElementById("reason").value = leaveItem.reason || "";
     document.getElementById("leave-days").textContent = leaveItem.leaveDays;
   } else {
-    alert("해당 휴가 정보를 찾을 수 없습니다.");
+    showModal("해당 휴가 정보를 찾을 수 없습니다.");
   }
 };
 

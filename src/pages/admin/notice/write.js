@@ -42,15 +42,16 @@ const write = (contents) => {
   });
 
   function showModal(
-    message,
+    title,
     style,
+    message,
     onConfirm = () => {},
     showCancelBtn = false
   ) {
     const modal = Modal({
-      title: "안내",
-      message,
+      title,
       modalStyle: style,
+      message,
       onConfirm,
       showCancelBtn,
     });
@@ -93,7 +94,7 @@ const write = (contents) => {
           ? "내용을 입력해 주세요"
           : "내용은 최소 10자 이상 입력해야 합니다.";
 
-      showModal(message, "warning");
+      showModal("알림", "warning", message);
       return;
     }
 
@@ -109,23 +110,29 @@ const write = (contents) => {
     const maxFileCount = 3;
 
     if (files.length > maxFileCount) {
-      showModal("첨부파일은 최대 3개까지만 업로드 가능합니다.", "warning");
+      showModal(
+        "알림",
+        "warning",
+        "첨부파일은 최대 3개까지만 업로드 가능합니다."
+      );
       return;
     }
 
     for (const file of files) {
       if (!allowedFileTypes.includes(file.type)) {
         showModal(
-          "JPG, PNG, GIF, PDF, DOCX 형식의 파일만 업로드 가능합니다.",
-          "warning"
+          "알림",
+          "warning",
+          "JPG, PNG, GIF, PDF, DOCX 형식의 파일만 업로드 가능합니다."
         );
         return;
       }
 
       if (file.size > maxFileSize) {
         showModal(
-          "첨부파일은 파일당 최대 3MB까지 업로드 가능합니다.",
-          "warning"
+          "알림",
+          "warning",
+          "첨부파일은 파일당 최대 3MB까지 업로드 가능합니다."
         );
         return;
       }
@@ -170,6 +177,7 @@ const write = (contents) => {
           localStorage.setItem("notices", JSON.stringify(notices));
 
           showModal(
+            "안내",
             "공지사항이 등록되었습니다.",
             "check",
             () => {
@@ -183,12 +191,12 @@ const write = (contents) => {
             false
           );
         } catch (error) {
-          showModal("공지사항 등록 중 오류가 발생했습니다.", "warning");
+          showModal("알림", "warning", "공지사항 등록 중 오류가 발생했습니다.");
         }
       })
       .catch((error) => {
         console.error("파일 변환 중 오류 발생:", error);
-        showModal("파일 처리 중 오류가 발생했습니다.", "warning");
+        showModal("알림", "warning", "파일 처리 중 오류가 발생했습니다.");
       });
   }
 };
