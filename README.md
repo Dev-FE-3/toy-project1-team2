@@ -17,27 +17,32 @@
 ### 👩‍💼 관리자 - 직원 관리
 - 신규 직원 등록
 - 기존 직원 정보 수정 및 삭제
-<!-- 영상 추가 -->
+
+![관리자-직원관리](https://github.com/user-attachments/assets/bdb83707-90aa-44ba-8fb9-3ed144c38b0e)
 
 ### 👩‍💼 관리자 - 공지 관리
 - 공지사항 등록 및 삭제
 - 갤러리, 리스트 형식으로 뷰 전환 가능
-<!-- 영상 추가 -->
+
+![관리자-공지관리](https://github.com/user-attachments/assets/22918700-98a2-40c6-a3d9-6332724cfe9c)
 
 ### 🙍‍♂️ 사용자 - 프로필 관리
 - 프로필 사진 삭제
-<!-- 영상 추가 -->
+
+![사용자-프로필관리](https://github.com/user-attachments/assets/4b22b027-ab8a-4f75-8b90-111642dcbc6f)
 
 ### 🙍‍♂️ 사용자 - 근무 관리
 - 출퇴근 시간 기록
 - 캘린터를 통한 월별 근태정보 확인
-<!-- 영상 추가 -->
+
+![사용자-근무관리](https://github.com/user-attachments/assets/a1b822a4-b298-474e-a443-3dccb5de29e8)
 
 ### 🙍‍♂️ 사용자 - 휴가 관리
 - 휴가 신청
 - 신청한 휴가 수정 및 삭제
 - 신청한 휴가 내역 확인
-<!-- 영상 추가 -->
+
+![사용자-휴가관리](https://github.com/user-attachments/assets/9076263b-c4f1-421f-8ce5-4bd6fc7165d2)
 
 &nbsp;
 
@@ -90,7 +95,7 @@
 | Package Manager |                                                                 ![Npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)                                                                 |
 | Version Control |       ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)       |
 |  Collaboration  |           ![Slack](https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)           |
-|     Design      |                                                ![figma](https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)                                                |
+|     Design      |                                                             ![figma](https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)                                                               |
 
 </div>
 
@@ -128,10 +133,10 @@ npm run dev
 
 <div align="center">
 
-|<div style="width:150px">[![ijisun](https://avatars.githubusercontent.com/u/118454010?v=4)](https://github.com/ijisun)</div>|<div style="width:150px">[![jungkyuYang](https://avatars.githubusercontent.com/u/67031524?v=4)](https://github.com/jungkyuYang)</div>|<div style="width:150px">[![gkfla668](https://avatars.githubusercontent.com/u/81246338?v=4)](https://github.com/gkfla668)</div>|[<div style="width:150px">![mirinae700](https://avatars.githubusercontent.com/u/182064852?v=4)](https://github.com/mirinae700)</div>|
+| <img width="200px" src="https://avatars.githubusercontent.com/u/118454010?v=4" style="max-width: 100%;"> | <img width="200px" src="https://avatars.githubusercontent.com/u/67031524?v=4" style="max-width: 100%;"> | <img width="200px" src="https://avatars.githubusercontent.com/u/81246338?v=4" style="max-width: 100%;"> | <img width="200px" src="https://avatars.githubusercontent.com/u/182064852?v=4" style="max-width: 100%;"> |
 | :---: | :---: | :---: | :---: |
-| **👑 [이지선](https://github.com/ijisun)** | **🍀 [양정규](https://github.com/jungkyuYang)** | **🍀 [임하림](https://github.com/gkfla668)** | **🍀 [전유진](https://github.com/mirinae700)** |
-| **사용자** &nbsp; 휴가 관리 <br/> **공통** &nbsp; 버튼/스크롤 <br/> 👩‍💻 README 작성 | **사용자** &nbsp; 근무 관리<br/> **공통** 모달 <br/> 👨‍🎓 발표자 <br/> | **관리자/사용자** &nbsp; 공지사항<br /> **공통** 드롭다운/ 페이지네이션 <br /> 공통 레이아웃 디자인 <br /> 👩‍🎨 디자인 통일화 | **관리자** 직원 관리 <br> **사용자** 프로필 <br /> **공통** 입력/검색창 <br /> 👩‍🏫 발표자료 제작 |
+| **💛 [이지선](https://github.com/ijisun)** | **💙 [양정규](https://github.com/jungkyuYang)** | **💙 [임하림](https://github.com/gkfla668)** | **💙 [전유진](https://github.com/mirinae700)** |
+| **사용자** 휴가 관리 <br/> **공통** 버튼/스크롤 <br/> 👩‍💻 README 작성 | **사용자** 근무 관리<br/> **공통** 모달 <br/> 👨‍🎓 발표자 <br/> | **관리자/사용자** 공지사항<br /> **공통** 드롭다운/ 페이지네이션 <br /> 공통 레이아웃 디자인 <br /> 👩‍🎨 디자인 통일화 | **관리자** 직원 관리 <br> **사용자** 프로필 <br /> **공통** 입력/검색창 <br /> 👩‍🏫 발표자료 제작 |
 
 </div>
 
