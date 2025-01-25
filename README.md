@@ -10,16 +10,34 @@
 > **모든 정보와 사람을 한 자리에, 카페의 새로운 허브(Hub)를 열다** <br />
 > **흩어진 업무와 소통, 카페허브가 하나로 모읍니다 🤗**
 
+&nbsp;
+
 ## 주요 페이지와 기능
 
-### 👩‍💼 관리자 - 직원관리
+### 👩‍💼 관리자 - 직원 관리
 - 신규 직원 등록
 - 기존 직원 정보 수정 및 삭제
 <!-- 영상 추가 -->
 
-### 👩‍💼 관리자 - 공지관리
+### 👩‍💼 관리자 - 공지 관리
 - 공지사항 등록 및 삭제
 - 갤러리, 리스트 형식으로 뷰 전환 가능
+<!-- 영상 추가 -->
+
+### 🙍‍♂️ 사용자 - 프로필 관리
+- 프로필 사진 삭제
+<!-- 영상 추가 -->
+
+### 🙍‍♂️ 사용자 - 근무 관리
+- 출퇴근 시간 기록
+- 캘린터를 통한 월별 근태정보 확인
+<!-- 영상 추가 -->
+
+### 🙍‍♂️ 사용자 - 휴가 관리
+- 휴가 신청
+- 신청한 휴가 수정 및 삭제
+- 신청한 휴가 내역 확인
+<!-- 영상 추가 -->
 
 &nbsp;
 
@@ -57,59 +75,48 @@
 - 📄 prettierrc.json
 ```
 
-## ⚙ Tech Stack
+&nbsp;
 
-### Library
-![vite](https://img.shields.io/badge/vite-333333?style=for-the-badge&logo=vite)        |
+## 🔨 기술 스택
 
-### Language
-![html5](https://img.shields.io/badge/html5-333333?style=for-the-badge&logo=html5)
-![javascript](https://img.shields.io/badge/javascript-333333?style=for-the-badge&logo=javascript)
+<div align="center">
 
-### Styling
-![css3](https://img.shields.io/badge/css3-333333?style=for-the-badge&logo=css3)
+|      Type       |                                                                                                             Tool                                                                                                             |
+| :-------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|     Library     |                                                               ![VITE](https://img.shields.io/badge/VITE-646CFF?style=for-the-badge&logo=Vite&logoColor=white)                                                                |
+|    Language     | ![HTML5](https://img.shields.io/badge/HTML5-E34F26.svg?style=for-the-badge&logo=HTML5&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=JavaScript&logoColor=black) |
+|     Styling     |                                                               ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS3&logoColor=white)                                                                |
+|   Formatting    |      ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E)      |
+| Package Manager |                                                                 ![Npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)                                                                 |
+| Version Control |       ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)       |
+|  Collaboration  |           ![Slack](https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)           |
+|     Design      |                                                ![figma](https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)                                                |
 
-### Formatting
-![eslint](https://img.shields.io/badge/eslint-333333?style=for-the-badge&logo=eslint)
-![prettier](https://img.shields.io/badge/prettier-333333?style=for-the-badge&logo=prettier)
-
-### Package Manager
-![npm](https://img.shields.io/badge/npm-333333?style=for-the-badge&logo=npm)
-
-### Version Control
-![git](https://img.shields.io/badge/git-333333?style=for-the-badge&logo=git)
-![github](https://img.shields.io/badge/github-333333?style=for-the-badge&logo=github)
-
-### Collaboration
-![slack](https://img.shields.io/badge/slack-333333?style=for-the-badge&logo=slack)
-![notion](https://img.shields.io/badge/notion-333333?style=for-the-badge&logo=notion)
-
-### Design
-![figma](https://img.shields.io/badge/figma-333333?style=for-the-badge&logo=figma)
+</div>
 
 &nbsp;
 
-## 프로젝트 설정 및 실행 방법
+## ⚙ 프로젝트 설정 및 실행 방법
 
-### 프로젝트 클론
+### 1. 프로젝트 클론
+
+Git 저장소에서 프로젝트를 로컬로 클론합니다. 터미널(또는 명령 프롬프트)을 열고 명령어를 입력합니다.
 
 ```
 git clone https://github.com/Dev-FE-3/toy-project1-team2
 ```
 
-### 의존성 설치
+### 2. 의존성 설치
+
+코드 에디터에서 프로젝트 폴더를 열고 터미널에서 'npm' 명령어를 사용하여 의존성을 설치합니다.
 
 ```
 npm install
 ```
 
-### 개발 서버 실행
+### 3. 개발 서버 실행
 
-```
-npm run server 
-```
-
-### 클라이언트 실행
+개발 서버를 실행하여 프로젝트를 로컬에서 프로젝트를 실행할 수 있습니다.
 
 ```
 npm run dev 
@@ -118,28 +125,82 @@ npm run dev
 &nbsp;
 
 ## 팀소개
-<table>
-  <tbody>
-    <tr>
-      <td>
-        <a href="https://github.com/ijisun">
-          <img src="https://avatars.githubusercontent.com/u/118454010?v=4" width="200px" height="200px" /><br>
-          <sub>
-            <b>팀장 : 이지선</b>
-          </sub>
-        </a><br>
-      </td>
-    </tr>
-  </tbody>
-</table>
+
+<div align="center">
+
+|<div style="width:150px">[![ijisun](https://avatars.githubusercontent.com/u/118454010?v=4)](https://github.com/ijisun)</div>|<div style="width:150px">[![jungkyuYang](https://avatars.githubusercontent.com/u/67031524?v=4)](https://github.com/jungkyuYang)</div>|<div style="width:150px">[![gkfla668](https://avatars.githubusercontent.com/u/81246338?v=4)](https://github.com/gkfla668)</div>|[<div style="width:150px">![mirinae700](https://avatars.githubusercontent.com/u/182064852?v=4)](https://github.com/mirinae700)</div>|
+| :---: | :---: | :---: | :---: |
+| **👑 [이지선](https://github.com/ijisun)** | **🍀 [양정규](https://github.com/jungkyuYang)** | **🍀 [임하림](https://github.com/gkfla668)** | **🍀 [전유진](https://github.com/mirinae700)** |
+| **사용자** &nbsp; 휴가 관리 <br/> **공통** &nbsp; 버튼/스크롤 <br/> 👩‍💻 README 작성 | **사용자** &nbsp; 근무 관리<br/> **공통** 모달 <br/> 👨‍🎓 발표자 <br/> | **관리자/사용자** &nbsp; 공지사항<br /> **공통** 드롭다운/ 페이지네이션 <br /> 공통 레이아웃 디자인 <br /> 👩‍🎨 디자인 통일화 | **관리자** 직원 관리 <br> **사용자** 프로필 <br /> **공통** 입력/검색창 <br /> 👩‍🏫 발표자료 제작 |
+
+</div>
 
 &nbsp;
 
-## 팀 컨벤션
+## 💡 팀 컨벤션
+
+### 브랜치 전략
+
+**main, dev, feat** 브랜치 사용
+
+- main : 배포 단계에서 사용
+
+- dev : 개발 단계에서 main 역할을 하는 브랜치
+
+- feat : 기능 단위로 사용하고 merge 후에는 삭제
+
+  - 브랜치 이름 규칙 : `feat/기능명` e.g. `feat/common-button`
+
+### 커밋 컨벤션
+
+- `feat` : 새로운 기능 추가
+
+- `fix` : 버그 수정
+
+- `docs` : 문서 수정
+
+- `style` : 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우
+
+- `refactor` : 코드 리펙토링
+
+- `test` : 테스트 코드, 리펙토링 테스트 코드 추가
+
+- `chore` : 빌드 업무 수정, 패키지 매니저 수정
+
+### 파일 컨벤션
+
+- 폴더 : PascalCase
+
+- 파일 : camelCase
+
+### 네이밍 컨벤션
+
+- 함수 및 변수 : camelCase
+
+- css 클래스 : kebab-case
+
+### CSS 스타일 가이드
+
+공통 디자인 요소 설정 후 진행
 
 &nbsp;
 
-## 프로젝트 진행 과정
+## ⏰ 프로젝트 진행 과정
+
+### 기획 및 설계 (2025.01.06 ~ 2025.01.09)
+프로젝트의 주제와 목표를 설정하고 서비스의 기능을 구체화하여 기능 명세서 작성
+
+### 와이어프레임 제작 (2025.01.09 ~ 2025.01.10)
+공통 디자인 가이드를 정하고 기능별 화면 디자인 작업
+
+### DB 설계 및 폴더 구조 확정 (2025.01.10 ~ 2025.01.13)
+기능 별 DB 설계 및 프로젝트 폴더 구조 확정
+
+### 퍼블리싱 (2025.01.14 ~ 2025.01.16)
+디자인HTML, CSS를 이용해 구조와 스타일링 작업
+
+### 기능 구현 (2025.01.17 ~ 2025.01.25)
+기능 명세서를 바탕으로 기능 개발 진행
 
 &nbsp;
 
