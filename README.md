@@ -1,10 +1,9 @@
-# 2️⃣ 일석이조 / ☕ CAFEHUB 
-
-<!-- 프리뷰 삽입 -->
+# 2️⃣ 일석이조 / ☕ CAFEHUB
+![프리뷰1](https://github.com/user-attachments/assets/ebe843d0-7d58-4412-8c2f-07510da66ce3)
 
 &nbsp;
 
-## 프로젝트 소개
+## ✨ 프로젝트 소개
 <!-- (25.01.06 ~ 25.01.27) 🔗 [배포 주소](https://github.com/Dev-FE-3/toy-project1-team2) -->
 ### 카페의 모든 것을 연결하는 스마트 플랫폼 - 카페허브 ☕
 > **모든 정보와 사람을 한 자리에, 카페의 새로운 허브(Hub)를 열다** <br />
@@ -12,7 +11,7 @@
 
 &nbsp;
 
-## 주요 페이지와 기능
+## 🚀 주요 페이지와 기능
 
 ### 👩‍💼 관리자 - 직원 관리
 - 신규 직원 등록
@@ -129,7 +128,7 @@ npm run dev
 
 &nbsp;
 
-## 팀소개
+## 👨‍🚀 팀소개
 
 <div align="center">
 
@@ -148,11 +147,11 @@ npm run dev
 
 **main, dev, feat** 브랜치 사용
 
-- main : 배포 단계에서 사용
+- main : 배포 가능한 상태만을 관리하는 브랜치
 
-- dev : 개발 단계에서 main 역할을 하는 브랜치
+- dev : 개발 단계에서 통합 역할을 담당하는 브랜치
 
-- feat : 기능 단위로 사용하고 merge 후에는 삭제
+- feat : 새롭게 추가되거나 변경되는 기능을 개발, merge 후에는 삭제
 
   - 브랜치 이름 규칙 : `feat/기능명` e.g. `feat/common-button`
 
@@ -186,7 +185,9 @@ npm run dev
 
 ### CSS 스타일 가이드
 
-공통 디자인 요소 설정 후 진행
+- 공통 디자인 요소 설정 후 진행
+
+![디자인시스템](https://github.com/user-attachments/assets/12e24646-20ba-4076-bf18-5e770c69783a)
 
 &nbsp;
 
@@ -208,5 +209,3 @@ npm run dev
 기능 명세서를 바탕으로 기능 개발 진행
 
 &nbsp;
-
-## 회고
