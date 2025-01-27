@@ -1,0 +1,66 @@
+.dashboard {
+  display: flex;
+  min-width: 680px;
+  padding: 6px 28px;
+  border-radius: 20px;
+  background-color: var(--background-content-color);
+}
+
+.dashboard .circle {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard .circle .progress-circle {
+  transform: rotate(95deg);
+}
+
+.dashboard .circle .progress-circle .background {
+  fill: none;
+  stroke: #e0e0e0;
+  stroke-width: 20;
+}
+
+.dashboard .circle .progress-circle .progress {
+  fill: none;
+  stroke: var(--primary-color);
+  stroke-width: 20;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.3s ease;
+}
+
+.dashboard .circle .percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.dashboard .stats-container {
+  display: flex;
+  flex: 5 1 auto;
+  font-size: 1.6rem;
+  line-height: 1.8;
+}
+
+.dashboard .stats-container .stat-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard .stats-container .stat-card .stat-label {
+}
+.dashboard .stats-container .stat-card .stat-value {
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}

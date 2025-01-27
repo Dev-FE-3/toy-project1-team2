@@ -1,0 +1,58 @@
+@import "../../../components/Dropdown/style.css";
+
+.header .buttons .btn:first-child {
+  margin-right: 4px;
+}
+.remaining-wrap {
+  font-weight: 600;
+  color: var(--secondary-2-color);
+}
+.remaining-wrap .remaining-leave {
+  margin-left: 24px;
+  margin-right: 20px;
+}
+
+/* 컨텐츠 영역 */
+.wrapper.leave-list {
+  margin: 1.2rem 0;
+  padding: 1.6rem 2.4rem;
+  min-height: 452px;
+  background-color: var(--background-content-color);
+  border-radius: 8px;
+  font-size: 16px; /* 1.6rem */
+  box-sizing: border-box;
+}
+.leave-list .content-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  letter-spacing: 0.01px;
+}
+table th,
+table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 16px 24px;
+}
+table th {
+  background-color: var(--background-default-color);
+  border-top: 1px solid var(--secondary-2-color);
+  border-bottom: 1px solid var(--secondary-2-color);
+  font-weight: 600;
+  color: #8d96a1;
+}
+table tr {
+  cursor: pointer;
+}
+table td {
+  color: #333;
+}
+table td > input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}

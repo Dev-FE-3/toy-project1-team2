@@ -1,28 +1,73 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import "./css/global.css";
+import { router } from "./router/router.js";
+import { WORK_RECORD_URL, WORK_RECORD_KEY } from "@/constants/constants.js";
 
-async function app() {
-  document.querySelector('#app').innerHTML = `
-    <div>
-      <a href="https://vitejs.dev" target="_blank">
-        <img src="${viteLogo}" class="logo" alt="Vite logo" />
-      </a>
-      <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-        <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-      </a>
-      <h1>Okay</h1>
-      <div class="card">
-        <button id="counter" type="button"></button>
-      </div>
-      <p class="read-the-docs">
-        Click on the Vite logo to learn more
-      </p>
-    </div>
-  `
-  
-  setupCounter(document.querySelector('#counter'))
-}
+const app = async function () {
+  await checkAuth();
+  init();
+  initializeLocalStorage(); // 로컬스토리지 초기화 함수 호출
+  router();
+};
 
-document.addEventListener('DOMContentLoaded', app);
+//로그인 상태 확인
+const checkAuth = function () {
+  //로직 추가 필요
+};
+
+const init = function () {
+  window.addEventListener("popstate", router);
+};
+
+// 로컬스토리지 초기화 함수
+const initializeLocalStorage = function () {
+  // 공지사항 json 파일 load
+  fetch("/src/data/notices.json")
+    .then((response) => response.json())
+    .then((data) => {
+      if (localStorage.getItem("notices")) {
+        return;
+      }
+      localStorage.setItem("notices", JSON.stringify(data));
+    })
+    .catch((error) => {
+      console.error("Error loading JSON:", error);
+    });
+
+  fetch(WORK_RECORD_URL)
+    .then((response) => response.json())
+    .then((data) => {
+      if (localStorage.getItem(WORK_RECORD_KEY)) {
+        return;
+      }
+      localStorage.setItem(WORK_RECORD_KEY, JSON.stringify(data));
+
+      // 직원관리 json 파일 load
+      fetch("/src/data/employees.json")
+        .then((response) => response.json())
+        .then((data) => {
+          if (localStorage.getItem("employees")) {
+            return;
+          }
+          localStorage.setItem("employees", JSON.stringify(data));
+        })
+        .catch((error) => {
+          console.error("Error loading JSON:", error);
+        });
+
+      // 휴가관리 json 파일 load
+      fetch('/src/data/leaves.json')
+        .then((response) => response.json())
+        .then((data) => {
+          if (localStorage.getItem("leaves")) {
+            return;
+          }
+          localStorage.setItem("leaves", JSON.stringify(data));
+        })
+        .catch((error) => {
+          console.error("Error loading JSON:", error);
+        });
+
+    });
+};
+
+document.addEventListener("DOMContentLoaded", app);

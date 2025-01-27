@@ -1,0 +1,111 @@
+.calendar {
+  background-color: var(--background-content-color);
+  border-radius: 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 4px 8px;
+}
+
+.calendar .calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 0;
+  font-size: 1.6rem;
+}
+
+.calendar .calendar-header .calendar-button {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 30px;
+  border: 1px solid var(--secondary-2-color);
+  background-color: var(--background-content-color);
+  box-shadow: 0px 2px 0px 0px rgba(38, 51, 77, 0.03);
+  border-radius: 100px;
+}
+
+.calendar .calendar-header .calendar-button:hover {
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+}
+
+.calendar .calendar-header .calendar-title {
+  flex: 1 2 auto;
+  text-align: center;
+}
+
+.calendar .calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+}
+
+.calendar .calendar-grid .weekday-header {
+  text-align: center;
+  font-size: 1.6rem;
+  padding: 4px 0;
+  border-bottom: 4px solid var(--secondary-2-color);
+}
+
+.calendar .calendar-grid .day-cell {
+  height: 68px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 1.4rem;
+  color: var(--secondary-2-color);
+}
+
+.calendar .calendar-grid .day-cell:hover {
+  background-color: rgba(49, 153, 254, 0.1);
+  font-weight: bolder;
+  color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.calendar .calendar-grid .event--normal {
+  border: 2px solid var(--primary-color);
+  /* background-color: rgba(49, 153, 254, 0.1); */
+}
+.calendar .calendar-grid .event--late {
+  border: 2px solid var(--point-2-color);
+  /* background-color: rgba(255, 193, 26, 0.1); */
+}
+.calendar .calendar-grid .event--leave {
+  border: 2px solid var(--point-1-color);
+  /* background-color: rgba(78, 201, 170, 0.1); */
+}
+
+.calendar .calendar-grid .day-cell .event {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 8px;
+}
+
+.calendar .calendar-grid .event .event-label {
+  color: black;
+}
+
+.calendar .calendar-grid .event .event-times {
+  display: flex;
+  gap: 0.25rem;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.calendar .calendar-grid .event .event-times > span {
+  border-radius: 5px;
+  padding: 0px 4px;
+}
+
+.calendar .calendar-grid .event .event-times .event--normal {
+  background-color: var(--primary-color);
+}
+.calendar .calendar-grid .event .event-times .event--late {
+  background-color: var(--point-2-color);
+}
+.calendar .calendar-grid .event .event-times .event--leave {
+  background-color: var(--point-1-color);
+}

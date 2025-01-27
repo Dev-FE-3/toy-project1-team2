@@ -1,0 +1,14 @@
+@import "@/pages/admin/employee/employee.css";
+
+.password-area .title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.password-area .title-wrap svg {
+  cursor: pointer;
+}
+.input-wrap label {
+  color: #8d96a1;
+  min-width: 115px;
+}

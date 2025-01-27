@@ -1,0 +1,20 @@
+.wrapper section {
+  margin: 2.4rem;
+}
+
+#top-container {
+  display: flex;
+  gap: 28px;
+}
+
+#top-left {
+  flex: 1 1 auto;
+}
+
+#top-right {
+  flex: 1 1 auto;
+}
+
+#bottom-container {
+  padding-top: 28px;
+}

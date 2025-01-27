@@ -1,0 +1,115 @@
+/* placeholder 색상 설정 */
+::placeholder {
+  color: #bebebe;
+  opacity: 1; /* Firefox */
+}
+::-ms-input-placeholder {
+  /* Edge 12 -18 */
+  color: #bebebe;
+}
+
+/* label, input 기본 디자인 설정 */
+.input-wrap * {
+  font-size: 1.6rem;
+  box-sizing: border-box;
+}
+.input-wrap {
+  position: relative; /* input[type=checkbox] 정렬 위함 */
+  display: flex;
+  align-items: flex-start;
+  padding: 0.8rem;
+}
+.input-wrap label,
+.input-wrap input {
+  padding: 0.8rem;
+}
+.input-wrap label {
+  min-width: 75px;
+  margin-right: 0.8rem;
+}
+.input-wrap label.require::after {
+  content: "*";
+  color: #ff7979;
+  padding-left: 0.4rem;
+}
+.input-wrap .input-group {
+  flex-grow: 1;
+}
+.input-wrap input,
+.input-wrap textarea {
+  display: block;
+  width: 100%;
+  border-radius: 0.8rem;
+  border: 1px solid #bebebe;
+  background-color: #fff;
+}
+.input-wrap input[type="checkbox"] {
+  /* checkbox 수직정렬 */
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.input-wrap textarea {
+  min-height: 40px;
+  resize: vertical;
+}
+.input-wrap .border--main {
+  border: 1px solid #3199fe;
+}
+
+/* 검색창 관련 */
+.search {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  border: 1px solid #3199fe;
+  border-radius: 2.5rem;
+}
+.search .search__input {
+  padding: 0.8rem 1.2rem;
+  border-radius: 2.5rem 0 0 2.5rem;
+  border: none;
+}
+.search .search__btn {
+  max-width: 50px;
+  padding: 1rem 1rem;
+  cursor: pointer;
+}
+
+/* 파일첨부 관련 */
+.file {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  background-color: #fff;
+  border-radius: 0.8rem;
+  border: 1px solid #bebebe;
+  cursor: pointer;
+}
+.file .file__input {
+  display: none;
+}
+.file .file__text {
+  color: #bebebe;
+}
+.file .file__btn {
+  height: 20px;
+}
+.file .attached {
+  color: #333;
+}
+
+/* 유효성 위반 디자인 설정 */
+.input-group .invalid {
+  border: 1px solid #ff7979;
+}
+.input-group .invalid-message {
+  color: #ff7979;
+  margin: 0.4rem 0 0;
+}

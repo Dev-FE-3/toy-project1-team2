@@ -1,0 +1,70 @@
+@import "./reset.css";
+@import "./font.css";
+
+:root {
+  --background-default-color: #f6f6f6; /* 배경 색상 */
+  --background-content-color: #ffffff; /* 컨텐츠 배경 색상 */
+  --primary-color: #3199fe; /* 메인 색상 */
+  --secondary-1-color: #e1e1e1; /* 보조 색상 */
+  --secondary-2-color: #bebebe; /* 보조 색상 */
+  --point-1-color: #4ec9aa; /* 포인트 색상 */
+  --point-2-color: #ffc11a; /* 포인트 색상 */
+  --warning-color: #ff7979; /* 경고 색상 */
+}
+
+::-webkit-scrollbar {
+  width: 15px;
+  background-color: #bebebe66;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #333;
+  border: 3px solid #bebebe;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-track {
+  background-color: #bebebe60;
+  border-radius: 50px;
+}
+
+html {
+  font-size: 62.5%;
+}
+body {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.4;
+  font-weight: 400;
+  background-color: #f6f6f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  width: 1200px;
+}
+
+.wrapper .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 2.4rem;
+  border-bottom: 2px solid var(--secondary-1-color);
+}
+
+.wrapper .header .header__title {
+  min-width: 90px;
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+#main-container {
+  display: flex;
+  flex: 1;
+}
+
+#content {
+  flex: 1;
+  padding: 0;
+  box-sizing: border-box;
+}
