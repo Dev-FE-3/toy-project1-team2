@@ -22,7 +22,7 @@ function remainingLeave() {
 }
 
 // 상세 페이지로 이동하는 함수
-function showLeaveDetail(leaveId) {
+function redirectLeaveDetailPage(leaveId) {
   window.location.href = `/user/leave/${leaveId}`;
 }
 
@@ -255,7 +255,7 @@ const leaveList = (container) => {
 
         row.addEventListener("click", (event) => {
           if (event.target.type !== "checkbox") {
-            showLeaveDetail(item.id);
+            redirectLeaveDetailPage(item.id);
           }
         });
 
