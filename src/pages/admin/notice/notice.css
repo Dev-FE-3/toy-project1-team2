@@ -76,7 +76,7 @@
 
 .list-contents ul.gallery-list .list-item .text {
   padding: 2.8rem 2rem 2rem 2rem;
-  background-color: #fff;
+  background-color: var(--background-content-color);
   border-radius: 2.4rem 2.4rem 0 0;
 }
 
@@ -99,7 +99,7 @@
 }
 .list-contents ul.list .list-item .text {
   padding: 0 2.4rem;
-  background-color: #fff;
+  background-color: var(--background-content-color);
   border-radius: 2.4rem;
   width: 100%;
 
