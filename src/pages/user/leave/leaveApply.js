@@ -78,16 +78,19 @@ const leaveApply = (container) => {
     modal.openModal();
   }
 
-  const submitButton = createButton("신청", handleLeaveSubmission, [
-    "btn--submit",
-  ]);
-  const cancelButton = createButton(
-    "취소",
-    () => {
+  const submitButton = createButton({
+    text: "신청",
+    classNames: ["btn--submit"],
+    onClick: handleLeaveSubmission
+  });
+
+  const cancelButton = createButton({
+    text: "취소",
+    classNames: ["btn--delete"],
+    onClick: () => {
       window.location.href = "/user/leave";
-    },
-    ["btn--delete"]
-  );
+    }
+  });
 
   leaveApplyRender.innerHTML = `
   <div class="header">
