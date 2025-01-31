@@ -1,4 +1,4 @@
-@import "../../../components/Dropdown/style.css";
+@import '../../../components/Dropdown/dropdown.css';
 
 .header .buttons .btn:first-child {
   margin-right: 4px;
@@ -52,7 +52,7 @@ table tr {
 table td {
   color: #333;
 }
-table td > input[type="checkbox"] {
+table td > input[type='checkbox'] {
   width: 18px;
   height: 18px;
 }

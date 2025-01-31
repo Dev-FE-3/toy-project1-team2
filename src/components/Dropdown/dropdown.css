@@ -7,7 +7,7 @@
 }
 
 .dropdown_main:hover {
-  border: 1px solid #3199fe;
+  border: 1px solid var(--primary-color);
 }
 
 .dropdown_bar {
@@ -33,7 +33,7 @@
   position: absolute;
   top: 100%; /* dropdown_main의 아래에 위치하도록 설정 */
   left: 0;
-  
+
   background-color: #fff;
   border: 1px solid #bebebe;
   border-radius: 8px;
