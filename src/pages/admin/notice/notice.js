@@ -111,11 +111,14 @@ const notice = (contents) => {
           item.imgSrc.length > 0 &&
           Array.isArray(item.imgSrc)
         ) {
-          const validImage = item.imgSrc.find((img) =>
-            /\.(jpg|jpeg|png)$/i.test(img.src),
-          ); // JPG 또는 PNG 파일 찾기
+          const validImage = item.imgSrc.find(
+            (img) =>
+              /\.(jpg|jpeg|png)$/i.test(img.name) ||
+              img.src.startsWith('data:image/'),
+          );
+
           if (validImage) {
-            imageSrc = validImage.src; // 첫 번째 유효한 이미지
+            imageSrc = validImage.src; // 첫 번째 유효한 이미지 사용
           }
         }
 
