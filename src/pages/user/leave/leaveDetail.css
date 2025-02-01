@@ -1,7 +1,4 @@
 /* 헤더 */
-.header .buttons .btn.btn--single {
-  margin-right: 0;
-}
 .wrapper .content-header .application-date-wrap {
   font-size: 1.4rem;
   color: var(--secondary-2-color);

@@ -1,4 +1,4 @@
-import "./leaveEdit.css";
+import "./leaveCommon.css";
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input";
 import Modal from "@/components/Modal/modal";

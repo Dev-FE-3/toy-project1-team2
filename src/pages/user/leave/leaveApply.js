@@ -1,3 +1,4 @@
+import "./leaveCommon.css";
 import "./leaveApply.css";
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input.js";

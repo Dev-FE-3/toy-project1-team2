@@ -1,4 +1,7 @@
 /* 헤더 */
+.header .buttons .btn.btn--edit.btn--single {
+  margin-right: 0;
+}
 .header .buttons .btn:first-child {
   margin-right: 0.4rem;
 }

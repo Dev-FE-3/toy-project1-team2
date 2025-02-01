@@ -1,3 +1,4 @@
+import "./leaveCommon.css";
 import "./leaveDetail.css";
 import { createButton } from "@/components/Button/button";
 

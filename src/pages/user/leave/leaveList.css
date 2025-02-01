@@ -1,6 +1,3 @@
-@import "../../../components/Dropdown/style.css";
-@import './leaveCommon.css';
-
 .remaining-wrap {
   font-weight: 600;
   color: var(--secondary-2-color);
