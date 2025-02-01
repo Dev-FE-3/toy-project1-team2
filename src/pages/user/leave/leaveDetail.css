@@ -1,34 +1,17 @@
+/* 헤더 */
 .header .buttons .btn.btn--single {
   margin-right: 0;
-}
-
-/* 컨텐츠 영역 */
-/* 컨텐츠 제목 */
-.wrapper .content-header {
-  padding: 16px 24px;
-  background-color: var(--background-default-color);
-  border-top: 1px solid var(--secondary-2-color);
-  border-bottom: 1px solid var(--secondary-2-color);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.wrapper .content-header .title {
-  font-weight: 600;
-  color: #8d96a1;
-  margin-bottom: 0;
-  font-size: 1.6rem;
 }
 .wrapper .content-header .application-date-wrap {
   font-size: 1.4rem;
   color: var(--secondary-2-color);
 }
 .wrapper .content-header .application-date-wrap .application-date {
-  margin-left: 40px;
-  margin-right: 20px;
+  margin-left: 4rem;
+  margin-right: 2rem;
 }
 
-/* 컨테이너 내용 */
+/* 컨텐츠 영역 */
 .content .row {
   padding: 20px 24px 28px;
   display: flex;
@@ -36,16 +19,6 @@
   align-items: center;
   border-bottom: 1px solid var(--secondary-2-color);
   box-sizing: border-box;
-}
-.content .row .data-wrap {
-  width: 185px;
-  min-height: 43px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-.content .row .data-wrap .input-wrap {
-  padding: 0;
 }
 .content .row .data-wrap span:first-child,
 .content .row .data-wrap label {

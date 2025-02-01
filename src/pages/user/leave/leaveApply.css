@@ -1,14 +1,9 @@
-.content .row .data-wrap {
-  font-size: 1.6rem;
-}
-.content .row .data-wrap .input-wrap {
-  align-items: center;
-}
+/* 컨텐츠 영역 - 신청 폼 */
 .content .row .data-wrap .input-wrap label {
-  margin-right: 14px;
+  margin-right: 1.4rem;
 }
 .content .row .data-wrap .input-wrap .input-group {
-  width: 200px;
+  width: 20rem;
 }
 .content .row .data-wrap .input-wrap input,
 .content .row .data-wrap .input-wrap select {
@@ -29,13 +24,13 @@ select {
   appearance: none;
 }
 .content .row .data-wrap:nth-child(3) span.input-box {
-  min-height: 25.2px;
-  width: 84px;
+  min-height: 2.52rem;
+  width: 8.4rem;
   padding: 0.8rem;
   border: 1px solid var(--secondary-2-color);
   border-radius: 0.8rem;
   color: var(--secondary-2-color);
-  line-height: 25.2px;
+  line-height: 2.52rem;
 }
 .content .row3 #reason-wrap {
   display: block;
@@ -48,7 +43,7 @@ select {
   margin-top: 1rem;
 }
 .content .row3 #reason-wrap textarea.large {
-  height: 150px;
+  height: 15rem;
   resize: none;
   padding: 0.8rem;
 }
