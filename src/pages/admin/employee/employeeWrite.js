@@ -155,7 +155,18 @@ const createEmployeeWriteForm = (type, idx = 0) => {
               }
               </td>
               <td>
-              ${createInputHTML("date", "입사일", "hireDate", employee ? employee.hireDate : "")}
+              ${
+                createInputField({
+                  type: "date",
+                  label: { name: "입사일", forAttr: "hireDate" },
+                  attributes: {
+                    name: "hireDate",
+                    id: "hireDate",
+                    value: employee ? employee.hireDate : "",
+                  },
+                  datasets: { required: true, validation: true },
+                }).outerHTML
+              }
               </td>
               <td>
                 <div class="input-wrap position">
@@ -181,21 +192,77 @@ const createEmployeeWriteForm = (type, idx = 0) => {
           <tbody>
             <tr>
               <td>
-              ${createInputHTML("text", "이름", "name", employee ? employee.name : "", "이름을 입력해주세요")}
+              ${
+                createInputField({
+                  label: { name: "이름", forAttr: "name" },
+                  attributes: {
+                    name: "name",
+                    id: "name",
+                    placeholder: "이름을 입력해주세요",
+                    value: employee ? employee.name : "",
+                  },
+                  datasets: { required: true, validation: true },
+                }).outerHTML
+              }
               </td>
               <td>
-              ${createInputHTML("date", "생년월일", "birthDate", employee ? employee.birthDate : "")}
+              ${
+                createInputField({
+                  type: "date",
+                  label: { name: "생년월일", forAttr: "birthDate" },
+                  attributes: {
+                    name: "birthDate",
+                    id: "birthDate",
+                    value: employee ? employee.birthDate : "",
+                  },
+                  datasets: { required: true, validation: true },
+                }).outerHTML
+              }
               </td>
               <td>
-              ${createInputHTML("text", "연락처", "phone", employee ? employee.phone : "", "010-0000-0000")}
+              ${
+                createInputField({
+                  label: { name: "연락처", forAttr: "phone" },
+                  attributes: {
+                    name: "phone",
+                    id: "phone",
+                    placeholder: "010-0000-0000",
+                    value: employee ? employee.phone : "",
+                  },
+                  datasets: { required: true, validation: true },
+                }).outerHTML
+              }
               </td>
             </tr>
             <tr>
               <td>
-              ${createInputHTML("email", "이메일", "email", employee ? employee.email : "", "example@gmail.com", false)}
+              ${
+                createInputField({
+                  type: "email",
+                  label: { name: "이메일", forAttr: "email" },
+                  attributes: {
+                    name: "email",
+                    id: "email",
+                    placeholder: "example@gmail.com",
+                    value: employee ? employee.email : "",
+                  },
+                  datasets: { required: true, validation: true },
+                }).outerHTML
+              }
               </td>
               <td colspan="4">
-              ${createInputHTML("text", "주소", "address", employee ? employee.address : "", "주소를 입력해 주세요")}
+              ${
+                createInputField({
+                  label: { name: "주소", forAttr: "address" },
+                  attributes: {
+                    name: "address",
+                    id: "address",
+                    placeholder: "주소를 입력해 주세요",
+                    value: employee ? employee.address : "",
+                  },
+                  datasets: { required: true, validation: true },
+                }).outerHTML
+              }
               </td>
             </tr>
           </tbody>
@@ -208,28 +275,6 @@ const createEmployeeWriteForm = (type, idx = 0) => {
   bindProfileImageEvents(contentWrapHTML); // 프로필 사진 관련 이벤트 바인딩
 
   return contentWrapHTML;
-};
-
-const createInputHTML = (
-  type,
-  labelName,
-  name,
-  value,
-  placeholder = "",
-  required = true,
-  validation = true,
-) => {
-  return createInputField({
-    type,
-    label: { name: labelName, forAttr: name },
-    attributes: {
-      name,
-      id: name,
-      placeholder,
-      value,
-    },
-    datasets: { required, validation },
-  }).outerHTML;
 };
 
 const appendPositionDropdown = (contentWrapHTML, employee) => {
