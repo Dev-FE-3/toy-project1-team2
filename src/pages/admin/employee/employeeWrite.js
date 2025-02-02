@@ -96,7 +96,7 @@ const createEmployeeWriteForm = (type, idx = 0) => {
     classNames: ["btn--submit"],
   });
   const cancleButton = createButton({
-    test: "취소",
+    text: "취소",
     classNames: ["btn--delete"],
   });
 
