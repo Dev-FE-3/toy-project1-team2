@@ -12,7 +12,7 @@ const profile = (container) => {
   contentWrapHTML.className = "wrapper";
 
   // 버튼 생성
-  const editButton = createButton("수정", null, ["btn", "btn--edit"]);
+  const editButton = createButton({ text: "수정", classNames: ["btn--edit"] });
 
   contentWrapHTML.innerHTML = `
     <div class="header">

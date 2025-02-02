@@ -18,8 +18,14 @@ const profileWrite = (container) => {
   contentWrapHTML.className = "wrapper";
 
   // 버튼 생성
-  const submitButton = createButton("저장", null, ["btn", "btn--submit"]);
-  const cancleButton = createButton("취소", null, ["btn", "btn--delete"]);
+  const submitButton = createButton({
+    text: "저장",
+    classNames: ["btn--submit"],
+  });
+  const cancleButton = createButton({
+    text: "취소",
+    classNames: ["btn--delete"],
+  });
   const cancleLink = `/user/profile`;
 
   contentWrapHTML.innerHTML = `
