@@ -4,7 +4,7 @@ export const fetchFromLocalStorage = (key) => {
   if (record) {
     return JSON.parse(record); // JSON 문자열을 객체로 변환
   }
-  return []; // 데이터가 없을 경우 빈 배열 반환
+  return undefined; // 데이터가 없을 경우 빈 배열 반환
 };
 
 // 공용 유틸 함수: 로컬 스토리지에 데이터 추가
