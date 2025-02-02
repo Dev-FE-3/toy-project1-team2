@@ -1,7 +1,7 @@
 import "./modal.css";
 
 // 기본 스타일 타입 정의
-const validModalStyles = ["primary", "success", "warning"];
+const modalStyles = ["primary", "success", "warning"];
 
 export default function Modal({
   title,
@@ -11,7 +11,7 @@ export default function Modal({
   showCancelBtn = true,
 }) {
   // 모달 스타일 유효성 검사
-  if (!validModalStyles.includes(modalStyle)) {
+  if (!modalStyles.includes(modalStyle)) {
     console.warn(
       `Invalid ModalStyle: "${modalStyle}". 사용불가능한 모달 스타일입니다.`
     );
