@@ -22,7 +22,7 @@ const employeeWrite = (container, id) => {
   new InputValidation(
     contentWrapHTML,
     empUtils.validationRules,
-    handleFormSubmit
+    handleFormSubmit,
   );
 };
 
@@ -53,7 +53,7 @@ const handleFormSubmit = () => {
   }
 
   const position = document.querySelector(
-    ".position .dropdown_bar p"
+    ".position .dropdown_bar p",
   ).textContent;
   const data = {
     id,
@@ -90,11 +90,16 @@ const createEmployeeWriteForm = (type, idx = 0) => {
 
   // 버튼 생성
   const buttonName = type === "write" ? "등록" : "저장";
-  const submitButton = createButton(buttonName, null, ["btn", "btn--submit"]);
+  const submitButton = createButton({
+    text: buttonName,
+    classNames: ["btn--submit"],
+  });
+  const cancleButton = createButton({
+    test: "취소",
+    classNames: ["btn--delete"],
+  });
 
-  const cancleButton = createButton("취소", null, ["btn", "btn--delete"]);
   const cancleLink = `/admin/employee${type === "write" ? "" : employee ? "/" + idx : ""}`;
-
   contentWrapHTML.innerHTML = `
     <div class="header">
       <h2 class="header__title">직원정보 ${type === "write" ? "등록" : "수정"}</h2>
@@ -211,7 +216,7 @@ const createInputHTML = (
   value,
   placeholder = "",
   required = true,
-  validation = true
+  validation = true,
 ) => {
   return createInputField({
     type,
@@ -249,10 +254,10 @@ const bindProfileImageEvents = (contentWrapHTML) => {
   const fileEl = contentWrapHTML.querySelector(".profile input");
   const profileImageEl = contentWrapHTML.querySelector(".profile__image img");
   const profileUploadBtnEl = contentWrapHTML.querySelector(
-    ".profile .btn--upload"
+    ".profile .btn--upload",
   );
   const profileDeleteBtnEl = contentWrapHTML.querySelector(
-    ".profile .btn--delete"
+    ".profile .btn--delete",
   );
 
   profileUploadBtnEl.addEventListener("click", () => fileEl.click());
