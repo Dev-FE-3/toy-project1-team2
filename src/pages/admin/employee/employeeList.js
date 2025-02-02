@@ -1,6 +1,6 @@
 import "./employee.css";
 
-import empUtils from "./employee";
+import employeeUtils from "./employee";
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input.js";
 import { createPagination } from "@/components/Pagination/pagination.js";
@@ -74,9 +74,9 @@ const deleteButtonHandler = () => {
   // 삭제 버튼(체크된 직원 삭제)
   const checkEl = document.querySelector("tbody input:checked");
   if (checkEl) {
-    empUtils.deleteModal(deleteSelectedEmployees);
+    employeeUtils.deleteModal(deleteSelectedEmployees);
   } else {
-    empUtils.infoModal("삭제할 직원을 선택해 주세요.");
+    employeeUtils.infoModal("삭제할 직원을 선택해 주세요.");
   }
 };
 
@@ -112,7 +112,7 @@ const deleteSelectedEmployees = () => {
   const page = document.querySelector(".pagination-button.active").dataset.page;
   renderEmployeeList(parseInt(page > totalPage ? totalPage : page));
 
-  empUtils.infoModal("정상적으로 삭제되었습니다.", "success");
+  employeeUtils.infoModal("정상적으로 삭제되었습니다.", "success");
 };
 
 const renderEmployeeList = (page) => {

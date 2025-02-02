@@ -1,11 +1,12 @@
 import "./employee.css";
 import "@/components/Dropdown/style.css";
 
-import empUtils from "./employee";
+import employeeUtils from "./employee";
 import { createButton } from "@/components/Button/button";
 import { createDropdown } from "@/components/Dropdown/dropdown";
 import { createInputField } from "@/components/InputField/input";
 import InputValidation from "@/components/InputField/inputValidation";
+import { EMPLOYEE_VALIDATION_RULES } from "@/constants/constants";
 
 const BASIC_PROFILE_IMG = "/src/assets/images/profile/profile-basic.png";
 let currentProfileImage = "";
@@ -21,7 +22,7 @@ const employeeWrite = (container, id) => {
   // 입력 폼 유효성 검사 설정
   new InputValidation(
     contentWrapHTML,
-    empUtils.validationRules,
+    EMPLOYEE_VALIDATION_RULES,
     handleFormSubmit,
   );
 };
@@ -43,10 +44,10 @@ const handleFormSubmit = () => {
   if (pageType === "write") {
     const hireDate = new Date(formData.get("hireDate"));
     id = (lastEmployee?.id || 0) * 1 + 1; // 등록된 사원이 없는 경우 1 반환
-    employeeNumber = empUtils.generateEmployeeNumber(hireDate, id);
+    employeeNumber = employeeUtils.generateEmployeeNumber(hireDate, id);
     profileImage = currentProfileImage || BASIC_PROFILE_IMG;
   } else {
-    const employee = empUtils.getEmployeeData(pageType - 1);
+    const employee = employeeUtils.getEmployeeData(pageType - 1);
     id = employee.id;
     employeeNumber = employee.employeeNumber;
     profileImage = currentProfileImage || employee.profileImage;
@@ -82,7 +83,7 @@ const handleFormSubmit = () => {
 const createEmployeeWriteForm = (type, idx = 0) => {
   let employee = null; // 수정 페이지에 필요한 데이터
   if (idx > 0) {
-    employee = empUtils.getEmployeeData(idx - 1);
+    employee = employeeUtils.getEmployeeData(idx - 1);
   }
 
   const contentWrapHTML = document.createElement("div");

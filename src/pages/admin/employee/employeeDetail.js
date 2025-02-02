@@ -1,7 +1,7 @@
 import "./employee.css";
 
 import { createButton } from "@/components/Button/button";
-import empUtils from "./employee";
+import employeeUtils from "./employee";
 
 const employeeDetail = (container, id) => {
   const employees = JSON.parse(localStorage.getItem("employees"));
@@ -20,7 +20,7 @@ const employeeDetail = (container, id) => {
   const deleteButton = createButton({
     text: "삭제",
     onClick: () => {
-      empUtils.deleteModal(() => {
+      employeeUtils.deleteModal(() => {
         employees.splice(id - 1, 1);
         localStorage.setItem("employees", JSON.stringify(employees));
         window.location.href = "/admin/employee";
