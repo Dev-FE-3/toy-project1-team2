@@ -40,3 +40,12 @@ export const isValidDate = (dateString) => {
   const date = new Date(dateString);
   return !isNaN(date.getTime()); // 유효한 날짜인지 확인
 };
+
+//현재 날짜를 가져오는 함수
+export const getCurrentDate = () => {
+  const now = new Date();
+  return {
+    year: now.getFullYear(),
+    month: now.getMonth() + 1,
+  };
+};
