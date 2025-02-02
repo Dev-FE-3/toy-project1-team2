@@ -3,6 +3,7 @@ import "./profile.css";
 import Modal from "@/components/Modal/modal";
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input";
+import { fetchFromLocalStorage } from "@/utils/storageUtils";
 import InputValidation from "@/components/InputField/inputValidation";
 
 const EMPLOYEE_INDEX = 0; // 임시로 첫번째 직원 데이터 출력
@@ -10,9 +11,7 @@ const BASIC_PROFILE_IMG = "/src/assets/images/profile/profile-basic.png";
 let currentProfileImage = "";
 
 const profileWrite = (container) => {
-  const employee = JSON.parse(localStorage.getItem("employees"))[
-    EMPLOYEE_INDEX
-  ];
+  const employee = fetchFromLocalStorage("employees")[EMPLOYEE_INDEX];
 
   const contentWrapHTML = document.createElement("div");
   contentWrapHTML.className = "wrapper";
@@ -227,10 +226,10 @@ const bindProfileImageEvents = (contentWrapHTML) => {
   const fileEl = contentWrapHTML.querySelector(".profile input");
   const profileImageEl = contentWrapHTML.querySelector(".profile__image img");
   const profileUploadBtnEl = contentWrapHTML.querySelector(
-    ".profile .btn--upload"
+    ".profile .btn--upload",
   );
   const profileDeleteBtnEl = contentWrapHTML.querySelector(
-    ".profile .btn--delete"
+    ".profile .btn--delete",
   );
 
   profileUploadBtnEl.addEventListener("click", () => fileEl.click());

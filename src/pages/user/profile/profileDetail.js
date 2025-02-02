@@ -1,12 +1,11 @@
 import "@/pages/admin/employee/employee.css";
 
 import { createButton } from "@/components/Button/button";
+import { fetchFromLocalStorage } from "@/utils/storageUtils";
 
 const profile = (container) => {
   const EMPLOYEE_INDEX = 0; // 임시로 첫번째 직원 데이터 출력
-  const employee = JSON.parse(localStorage.getItem("employees"))[
-    EMPLOYEE_INDEX
-  ];
+  const employee = fetchFromLocalStorage("employees")[EMPLOYEE_INDEX];
 
   const contentWrapHTML = document.createElement("div");
   contentWrapHTML.className = "wrapper";
