@@ -12,12 +12,16 @@ const EVENT_CLASSES = {
 };
 
 export function Calender(updateDashboard) {
-  const currentDate = new Date(); // 현재 날짜 상태
+  // 현재 날짜 상태
+  const currentDate = new Date();
+
+  //이벤트 가져오기
   const events = fetchFromLocalStorage(WORK_RECORD_KEY);
 
+  //UI 그리기
   const calendarHTML = createCalendarHTML(currentDate, events);
 
-  // 버튼 이벤트 리스너 추가
+  //버튼 이벤트 등록하기
   addEventListeners(calendarHTML, currentDate, events, updateDashboard);
 
   return { element: calendarHTML };
@@ -32,9 +36,9 @@ const createCalendarHTML = (currentDate, events) => {
   calendarHTML.id = "calendar-container";
   calendarHTML.innerHTML = `
       <div class="calendar">
-        ${createCalendarHeader(currentYear, currentMonth)}
+        ${createCalendarHeaderHTML(currentYear, currentMonth)}
         <div class="calendar-grid">
-          ${createCalendarGrid(currentDate, events)}
+          ${createCalendarGridHTML(currentDate, events)}
         </div>
       </div>
   `;
@@ -43,7 +47,7 @@ const createCalendarHTML = (currentDate, events) => {
 };
 
 // 캘린더 헤더 생성
-const createCalendarHeader = (year, month) => `
+const createCalendarHeaderHTML = (year, month) => `
   <div class="calendar-header">
     <button class="calendar-button" aria-label="이전달" id="prev-button">
       <span class="material-icons">keyboard_arrow_left</span>
@@ -56,7 +60,7 @@ const createCalendarHeader = (year, month) => `
 `;
 
 // 캘린더 그리드 생성
-const createCalendarGrid = (currentDate, events) => {
+const createCalendarGridHTML = (currentDate, events) => {
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -68,12 +72,12 @@ const createCalendarGrid = (currentDate, events) => {
     ${Array.from({ length: emptyCells })
       .map((_, index) => `<div key="empty-${index}" class="day-cell"></div>`)
       .join("")}
-    ${days.map((day) => renderEvents(day, currentYear, currentMonth + 1, events)).join("")}
+    ${days.map((day) => renderEventsHTML(day, currentYear, currentMonth + 1, events)).join("")}
   `;
 };
 
 // 이벤트 렌더링 함수
-const renderEvents = (day, year, month, events) => {
+const renderEventsHTML = (day, year, month, events) => {
   const event = events.find((e) => {
     const {
       year: eventYear,
@@ -125,18 +129,18 @@ const addEventListeners = (
   calendarHTML,
   currentDate,
   events,
-  updateDashboard
+  updateDashboard,
 ) => {
   calendarHTML
     .querySelector("#prev-button")
     .addEventListener("click", () =>
-      changeMonth(-1, currentDate, events, updateDashboard)
+      changeMonth(-1, currentDate, events, updateDashboard),
     );
 
   calendarHTML
     .querySelector("#next-button")
     .addEventListener("click", () =>
-      changeMonth(1, currentDate, events, updateDashboard)
+      changeMonth(1, currentDate, events, updateDashboard),
     );
 };
 
