@@ -44,28 +44,47 @@ const WorkRecord = (contents) => {
   };
 
   const renderTimer = () => {
-    renderComponent(
-      Timer(currentTime, null, null, handleEndWork),
-      topLeftContainer
-    );
+    const { element, clearTimer } = Timer({
+      currentTime,
+      workStart: null,
+      workEnd: null,
+      onEndWork: handleEndWork,
+    });
+
+    renderComponent(element, topLeftContainer);
+
+    // 타이머 클리어 함수 저장
+    return clearTimer;
   };
 
   const renderDashboard = () => {
-    renderComponent(Dashboard(currentYear, currentMonth), topRightContainer);
+    const { element } = Dashboard(currentYear, currentMonth);
+    renderComponent(element, topRightContainer);
   };
 
   const renderCalendar = () => {
-    renderComponent(Calender(handleCalendarDateChange), bottomContainer);
+    const { element } = Calender(handleCalendarDateChange);
+    renderComponent(element, bottomContainer);
   };
 
   // 초기 렌더링 메소드
   const initialize = () => {
-    renderTimer();
+    const clearTimer = renderTimer();
     renderDashboard();
     renderCalendar();
+
+    // 컴포넌트 언마운트 시 타이머 클리어
+    return () => {
+      if (clearTimer) {
+        clearTimer(); // 타이머 클리어 호출
+      }
+    };
   };
 
-  initialize(); // 초기화 호출
+  const clearTimerOnUnmount = initialize(); // 초기화 호출
+
+  // 언마운트 시 클리어 함수 호출
+  window.addEventListener("beforeunload", clearTimerOnUnmount);
 };
 
 export default WorkRecord;
