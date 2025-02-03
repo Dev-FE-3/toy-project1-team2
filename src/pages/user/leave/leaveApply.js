@@ -3,6 +3,7 @@ import "./leaveApply.css";
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input.js";
 import Modal from "@/components/Modal/modal";
+import { formatSimpleDate } from "@/utils/timeUtils"
 
 const leaveApply = (container) => {
   const leaveApplyRender = document.createElement("div");
@@ -384,9 +385,9 @@ const leaveApply = (container) => {
     const formattedLeave = {
       id: getNextId(),
       employeeId: 1,
-      applicationDate: formatDate(new Date()),
-      startDate: formatDate(newLeave.startDate),
-      endDate: formatDate(newLeave.endDate),
+      applicationDate: formatSimpleDate(new Date()),
+      startDate: formatSimpleDate(newLeave.startDate),
+      endDate: formatSimpleDate(newLeave.endDate),
       leaveType: newLeave.leaveType,
       halfDayTypeId: newLeave.halfdayType === "-" ? null : newLeave.halfdayType,
       reason: newLeave.reason,
@@ -396,12 +397,6 @@ const leaveApply = (container) => {
 
     leaves.push(formattedLeave);
     localStorage.setItem("leaves", JSON.stringify(leaves));
-  }
-
-  // 날짜 포맷 함수 추가
-  function formatDate(date) {
-    const d = new Date(date);
-    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
   }
 
   // 다음 ID 가져오기 함수 수정
