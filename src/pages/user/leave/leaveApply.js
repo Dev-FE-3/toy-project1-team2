@@ -3,7 +3,8 @@ import "./leaveApply.css";
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input.js";
 import Modal from "@/components/Modal/modal";
-import { formatSimpleDate } from "@/utils/timeUtils"
+import { formatSimpleDate } from "@/utils/timeUtils";
+import { isWeekendOrHoliday, calculateBusinessDays } from "@/utils/dateUtils"
 
 const leaveApply = (container) => {
   const leaveApplyRender = document.createElement("div");
@@ -273,46 +274,6 @@ const leaveApply = (container) => {
       if (requiredSpan) requiredSpan.remove();
     }
   });
-
-  // 주말 및 공휴일 체크 함수
-  function isWeekendOrHoliday(date) {
-    const day = date.getDay();
-    const dateString = date.toISOString().split("T")[0];
-
-    const holidays2025 = [
-      "2025-01-01",
-      "2025-01-27",
-      "2025-01-28",
-      "2025-01-29",
-      "2025-01-30",
-      "2025-03-01",
-      "2025-05-05",
-      "2025-06-06",
-      "2025-08-15",
-      "2025-10-03",
-      "2025-10-09",
-      "2025-12-25",
-    ];
-
-    return day === 0 || day === 6 || holidays2025.includes(dateString);
-  }
-
-  // 휴가 일수 계산 함수
-  function calculateBusinessDays(startDate, endDate) {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    let businessDays = 0;
-
-    while (start <= end) {
-      if (!isWeekendOrHoliday(start)) {
-        businessDays++;
-      }
-      start.setDate(start.getDate() + 1);
-    }
-
-    return businessDays;
-  }
 
   // 날짜 이벤트 리스너 추가
   const startDateEl = document.getElementById("start-date");
