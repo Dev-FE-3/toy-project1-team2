@@ -2,13 +2,12 @@ import "./leaveCommon.css";
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input";
 import Modal from "@/components/Modal/modal";
+import { formatSimpleDate } from "@/utils/timeUtils";
+import { isWeekendOrHoliday, calculateBusinessDays } from "@/utils/dateUtils"
 
 const leaveEdit = (container, id) => {
   const leaveEditRender = document.createElement("div");
   leaveEditRender.className = "wrapper";
-
-  // URL에서 leave ID를 가져오는 함수
-  const leaveId = window.location.pathname.split("/")[2];
 
   // 모달 표시 함수
   const showModal = (message) => {
@@ -59,8 +58,8 @@ const leaveEdit = (container, id) => {
           // 데이터 업데이트
           const updatedLeave = {
             id: parseInt(id), // 기존 ID는 그대로 유지
-            startDate: formatDate(startDateInput.value), // 날짜 포맷 적용
-            endDate: formatDate(endDateInput.value), // 날짜 포맷 적용
+            startDate: formatSimpleDate(startDateInput.value), // 날짜 포맷 적용
+            endDate: formatSimpleDate(endDateInput.value), // 날짜 포맷 적용
             leaveType: leaveTypeSelect.value,
             halfDayTypeId: halfdayTypeSelect.value,
             reason: reasonInput.value,
@@ -69,7 +68,7 @@ const leaveEdit = (container, id) => {
               endDateInput.value
             ),
             isUsed: false, // 수정 페이지에서는 기본값으로 설정
-            applicationDate: formatDate(new Date().toISOString().split("T")[0]), // 신청일도 포맷 적용
+            applicationDate: formatSimpleDate(new Date().toISOString().split("T")[0]), // 신청일도 포맷 적용
           };
 
           // 로컬스토리지 업데이트
@@ -251,46 +250,6 @@ const leaveEdit = (container, id) => {
     }
   });
 
-  // 주말 및 공휴일 체크 함수
-  function isWeekendOrHoliday(date) {
-    const day = date.getDay();
-    const dateString = date.toISOString().split("T")[0];
-
-    const holidays2025 = [
-      "2025-01-01",
-      "2025-01-27",
-      "2025-01-28",
-      "2025-01-29",
-      "2025-01-30",
-      "2025-03-01",
-      "2025-05-05",
-      "2025-06-06",
-      "2025-08-15",
-      "2025-10-03",
-      "2025-10-09",
-      "2025-12-25",
-    ];
-
-    return day === 0 || day === 6 || holidays2025.includes(dateString);
-  }
-
-  // 휴가 일수 계산 함수
-  function calculateBusinessDays(startDate, endDate) {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    let businessDays = 0;
-
-    while (start <= end) {
-      if (!isWeekendOrHoliday(start)) {
-        businessDays++;
-      }
-      start.setDate(start.getDate() + 1);
-    }
-
-    return businessDays;
-  }
-
   // 날짜 이벤트 리스너 추가
   const startDateEl = document.getElementById("start-date");
   const endDateEl = document.getElementById("end-date");
@@ -354,12 +313,6 @@ const leaveEdit = (container, id) => {
     );
     document.getElementById("leave-days").textContent = businessDays;
   });
-
-  // 날짜 포맷 함수 추가
-  function formatDate(date) {
-    const d = new Date(date);
-    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
-  }
 
   // 로컬 스토리지에서 데이터 가져오기
   const leaves = JSON.parse(localStorage.getItem("leaves"));
