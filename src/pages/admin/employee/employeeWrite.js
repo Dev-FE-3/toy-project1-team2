@@ -1,5 +1,5 @@
-import "./employee.css";
-import "@/components/Dropdown/style.css";
+import './employee.css';
+import '@/components/Dropdown/dropdown.css';
 
 import employeeUtils from "./employee";
 import { createButton } from "@/components/Button/button";
@@ -8,8 +8,8 @@ import { createInputField } from "@/components/InputField/input";
 import InputValidation from "@/components/InputField/inputValidation";
 import { EMPLOYEE_VALIDATION_RULES } from "@/constants/constants";
 
-const BASIC_PROFILE_IMG = "/src/assets/images/profile/profile-basic.png";
-let currentProfileImage = "";
+const BASIC_PROFILE_IMG = '/src/assets/images/profile/profile-basic.png';
+let currentProfileImage = '';
 
 const employeeWrite = (container, id) => {
   // 경로 확인(등록/수정 요청 구분)
@@ -35,14 +35,14 @@ const getPageType = () => {
 
 const handleFormSubmit = () => {
   const pageType = getPageType();
-  const formData = new FormData(document.querySelector("form"));
-  const employees = JSON.parse(localStorage.getItem("employees"));
+  const formData = new FormData(document.querySelector('form'));
+  const employees = JSON.parse(localStorage.getItem('employees'));
   const lastEmployee = employees[employees.length - 1];
 
   let id, employeeNumber, profileImage;
 
-  if (pageType === "write") {
-    const hireDate = new Date(formData.get("hireDate"));
+  if (pageType === 'write') {
+    const hireDate = new Date(formData.get('hireDate'));
     id = (lastEmployee?.id || 0) * 1 + 1; // 등록된 사원이 없는 경우 1 반환
     employeeNumber = employeeUtils.generateEmployeeNumber(hireDate, id);
     profileImage = currentProfileImage || BASIC_PROFILE_IMG;
@@ -61,23 +61,23 @@ const handleFormSubmit = () => {
     position,
     profileImage,
     employeeNumber,
-    name: formData.get("name"),
-    phone: formData.get("phone"),
-    email: formData.get("email"),
-    address: formData.get("address"),
-    hireDate: formData.get("hireDate"),
-    birthDate: formData.get("birthDate"),
+    name: formData.get('name'),
+    phone: formData.get('phone'),
+    email: formData.get('email'),
+    address: formData.get('address'),
+    hireDate: formData.get('hireDate'),
+    birthDate: formData.get('birthDate'),
     deleteDate: null,
   };
 
-  if (pageType === "write") {
+  if (pageType === 'write') {
     employees.push(data);
   } else {
     employees[pageType - 1] = data;
   }
 
-  localStorage.setItem("employees", JSON.stringify(employees)); // 로컬 스토리지 갱신
-  window.location.href = `/admin/employee/${pageType === "write" ? employees.length : pageType}`; //상세페이지로 이동
+  localStorage.setItem('employees', JSON.stringify(employees)); // 로컬 스토리지 갱신
+  window.location.href = `/admin/employee/${pageType === 'write' ? employees.length : pageType}`; //상세페이지로 이동
 };
 
 const createEmployeeWriteForm = (type, idx = 0) => {
@@ -86,8 +86,8 @@ const createEmployeeWriteForm = (type, idx = 0) => {
     employee = employeeUtils.getEmployeeData(idx - 1);
   }
 
-  const contentWrapHTML = document.createElement("div");
-  contentWrapHTML.className = "wrapper";
+  const contentWrapHTML = document.createElement('div');
+  contentWrapHTML.className = 'wrapper';
 
   // 버튼 생성
   const buttonName = type === "write" ? "등록" : "저장";
@@ -103,7 +103,7 @@ const createEmployeeWriteForm = (type, idx = 0) => {
   const cancleLink = `/admin/employee${type === "write" ? "" : employee ? "/" + idx : ""}`;
   contentWrapHTML.innerHTML = `
     <div class="header">
-      <h2 class="header__title">직원정보 ${type === "write" ? "등록" : "수정"}</h2>
+      <h2 class="header__title">직원정보 ${type === 'write' ? '등록' : '수정'}</h2>
       <div class="header__btn">
         ${submitButton.outerHTML}
         <a href="${cancleLink}">${cancleButton.outerHTML}</a>
@@ -119,7 +119,7 @@ const createEmployeeWriteForm = (type, idx = 0) => {
           <div class="profile__btn">
             <button class="btn--upload" type="button">사진 설정</button>
             <button class="btn--delete 
-                    ${employee && employee.profileImage !== BASIC_PROFILE_IMG ? "" : "hidden"}" 
+                    ${employee && employee.profileImage !== BASIC_PROFILE_IMG ? '' : 'hidden'}" 
                     type="button">사진 삭제</button>
           </div>
           <input type="file" accept=".jpg, .jpeg, .png" name="ptofileImage"/>
@@ -142,14 +142,14 @@ const createEmployeeWriteForm = (type, idx = 0) => {
               <td>
               ${
                 createInputField({
-                  type: "text",
-                  label: { name: "사번", forAttr: "employeeNumber" },
+                  type: 'text',
+                  label: { name: '사번', forAttr: 'employeeNumber' },
                   attributes: {
-                    name: "employeeNumber",
-                    id: "employeeNumber",
-                    readonly: "readonly",
-                    placeholder: "자동생성",
-                    value: employee ? employee.employeeNumber : "",
+                    name: 'employeeNumber',
+                    id: 'employeeNumber',
+                    readonly: 'readonly',
+                    placeholder: '자동생성',
+                    value: employee ? employee.employeeNumber : '',
                   },
                 }).outerHTML
               }
@@ -280,25 +280,25 @@ const createEmployeeWriteForm = (type, idx = 0) => {
 const appendPositionDropdown = (contentWrapHTML, employee) => {
   const positionSelect = createDropdown({
     options: [
-      "바리스타",
-      "고객응대",
-      "주방보조",
-      "매장관리",
-      "결제관리",
-      "직원교육",
-      "매니저",
+      '바리스타',
+      '고객응대',
+      '주방보조',
+      '매장관리',
+      '결제관리',
+      '직원교육',
+      '매니저',
     ],
   });
   if (employee) {
-    const dropdownBarTextEl = positionSelect.querySelector(".dropdown_bar p");
+    const dropdownBarTextEl = positionSelect.querySelector('.dropdown_bar p');
     dropdownBarTextEl.textContent = employee.position;
   }
-  contentWrapHTML.querySelector(".position").appendChild(positionSelect);
+  contentWrapHTML.querySelector('.position').appendChild(positionSelect);
 };
 
 const bindProfileImageEvents = (contentWrapHTML) => {
-  const fileEl = contentWrapHTML.querySelector(".profile input");
-  const profileImageEl = contentWrapHTML.querySelector(".profile__image img");
+  const fileEl = contentWrapHTML.querySelector('.profile input');
+  const profileImageEl = contentWrapHTML.querySelector('.profile__image img');
   const profileUploadBtnEl = contentWrapHTML.querySelector(
     ".profile .btn--upload",
   );
@@ -306,19 +306,19 @@ const bindProfileImageEvents = (contentWrapHTML) => {
     ".profile .btn--delete",
   );
 
-  profileUploadBtnEl.addEventListener("click", () => fileEl.click());
+  profileUploadBtnEl.addEventListener('click', () => fileEl.click());
 
-  profileDeleteBtnEl.addEventListener("click", () => {
-    fileEl.value = "";
+  profileDeleteBtnEl.addEventListener('click', () => {
+    fileEl.value = '';
     profileImageEl.src = BASIC_PROFILE_IMG;
-    profileDeleteBtnEl.classList.add("hidden");
+    profileDeleteBtnEl.classList.add('hidden');
     currentProfileImage = BASIC_PROFILE_IMG;
   });
 
-  fileEl.addEventListener("change", () => {
+  fileEl.addEventListener('change', () => {
     if (fileEl.files.length > 0) {
       // 사진 첨부된 상태면 삭제 버튼 노출
-      profileDeleteBtnEl.classList.remove("hidden");
+      profileDeleteBtnEl.classList.remove('hidden');
 
       // 프로필 사진 화면에 로드
       const reader = new FileReader();
@@ -329,7 +329,7 @@ const bindProfileImageEvents = (contentWrapHTML) => {
       reader.readAsDataURL(fileEl.files[0]);
     } else {
       profileImageEl.src = BASIC_PROFILE_IMG;
-      profileDeleteBtnEl.classList.add("hidden");
+      profileDeleteBtnEl.classList.add('hidden');
     }
   });
 };

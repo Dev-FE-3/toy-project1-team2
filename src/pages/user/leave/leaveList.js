@@ -1,3 +1,4 @@
+import "./leaveCommon.css";
 import "./leaveList.css";
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input.js";
@@ -22,7 +23,7 @@ function remainingLeave() {
 }
 
 // 상세 페이지로 이동하는 함수
-function showLeaveDetail(leaveId) {
+function redirectLeaveDetailPage(leaveId) {
   window.location.href = `/user/leave/${leaveId}`;
 }
 
@@ -30,18 +31,20 @@ const leaveList = (container) => {
   const leaveListRender = document.createElement("div");
   leaveListRender.className = "wrapper";
 
-  const submitButton = createButton(
-    "신청",
-    () => {
+  const submitButton = createButton({
+    text: "신청",
+    classNames: ["btn--submit"],
+    onClick: () => {
       window.location.href = "/user/leave/apply";
-    },
-    ["btn--submit"]
-  );
+    }
+  });
 
-  const deleteButton = createButton(
-    "삭제",
-    () => {
+  const deleteButton = createButton({
+    text: "삭제",
+    classNames: ["btn--delete"],
+    onClick: () => {
       const selectedLeaves = getSelectedLeaves();
+      
       if (selectedLeaves.length === 0) {
         const alertModal = Modal({
           title: "알림",
@@ -71,9 +74,8 @@ const leaveList = (container) => {
 
       document.body.appendChild(modal.modalHTML);
       modal.openModal();
-    },
-    ["btn--delete"]
-  );
+    }
+  });
 
   const checkAllInput = createInputField({
     type: "checkbox",
@@ -255,7 +257,7 @@ const leaveList = (container) => {
 
         row.addEventListener("click", (event) => {
           if (event.target.type !== "checkbox") {
-            showLeaveDetail(item.id);
+            redirectLeaveDetailPage(item.id);
           }
         });
 

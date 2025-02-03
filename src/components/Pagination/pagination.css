@@ -21,7 +21,7 @@
 }
 
 .pagination-button.active {
-  background-color: #3199fe;
+  background-color: var(--primary-color);
   color: white;
   border: none;
 }
