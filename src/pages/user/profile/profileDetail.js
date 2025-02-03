@@ -1,18 +1,17 @@
 import "@/pages/admin/employee/employee.css";
 
 import { createButton } from "@/components/Button/button";
+import { fetchFromLocalStorage } from "@/utils/storageUtils";
 
 const profile = (container) => {
   const EMPLOYEE_INDEX = 0; // 임시로 첫번째 직원 데이터 출력
-  const employee = JSON.parse(localStorage.getItem("employees"))[
-    EMPLOYEE_INDEX
-  ];
+  const employee = fetchFromLocalStorage("employees")[EMPLOYEE_INDEX];
 
   const contentWrapHTML = document.createElement("div");
   contentWrapHTML.className = "wrapper";
 
   // 버튼 생성
-  const editButton = createButton("수정", null, ["btn", "btn--edit"]);
+  const editButton = createButton({ text: "수정", classNames: ["btn--edit"] });
 
   contentWrapHTML.innerHTML = `
     <div class="header">
