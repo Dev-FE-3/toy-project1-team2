@@ -36,17 +36,6 @@ export function Timer({
     times: ["", ""],
   };
 
-  // 유효성 검증
-  if (!isValidDate(currentTime)) {
-    throw new Error("현재 시각의 날짜 형식이 유효하지 않습니다.");
-  }
-  if (workStart && !isValidDate(workStart)) {
-    throw new Error("근무 시작의 날짜 형식이 유효하지 않습니다.");
-  }
-  if (workEnd && !isValidDate(workEnd)) {
-    throw new Error("근무 종료의 날짜 형식이 유효하지 않습니다.");
-  }
-
   // 현재 시각을 "시:분" 형식으로 변환
   const formattedCurrentTime = formatTime(currentTime);
   const formattedWorkStart = formatTime(workStart);
@@ -76,15 +65,8 @@ export function Timer({
     statusText.textContent = newStatus;
   };
 
-  // 근무 시작 모달
-  const showStartWorkModal = () => {
-    showModal("안내", "primary", "근무를 시작하시겠습니까?", () => {
-      updateWorkStart(currentTime);
-    });
-  };
-
-  const updateWorkStart = (currentTime) => {
-    workStart = currentTime;
+  const updateWorkStart = (time) => {
+    workStart = time;
     workStartElement.textContent = formatTime(workStart);
     updateStatus("근무중");
     checkbox.checked = true;
@@ -101,9 +83,11 @@ export function Timer({
       updateStatus("근무종료");
       checkbox.checked = false;
       checkbox.disabled = true;
+
       // 종료 시간 업데이트
       workEvent.times[1] = formatDate(workEnd);
       saveEventToLocalStorage(workEvent);
+
       // 캘린더 리렌더링 호출
       if (onEndWork) {
         onEndWork(); // 추가된 부분: 캘린더 리렌더링
@@ -119,7 +103,9 @@ export function Timer({
     if (isChecked) {
       if (!workStart) {
         checkbox.checked = false;
-        showStartWorkModal();
+        showModal("안내", "primary", "근무를 시작하시겠습니까?", () => {
+          updateWorkStart(currentTime);
+        });
       }
     } else {
       checkbox.checked = true;
@@ -133,13 +119,23 @@ export function Timer({
     currentTimeElement.textContent = formatTime(newTime);
   };
 
+  // 타이머 시작 메소드
+  const startTimer = () => {
+    const intervalId = setInterval(() => {
+      currentTime = new Date(); // 현재 시각 업데이트
+      updateCurrentTime(currentTime);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  };
+
   // 이벤트 리스너 추가
   checkbox.addEventListener("change", handleToggle);
 
-  return {
-    timerHTML,
-    updateCurrentTime,
-  };
+  // 타이머 시작
+  const clearTimer = startTimer();
+
+  return { element: timerHTML, clearTimer };
 }
 
 const createTimerHTML = (
