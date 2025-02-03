@@ -1,11 +1,12 @@
 import './employee.css';
 import '@/components/Dropdown/dropdown.css';
 
-import empUtils from './employee';
-import { createButton } from '@/components/Button/button';
-import { createDropdown } from '@/components/Dropdown/dropdown';
-import { createInputField } from '@/components/InputField/input';
-import InputValidation from '@/components/InputField/inputValidation';
+import employeeUtils from "./employee";
+import { createButton } from "@/components/Button/button";
+import { createDropdown } from "@/components/Dropdown/dropdown";
+import { createInputField } from "@/components/InputField/input";
+import InputValidation from "@/components/InputField/inputValidation";
+import { EMPLOYEE_VALIDATION_RULES } from "@/constants/constants";
 
 const BASIC_PROFILE_IMG = '/src/assets/images/profile/profile-basic.png';
 let currentProfileImage = '';
@@ -21,7 +22,7 @@ const employeeWrite = (container, id) => {
   // 입력 폼 유효성 검사 설정
   new InputValidation(
     contentWrapHTML,
-    empUtils.validationRules,
+    EMPLOYEE_VALIDATION_RULES,
     handleFormSubmit,
   );
 };
@@ -43,17 +44,17 @@ const handleFormSubmit = () => {
   if (pageType === 'write') {
     const hireDate = new Date(formData.get('hireDate'));
     id = (lastEmployee?.id || 0) * 1 + 1; // 등록된 사원이 없는 경우 1 반환
-    employeeNumber = empUtils.generateEmployeeNumber(hireDate, id);
+    employeeNumber = employeeUtils.generateEmployeeNumber(hireDate, id);
     profileImage = currentProfileImage || BASIC_PROFILE_IMG;
   } else {
-    const employee = empUtils.getEmployeeData(pageType - 1);
+    const employee = employeeUtils.getEmployeeData(pageType - 1);
     id = employee.id;
     employeeNumber = employee.employeeNumber;
     profileImage = currentProfileImage || employee.profileImage;
   }
 
   const position = document.querySelector(
-    '.position .dropdown_bar p',
+    ".position .dropdown_bar p",
   ).textContent;
   const data = {
     id,
@@ -82,19 +83,24 @@ const handleFormSubmit = () => {
 const createEmployeeWriteForm = (type, idx = 0) => {
   let employee = null; // 수정 페이지에 필요한 데이터
   if (idx > 0) {
-    employee = empUtils.getEmployeeData(idx - 1);
+    employee = employeeUtils.getEmployeeData(idx - 1);
   }
 
   const contentWrapHTML = document.createElement('div');
   contentWrapHTML.className = 'wrapper';
 
   // 버튼 생성
-  const buttonName = type === 'write' ? '등록' : '저장';
-  const submitButton = createButton(buttonName, null, ['btn', 'btn--submit']);
+  const buttonName = type === "write" ? "등록" : "저장";
+  const submitButton = createButton({
+    text: buttonName,
+    classNames: ["btn--submit"],
+  });
+  const cancleButton = createButton({
+    text: "취소",
+    classNames: ["btn--delete"],
+  });
 
-  const cancleButton = createButton('취소', null, ['btn', 'btn--delete']);
-  const cancleLink = `/admin/employee${type === 'write' ? '' : employee ? '/' + idx : ''}`;
-
+  const cancleLink = `/admin/employee${type === "write" ? "" : employee ? "/" + idx : ""}`;
   contentWrapHTML.innerHTML = `
     <div class="header">
       <h2 class="header__title">직원정보 ${type === 'write' ? '등록' : '수정'}</h2>
@@ -149,7 +155,18 @@ const createEmployeeWriteForm = (type, idx = 0) => {
               }
               </td>
               <td>
-              ${createInputHTML('date', '입사일', 'hireDate', employee ? employee.hireDate : '')}
+              ${
+                createInputField({
+                  type: "date",
+                  label: { name: "입사일", forAttr: "hireDate" },
+                  attributes: {
+                    name: "hireDate",
+                    id: "hireDate",
+                    value: employee ? employee.hireDate : "",
+                  },
+                  datasets: { required: true, validation: true },
+                }).outerHTML
+              }
               </td>
               <td>
                 <div class="input-wrap position">
@@ -175,21 +192,77 @@ const createEmployeeWriteForm = (type, idx = 0) => {
           <tbody>
             <tr>
               <td>
-              ${createInputHTML('text', '이름', 'name', employee ? employee.name : '', '이름을 입력해주세요')}
+              ${
+                createInputField({
+                  label: { name: "이름", forAttr: "name" },
+                  attributes: {
+                    name: "name",
+                    id: "name",
+                    placeholder: "이름을 입력해주세요",
+                    value: employee ? employee.name : "",
+                  },
+                  datasets: { required: true, validation: true },
+                }).outerHTML
+              }
               </td>
               <td>
-              ${createInputHTML('date', '생년월일', 'birthDate', employee ? employee.birthDate : '')}
+              ${
+                createInputField({
+                  type: "date",
+                  label: { name: "생년월일", forAttr: "birthDate" },
+                  attributes: {
+                    name: "birthDate",
+                    id: "birthDate",
+                    value: employee ? employee.birthDate : "",
+                  },
+                  datasets: { required: true, validation: true },
+                }).outerHTML
+              }
               </td>
               <td>
-              ${createInputHTML('text', '연락처', 'phone', employee ? employee.phone : '', '010-0000-0000')}
+              ${
+                createInputField({
+                  label: { name: "연락처", forAttr: "phone" },
+                  attributes: {
+                    name: "phone",
+                    id: "phone",
+                    placeholder: "010-0000-0000",
+                    value: employee ? employee.phone : "",
+                  },
+                  datasets: { required: true, validation: true },
+                }).outerHTML
+              }
               </td>
             </tr>
             <tr>
               <td>
-              ${createInputHTML('email', '이메일', 'email', employee ? employee.email : '', 'example@gmail.com', false)}
+              ${
+                createInputField({
+                  type: "email",
+                  label: { name: "이메일", forAttr: "email" },
+                  attributes: {
+                    name: "email",
+                    id: "email",
+                    placeholder: "example@gmail.com",
+                    value: employee ? employee.email : "",
+                  },
+                  datasets: { required: true, validation: true },
+                }).outerHTML
+              }
               </td>
               <td colspan="4">
-              ${createInputHTML('text', '주소', 'address', employee ? employee.address : '', '주소를 입력해 주세요')}
+              ${
+                createInputField({
+                  label: { name: "주소", forAttr: "address" },
+                  attributes: {
+                    name: "address",
+                    id: "address",
+                    placeholder: "주소를 입력해 주세요",
+                    value: employee ? employee.address : "",
+                  },
+                  datasets: { required: true, validation: true },
+                }).outerHTML
+              }
               </td>
             </tr>
           </tbody>
@@ -202,28 +275,6 @@ const createEmployeeWriteForm = (type, idx = 0) => {
   bindProfileImageEvents(contentWrapHTML); // 프로필 사진 관련 이벤트 바인딩
 
   return contentWrapHTML;
-};
-
-const createInputHTML = (
-  type,
-  labelName,
-  name,
-  value,
-  placeholder = '',
-  required = true,
-  validation = true,
-) => {
-  return createInputField({
-    type,
-    label: { name: labelName, forAttr: name },
-    attributes: {
-      name,
-      id: name,
-      placeholder,
-      value,
-    },
-    datasets: { required, validation },
-  }).outerHTML;
 };
 
 const appendPositionDropdown = (contentWrapHTML, employee) => {
@@ -249,10 +300,10 @@ const bindProfileImageEvents = (contentWrapHTML) => {
   const fileEl = contentWrapHTML.querySelector('.profile input');
   const profileImageEl = contentWrapHTML.querySelector('.profile__image img');
   const profileUploadBtnEl = contentWrapHTML.querySelector(
-    '.profile .btn--upload',
+    ".profile .btn--upload",
   );
   const profileDeleteBtnEl = contentWrapHTML.querySelector(
-    '.profile .btn--delete',
+    ".profile .btn--delete",
   );
 
   profileUploadBtnEl.addEventListener('click', () => fileEl.click());
