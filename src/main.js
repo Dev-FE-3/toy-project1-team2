@@ -1,6 +1,7 @@
 import "./css/global.css";
 import { router } from "./router/router.js";
 import { WORK_RECORD_URL, WORK_RECORD_KEY } from "@/constants/constants.js";
+import { LEAVES_URL, LEAVES_KEY } from "@/constants/constants.js";
 
 const app = async function () {
   await checkAuth();
@@ -56,13 +57,13 @@ const initializeLocalStorage = function () {
 
     });
   // 휴가관리 json 파일 load
-  fetch('/src/data/leaves.json')
+  fetch(LEAVES_URL)
     .then((response) => response.json())
     .then((data) => {
-      if (localStorage.getItem("leaves")) {
+      if (localStorage.getItem(LEAVES_KEY)) {
         return;
       }
-      localStorage.setItem("leaves", JSON.stringify(data));
+      localStorage.setItem(LEAVES_KEY, JSON.stringify(data));
     })
     .catch((error) => {
       console.error("Error loading JSON:", error);
