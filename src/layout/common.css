@@ -5,11 +5,11 @@ a {
 }
 
 a:hover {
-  color: #3199fe;
+  color: var(--primary-color);
 }
 
 a.active {
-  color: #3199fe;
+  color: var(--primary-color);
   font-weight: 700;
 }
 
@@ -36,7 +36,7 @@ header li {
   display: flex;
   align-items: center;
 
-  color: #bebebe;
+  color: var(--secondary-2-color);
 }
 
 #sidebar {
@@ -50,7 +50,7 @@ header li {
   line-height: 27px;
   /* identical to box height */
 
-  color: #bebebe;
+  color: var(--secondary-2-color);
 }
 
 #sidebar ul {
