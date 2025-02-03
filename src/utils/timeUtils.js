@@ -40,3 +40,9 @@ export const isValidDate = (dateString) => {
   const date = new Date(dateString);
   return !isNaN(date.getTime()); // 유효한 날짜인지 확인
 };
+
+// 날짜 포맷 변경 함수 추가
+export const formatYMD = (date) => {
+  const d = new Date(date);
+  return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
+};

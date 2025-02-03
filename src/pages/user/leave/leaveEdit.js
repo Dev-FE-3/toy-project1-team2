@@ -2,6 +2,7 @@ import "./leaveCommon.css";
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input";
 import Modal from "@/components/Modal/modal";
+import { formatYMD } from "@/utils/timeUtils"
 
 const leaveEdit = (container, id) => {
   const leaveEditRender = document.createElement("div");
@@ -59,8 +60,8 @@ const leaveEdit = (container, id) => {
           // 데이터 업데이트
           const updatedLeave = {
             id: parseInt(id), // 기존 ID는 그대로 유지
-            startDate: formatDate(startDateInput.value), // 날짜 포맷 적용
-            endDate: formatDate(endDateInput.value), // 날짜 포맷 적용
+            startDate: formatYMD(startDateInput.value), // 날짜 포맷 적용
+            endDate: formatYMD(endDateInput.value), // 날짜 포맷 적용
             leaveType: leaveTypeSelect.value,
             halfDayTypeId: halfdayTypeSelect.value,
             reason: reasonInput.value,
@@ -69,7 +70,7 @@ const leaveEdit = (container, id) => {
               endDateInput.value
             ),
             isUsed: false, // 수정 페이지에서는 기본값으로 설정
-            applicationDate: formatDate(new Date().toISOString().split("T")[0]), // 신청일도 포맷 적용
+            applicationDate: formatYMD(new Date().toISOString().split("T")[0]), // 신청일도 포맷 적용
           };
 
           // 로컬스토리지 업데이트
@@ -354,12 +355,6 @@ const leaveEdit = (container, id) => {
     );
     document.getElementById("leave-days").textContent = businessDays;
   });
-
-  // 날짜 포맷 함수 추가
-  function formatDate(date) {
-    const d = new Date(date);
-    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
-  }
 
   // 로컬 스토리지에서 데이터 가져오기
   const leaves = JSON.parse(localStorage.getItem("leaves"));
