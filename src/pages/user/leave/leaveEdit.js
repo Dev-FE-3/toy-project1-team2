@@ -8,9 +8,6 @@ const leaveEdit = (container, id) => {
   const leaveEditRender = document.createElement("div");
   leaveEditRender.className = "wrapper";
 
-  // URL에서 leave ID를 가져오는 함수
-  const leaveId = window.location.pathname.split("/")[2];
-
   // 모달 표시 함수
   const showModal = (message) => {
     const modal = Modal({

@@ -36,13 +36,6 @@ const leaveDetail = (container, id) => {
     }
   });
 
-  // 휴가 삭제 함수
-  const deleteLeave = (leaveId) => {
-    let leaves = JSON.parse(localStorage.getItem("leaves")) || [];
-    leaves = leaves.filter((leave) => leave.id !== parseInt(leaveId));
-    localStorage.setItem("leaves", JSON.stringify(leaves));
-  };
-
   // 로컬 스토리지에서 해당 ID의 휴가 정보 가져오기
   const leaves = JSON.parse(localStorage.getItem("leaves"));
   const leaveItem = leaves.find((item) => item.id === parseInt(id)); // urlParams.get('id') 대신 id 사용
