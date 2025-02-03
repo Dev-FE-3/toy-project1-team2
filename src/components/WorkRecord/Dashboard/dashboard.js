@@ -50,7 +50,7 @@ export function Dashboard(year, month) {
     updateProgress(progressCircle, percentageText, value);
   });
 
-  return dashboardHTML;
+  return { element: dashboardHTML };
 }
 
 const updateWorkRecord = (events, year, month, workRecord) => {
