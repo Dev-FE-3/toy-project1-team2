@@ -1,6 +1,6 @@
 import "./employee.css";
 
-import empUtils from "./employee";
+import employeeUtils from "./employee";
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input.js";
 import { createPagination } from "@/components/Pagination/pagination.js";
@@ -15,14 +15,16 @@ const employeeList = (container) => {
   contentWrapHTML.className = "wrapper";
 
   // 화면에 필요한 요소 생성
-  const writeButton = createButton("등록", writeButtonHandler, [
-    "btn",
-    "btn--submit",
-  ]);
-  const deleteButton = createButton("삭제", deleteButtonHandler, [
-    "btn",
-    "btn--delete",
-  ]);
+  const writeButton = createButton({
+    text: "등록",
+    onClick: writeButtonHandler,
+    classNames: ["btn--submit"],
+  });
+  const deleteButton = createButton({
+    text: "삭제",
+    onClick: deleteButtonHandler,
+    classNames: ["btn--delete"],
+  });
   const checkAllInput = createInputField({
     type: "checkbox",
     attributes: { name: "checkAll", classList: ["check-all"] },
@@ -72,9 +74,9 @@ const deleteButtonHandler = () => {
   // 삭제 버튼(체크된 직원 삭제)
   const checkEl = document.querySelector("tbody input:checked");
   if (checkEl) {
-    empUtils.deleteModal(deleteSelectedEmployees);
+    employeeUtils.deleteModal(deleteSelectedEmployees);
   } else {
-    empUtils.infoModal("삭제할 직원을 선택해 주세요.");
+    employeeUtils.infoModal("삭제할 직원을 선택해 주세요.");
   }
 };
 
@@ -110,7 +112,7 @@ const deleteSelectedEmployees = () => {
   const page = document.querySelector(".pagination-button.active").dataset.page;
   renderEmployeeList(parseInt(page > totalPage ? totalPage : page));
 
-  empUtils.infoModal("정상적으로 삭제되었습니다.", "success");
+  employeeUtils.infoModal("정상적으로 삭제되었습니다.", "success");
 };
 
 const renderEmployeeList = (page) => {
@@ -122,7 +124,7 @@ const renderEmployeeList = (page) => {
   if (pagenationContainer) pagenationContainer.remove();
 
   // 직원 데이터가 없는 경우 메시지 표시
-  if (employees.length === 0) {
+  if (!employees || employees.length === 0) {
     tbodyEl.innerHTML = "<tr><td colspan='7'>등록된 직원이 없습니다</td></tr>";
     return;
   }
@@ -145,7 +147,7 @@ const renderEmployeeList = (page) => {
       itemsPerPage: ITEM_PER_PAGE,
       currentPage: page,
       onPageChange: renderEmployeeList,
-    })
+    }),
   );
 
   // 전체 선택 체크박스 초기화

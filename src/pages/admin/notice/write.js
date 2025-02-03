@@ -1,42 +1,42 @@
-import "./write.css";
+import './write.css';
 
-import { createButton } from "@/components/Button/button.js";
-import { createInputField } from "@/components/InputField/input.js";
-import Modal from "@/components/Modal/modal.js";
+import { createButton } from '@/components/Button/button.js';
+import { createInputField } from '@/components/InputField/input.js';
+import Modal from '@/components/Modal/modal.js';
 
 const write = (contents) => {
-  const submitButton = createButton("등록", handleRegister, ["btn--submit"]);
+  const submitButton = createButton('등록', handleRegister, ['btn--submit']);
 
   const titleField = createInputField({
-    type: "text",
+    type: 'text',
     attributes: {
-      name: "input",
-      id: "title",
-      placeholder: "제목을 입력하세요",
+      name: 'input',
+      id: 'title',
+      placeholder: '제목을 입력하세요',
     },
 
     datasets: { required: true, validation: true },
   });
 
   const contentField = createInputField({
-    tagName: "textarea",
+    tagName: 'textarea',
     attributes: {
-      name: "contents",
-      id: "contents",
-      classList: ["border--main", "class2"],
-      placeholder: "내용을 입력하세요",
-      rows: "20",
+      name: 'contents',
+      id: 'contents',
+      classList: ['border--main', 'class2'],
+      placeholder: '내용을 입력하세요',
+      rows: '20',
     },
     datasets: { required: true, validation: true },
   });
 
   const fileField = createInputField({
-    type: "file",
+    type: 'file',
     attributes: {
-      name: "file",
-      id: "file",
-      classList: ["border--main", "class2", "fileField"],
-      multiple: "multiple",
+      name: 'file',
+      id: 'file',
+      classList: ['border--main', 'class2', 'fileField'],
+      multiple: 'multiple',
     },
     datasets: { required: false, validation: true },
   });
@@ -46,7 +46,7 @@ const write = (contents) => {
     style,
     message,
     onConfirm = () => {},
-    showCancelBtn = false
+    showCancelBtn = false,
   ) {
     const modal = Modal({
       title,
@@ -75,45 +75,45 @@ const write = (contents) => {
   `;
 
   // 등록 버튼을 DOM에 직접 추가
-  const buttonContainer = contents.querySelector(".button");
+  const buttonContainer = contents.querySelector('.button');
   buttonContainer.appendChild(submitButton);
 
-  const fileFieldContainer = contents.querySelector(".fileField");
+  const fileFieldContainer = contents.querySelector('.fileField');
   fileFieldContainer.appendChild(fileField);
 
   function handleRegister() {
-    const title = document.getElementById("title").value;
-    const contents = document.getElementById("contents").value;
-    const fileInput = document.getElementById("file");
+    const title = document.getElementById('title').value;
+    const contents = document.getElementById('contents').value;
+    const fileInput = document.getElementById('file');
     const files = fileInput.files;
 
     if (!title || !contents || contents.length < 10) {
       const message = !title
-        ? "제목을 입력해 주세요"
+        ? '제목을 입력해 주세요'
         : !contents
-          ? "내용을 입력해 주세요"
-          : "내용은 최소 10자 이상 입력해야 합니다.";
+          ? '내용을 입력해 주세요'
+          : '내용은 최소 10자 이상 입력해야 합니다.';
 
-      showModal("알림", "warning", message);
+      showModal('알림', 'warning', message);
       return;
     }
 
     // 파일 유효성 검사
     const maxFileSize = 3 * 1024 * 1024; // 5MB
     const allowedFileTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/gif",
-      "application/pdf",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     ]; // JPG, PNG, GIF, PDF, DOCX
     const maxFileCount = 3;
 
     if (files.length > maxFileCount) {
       showModal(
-        "알림",
-        "warning",
-        "첨부파일은 최대 3개까지만 업로드 가능합니다."
+        '알림',
+        'warning',
+        '첨부파일은 최대 3개까지만 업로드 가능합니다.',
       );
       return;
     }
@@ -121,18 +121,18 @@ const write = (contents) => {
     for (const file of files) {
       if (!allowedFileTypes.includes(file.type)) {
         showModal(
-          "알림",
-          "warning",
-          "JPG, PNG, GIF, PDF, DOCX 형식의 파일만 업로드 가능합니다."
+          '알림',
+          'warning',
+          'JPG, PNG, GIF, PDF, DOCX 형식의 파일만 업로드 가능합니다.',
         );
         return;
       }
 
       if (file.size > maxFileSize) {
         showModal(
-          "알림",
-          "warning",
-          "첨부파일은 파일당 최대 3MB까지 업로드 가능합니다."
+          '알림',
+          'warning',
+          '첨부파일은 파일당 최대 3MB까지 업로드 가능합니다.',
         );
         return;
       }
@@ -147,10 +147,10 @@ const write = (contents) => {
             resolve({ name: file.name, src: reader.result });
           reader.onerror = (error) => reject(error);
           reader.readAsDataURL(file);
-        })
+        }),
     );
 
-    let notices = JSON.parse(localStorage.getItem("notices")) || [];
+    let notices = JSON.parse(localStorage.getItem('notices')) || [];
 
     // 새로운 데이터의 id는 1로 설정
     const newNoticeId = 1;
@@ -174,29 +174,29 @@ const write = (contents) => {
         // 로컬 스토리지에 공지 저장
         try {
           notices.unshift(noticeData);
-          localStorage.setItem("notices", JSON.stringify(notices));
+          localStorage.setItem('notices', JSON.stringify(notices));
 
           showModal(
-            "안내",
-            "공지사항이 등록되었습니다.",
-            "check",
+            '안내',
+            'check',
+            '공지사항이 등록되었습니다.',
             () => {
-              window.location.href = "/admin/notice";
+              window.location.href = '/admin/notice';
 
               // 입력 필드 초기화
-              document.getElementById("title").value = "";
-              document.getElementById("content").value = "";
-              fileInput.value = "";
+              document.getElementById('title').value = '';
+              document.getElementById('content').value = '';
+              fileInput.value = '';
             },
-            false
+            false,
           );
         } catch (error) {
-          showModal("알림", "warning", "공지사항 등록 중 오류가 발생했습니다.");
+          showModal('알림', 'warning', '공지사항 등록 중 오류가 발생했습니다.');
         }
       })
       .catch((error) => {
-        console.error("파일 변환 중 오류 발생:", error);
-        showModal("알림", "warning", "파일 처리 중 오류가 발생했습니다.");
+        console.error('파일 변환 중 오류 발생:', error);
+        showModal('알림', 'warning', '파일 처리 중 오류가 발생했습니다.');
       });
   }
 };

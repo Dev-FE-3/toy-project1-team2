@@ -1,8 +1,7 @@
 import "./employee.css";
 
 import { createButton } from "@/components/Button/button";
-import empUtils from "./employee";
-
+import employeeUtils from "./employee";
 
 const employeeDetail = (container, id) => {
   const employees = JSON.parse(localStorage.getItem("employees"));
@@ -14,18 +13,21 @@ const employeeDetail = (container, id) => {
   contentWrapHTML.className = "wrapper";
 
   // 버튼 생성
-  const editButton = createButton("수정", null, ["btn", "btn--edit"]);
-  const deleteButton = createButton(
-    "삭제",
-    () => {
-      empUtils.deleteModal(() => {
+  const editButton = createButton({
+    text: "수정",
+    classNames: ["btn--edit"],
+  });
+  const deleteButton = createButton({
+    text: "삭제",
+    onClick: () => {
+      employeeUtils.deleteModal(() => {
         employees.splice(id - 1, 1);
         localStorage.setItem("employees", JSON.stringify(employees));
         window.location.href = "/admin/employee";
       });
     },
-    ["btn", "btn--delete"]
-  );
+    classNames: ["btn--delete"],
+  });
 
   const employee = employees[id - 1];
   contentWrapHTML.innerHTML = `

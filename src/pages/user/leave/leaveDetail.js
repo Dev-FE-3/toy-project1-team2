@@ -1,3 +1,4 @@
+import "./leaveCommon.css";
 import "./leaveDetail.css";
 import { createButton } from "@/components/Button/button";
 
@@ -8,30 +9,32 @@ const leaveDetail = (container, id) => {
   // URL에서 leave ID를 가져오는 함수
   const leaveId = window.location.pathname.split("/")[3]; // 예시: /user/leave/12345/edit에서 12345를 추출
 
-  // 수정 버튼 생성 및 이벤트 추가
-  const editButton = createButton(
-    "수정",
-    () => {
+  const editButton = createButton({
+    text: "수정",
+    classNames: ["btn--edit"],
+    onClick: () => {
       // 수정 페이지로 이동
       window.location.href = `/user/leave/${leaveId}/edit`;
-    },
-    ["btn--edit"]
-  );
+    }
+  });
 
-  const deleteButton = createButton(
-    "취소",
-    () => {
+  const deleteButton = createButton({
+    text: "취소",
+    classNames: ["btn--delete"],
+    onClick: () => {
+      // 목록 페이지로 이동
       window.location.href = "/user/leave";
-    }, // 목록 페이지로 이동
-    ["btn--delete"]
-  );
-  const listButton = createButton(
-    "목록",
-    () => {
+    }
+  });
+
+  const listButton = createButton({
+    text: "목록",
+    classNames: ["btn--edit", "btn--single"],
+    onClick: () => {
+      // 목록 페이지로 이동
       window.location.href = "/user/leave";
-    }, // 목록 페이지로 이동
-    ["btn--edit", "btn--single"]
-  );
+    }
+  });
 
   // 휴가 삭제 함수
   const deleteLeave = (leaveId) => {

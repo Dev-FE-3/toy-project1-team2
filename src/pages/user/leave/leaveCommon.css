@@ -1,0 +1,45 @@
+/* 헤더 */
+.header .buttons .btn.btn--edit.btn--single {
+  margin-right: 0;
+}
+.header .buttons .btn:first-child {
+  margin-right: 0.4rem;
+}
+
+/* 컨텐츠 영역 */
+.wrapper.leave-edit,
+.wrapper.leave-apply,
+.wrapper.leave-details {
+  background-color: var(--background-content-color);
+  padding: 2.4rem;
+  margin: 2.4rem 0;
+  border-radius: 0.8rem;
+  box-sizing: border-box;
+}
+.wrapper .content-header {
+  padding: 1.6rem 2.4rem;
+  background-color: var(--background-default-color);
+  border-top: 1px solid var(--secondary-2-color);
+  border-bottom: 1px solid var(--secondary-2-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.wrapper .content-header .title {
+  font-weight: 600;
+  color: #8d96a1;
+  margin-bottom: 0;
+  font-size: 1.6rem;
+}
+.content .row .data-wrap {
+  width: 18.5rem;
+  min-height: 4.3rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1.6rem;
+}
+.content .row .data-wrap .input-wrap {
+  padding: 0;
+  align-items: center;
+}
