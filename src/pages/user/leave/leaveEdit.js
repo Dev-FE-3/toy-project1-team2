@@ -1,4 +1,4 @@
-import "./leaveEdit.css";
+import "./leaveCommon.css";
 import { createButton } from "@/components/Button/button";
 import { createInputField } from "@/components/InputField/input";
 import Modal from "@/components/Modal/modal";
@@ -23,9 +23,10 @@ const leaveEdit = (container, id) => {
     modal.openModal(); // 모달 열기
   };
 
-  const editButton = createButton(
-    "수정",
-    () => {
+  const editButton = createButton({
+    text: "수정",
+    classNames: ["btn--edit"],
+    onClick: () => {
       const startDateInput = document.getElementById("start-date");
       const endDateInput = document.getElementById("end-date");
       const leaveTypeSelect = document.getElementById("leave-type");
@@ -86,17 +87,16 @@ const leaveEdit = (container, id) => {
 
       document.body.appendChild(modal.modalHTML);
       modal.openModal();
-    },
-    ["btn--edit"]
-  );
+    }
+  });
 
-  const cancelButton = createButton(
-    "취소",
-    () => {
+  const cancelButton = createButton({
+    text: "취소",
+    classNames: ["btn--delete"],
+    onClick: () => {
       window.location.href = `/user/leave/${id}`;
-    },
-    ["btn--delete"]
-  );
+    }
+  });
 
   leaveEditRender.innerHTML = `
   <div class="header">
