@@ -53,9 +53,3 @@ export const formatSimpleDate = (date) => {
 
   return `${year}.${month}.${day}`;
 };
-
-// 날짜 포맷 변경 함수 추가
-export const formatYMD = (date) => {
-  const d = new Date(date);
-  return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
-};
