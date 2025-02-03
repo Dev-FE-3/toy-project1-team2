@@ -161,8 +161,12 @@ const write = (contents) => {
       id: notice.id + 1,
     }));
 
-    Promise.all(filePromises)
-      .then((fileList) => {
+    Promise.allSettled(filePromises)
+      .then((results) => {
+        const fileList = results
+          .filter((result) => result.status === 'fulfilled')
+          .map((result) => result.value);
+
         const noticeData = {
           id: newNoticeId,
           date: new Date().toISOString(),
@@ -171,7 +175,6 @@ const write = (contents) => {
           imgSrc: fileList.length > 0 ? fileList : null,
         };
 
-        // 로컬 스토리지에 공지 저장
         try {
           notices.unshift(noticeData);
           localStorage.setItem('notices', JSON.stringify(notices));
@@ -195,7 +198,7 @@ const write = (contents) => {
         }
       })
       .catch((error) => {
-        console.error('파일 변환 중 오류 발생:', error);
+        console.error('파일 처리 중 오류 발생:', error);
         showModal('알림', 'warning', '파일 처리 중 오류가 발생했습니다.');
       });
   }
